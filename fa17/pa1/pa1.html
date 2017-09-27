@@ -1,0 +1,313 @@
+<html>
+
+<head>
+  <title>CSE 130 Programming Assignment #1</title>
+  <link rel="stylesheet" type="text/css" href="../styles.css">
+</head>
+
+<body>
+
+<h1 align="center">CSE 130 - Programming Assignment #1</h1>
+<h2 align="center">OCaml</h2>
+<h3 align="center">60 points</h3>
+<!--<h3 align="center">Must be turned in no later than 5:00 PM on Apr 12<br>-->
+<h3 align="center">(see submission instructions <a href="#Submission Guidelines">below</a>)</h3>
+<p align="center"><i>(click your browser's refresh button to ensure that you
+have the most recent version)</i></p>
+<h3 align="center">(<a href="pa1_faq.html">Programming Assignment #1 FAQ</a>)</h3>
+<b>Note:</b>
+See <a href="../info_ocaml.html"> this </a> for instructions on
+starting OCaml in the ACS lab machines.
+To download and install OCaml version 4.02 on your home machines see the
+instructions <a href="http://ocaml.org/docs/install.html">here</a>.
+Remember that this is only to enable you to play with the assignment
+at home: the final version turned in must work on the ACS Linux machines.
+
+While you can use windows to begin working with OCaml, the code you
+turn in must be that required for the Linux environment.
+
+<!-- <hr size=5 noshade> -->
+<!-- <h3 align="center">Integrity of Scholarship</h3> -->
+<!-- <p>University rules on integrity of scholarship will be strictly -->
+<!-- enforced. By completing this assignment, you implicitly agree to -->
+<!-- abide by the <a href="http://senate.ucsd.edu/manual/Appendices/app2.htm">UCSD Policy on Integrity of Scholarship</a>, in particular, &quot;all academic work will be -->
+<!-- done by the student to whom it is assigned, without unauthorized aid of any -->
+<!-- kind.&quot;</p> <p>You are expected to do your own work on this assignment; -->
+<!-- there are no group projects in this course. You may (and are -->
+<!-- encouraged to) engage in general discussions with your classmates regarding -->
+<!-- the assignment, but specific details of a solution, including the solution -->
+<!-- itself, must always be your own work. Incidents that violate the -->
+<!-- University's rules on integrity of scholarship will be taken seriously: -->
+<!-- In addition to receiving a zero (0) on the assignment, students  -->
+<!-- may also face other penalties, up to and including, expulsion from the  -->
+<!-- University. Should you have any doubt about the moral and/or ethical  -->
+<!-- implications of an activity associated with the completion of this assignment,  -->
+<!-- please see the instructors.</p> -->
+
+<hr size=5 noshade>
+<h3 align="center"><b>Code Documentation and General Requirements</b></h3>
+<p>Code for all programming assignments should be <b>well
+documented</b>. A working program with no comments will <b>receive
+only partial credit</b>. Documentation entails writing a description
+of each function/method, class/structure, as well as comments throughout
+the code to explain  the program logic. Comments in OCaml are enclosed
+within (* *), and may be nested.
+It is understood that some of the exercises in this programming assignment
+require extremely little code and will not require extensive comments.
+
+<p>While few programming assignments pretend to mimic the &quot;real&quot;
+world, they may, nevertheless, contain some of the ambiguity that exists
+outside the classroom. If, for example, an assignment is amenable to
+differing interpretations, such that more than one algorithm may implement
+a correct solution to the assignment, it is incumbent upon the
+programmer to document not only the functionality of the algorithm (and
+more broadly his/her interpretation of the program requirements), but to
+articulate <b>clearly</b> the reasoning behind a particular choice of
+solution.</p>
+
+
+<hr size=5 noshade>
+<h3 align="center">Assignment Overview</h3>
+<p>The overall objective of this assignment is for you to gain some
+hands-on experience with OCaml. All the problems require relatively little
+code ranging from 2 to 15 lines.
+If any function requires more than that,
+you can be sure that you need to rethink your solution.
+The assignment is in the files <a href="misc.ml">misc.ml</a>, and <a href="test.ml">test.ml</a>
+that you need to download.
+The file contains several skeleton OCaml functions, with missing
+bodies, i.e. expressions, which currently contain the text
+<code> failwith "to be written" </code>.
+Your task is to replace the text in those files with the
+the appropriate OCaml code for each of those expressions.
+<p><b>Note:</b> All the solutions can be done using the purely
+functional fragment of OCaml, using constructs covered in class, and most
+require the use of <i>recursion</i>. Solutions using imperative features
+such as references, while loops or library functions will receive <b>no credit</b>. </p>
+It is a good idea to start this assignment early; ML programming, while
+quite simple (when you know how), often seems somewhat foreign at first,
+particularly when it comes to recursion and list manipulation.</p>
+
+
+<hr size=5 noshade>
+<h3 align="center">Assignment Testing and Evaluation</h3>
+<p>Your functions/programs <b>must</b> compile and/or run on a <b>Linux</b> ACS machine (e.g. <tt> ieng6.ucsd.edu </tt>,
+  as this is where the verification of your solutions will occur. While
+  you may develop your code on any system, ensure that your code runs as
+  expected on an ACS machine prior to submission.
+    You should test your code in the directories from
+  which the zip files (see below) will be created, as this will approximate the
+  environment used for grading the assignment.</p>
+
+  <p>Most of the points, except those for comments and style, will be <b>awarded
+  automatically, by evaluating your functions against a given test suite</b>.
+  The fourth file, <tt> test.ml </tt> contains a very small suite of tests which
+  gives you a flavor of of these tests. At any stage, by typing at the UNIX
+  shell : <br>
+  <blockquote>
+    <code> ocaml test.ml > log </code>
+  </blockquote>
+    you will get a report on how your code stacks up against the simple
+    tests.
+    </p>
+  <p> The last line of the file <tt>log</tt> <b> must contain the word
+    "Compiled" otherwise you get a zero for the whole assignment</b>.
+  If for some problem, you cannot get the code to compile, leave it as is with the
+  <code>failwith ...</code>, with your partial solution enclosed below as a comment.
+  <b> There will be no exceptions to this rule</b>.
+  The second last line of the log file will contain your overall score, and the
+  other lines will give you a readout for each test.
+  You are encouraged to try to understand the code in <tt>test.ml</tt>, and
+  subsequently devise your own tests and add them to <tt>test.ml</tt>, but
+  you will not be graded on this.
+</p>
+  <p>Alternately, inside the OCaml shell, type (user input is in <font color="#FF000">red</font>):
+    <blockquote>
+      <code> # <font color="#FF0000"> #use "test.ml";; </font><br>
+	.<br>
+	.<br>
+	.<br>
+	val it = (...,...) : int * int
+	</code>
+      </blockquote>
+      and it should return a pair of integers, reflecting your score and
+      the max possible score on the sample tests. If instead an error
+      message appears, your code will receive a zero.
+      </p>
+<br>
+<hr size=5 noshade>
+
+<a name="Submission Guidelines"></a>
+<h3 align="center">Submission Instructions</h3>
+
+<h3>1. Create the zip file for submission</h3>
+<blockquote>
+  <p>Your solutions to this assignment will be stored in separate
+  files under a directory called <tt>solution/</tt>, inside which you will
+  place the files: <tt> misc.ml</tt>.
+  There should be <b>no other files in the directory</b>.</p>
+
+
+  <p>After creating and populating the directory as described above,
+  create a zip file called
+  <tt>&lt;LastName&gt;_&lt;FirstName&gt;_cse130_pa1.zip</tt> by going into
+  the directory <tt> solution </tt> and executing
+  the UNIX shell command: <br>
+  <blockquote>
+    <tt> zip &lt;LastName&gt;_&lt;FirstName&gt;_cse130_pa1.zip *</tt>
+  </blockquote>
+
+  You can refer to
+  an <a href="LastName_FirstName_cse130_pa1.zip">example submission
+  file</a> to compare with yours. Make sure that your zipped file's
+  structure is the same as the example.
+  </blockquote>
+
+<h3>2. Test the zip file to check for its validity</h3>
+<blockquote>
+  <p>Once you've created the zip file with your solutions, you will
+  use the <tt> validate_pa1</tt> program to see whether your zip
+  file's structure is well-formed to be inspected by our grading
+  system by executing the UNIX shell command: <br>
+  <blockquote><tt> validate_pa1 &lt;LastName&gt;_&lt;FirstName&gt;_cse130_pa1.zip </tt>
+  </blockquote>
+  The <tt>validate_pa1</tt> program will output <tt>OK</tt> if your
+  zip file is well-formed and your solution is compiled.
+  Otherwise, it will output some error
+  messages. Before going to step 3, make sure that your zip file
+  passes <tt>validate_pa1</tt> program. <b>Otherwise
+  you get a zero for the whole assignment.</b>
+  If you have any trouble with
+  this, refer to the instructions in step 1.
+</blockquote>
+
+<h3>3. Submit the zip file via the <tt>turnin_pa1</tt> program</h3>
+<blockquote>
+  <p>Once your zip file passes the validation check
+  by <tt>validate_pa1</tt>, you will use the <tt> turnin_pa1</tt> program
+  to submit this file for grading by going into the
+  directory <tt>solution/</tt> and executing the UNIX shell
+  command: <br>
+  <blockquote><tt> turnin_pa1
+      &lt;LastName&gt;_&lt;FirstName&gt;_cse130_pa1.zip </tt>
+  </blockquote>
+    </p>
+  <p>
+  The <tt>turnin_pa1</tt> program will provide you with a confirmation of the
+  submission process; make sure that the size of the file indicated by
+  <tt>turnin_pa1</tt> matches the size of your tar file. Note that you may submit multiple times, but your latest submission overwrites previous submissions, and will be the ONLY one we grade. If you submit before the assignment deadline, and again afterwards, we will count it as if you only submitted after the deadline.
+</blockquote>
+
+<hr size=10 noshade>
+
+<h2>Problem #1: <a href="http://mathworld.wolfram.com/AdditivePersistence.html">
+    Digital Roots and Additive Persistence</a>
+<tt> (misc.ml) </tt>
+</h2>
+<h3>(a)<b> 10 points </b></h3>
+<p>Now write an OCaml function <tt> sumList : int list -&gt; int </tt> that
+takes an integer list <tt> l </tt>
+and returns the sum of the elements of <tt> l </tt>.
+Once you have implemented the function, you should get the following
+behavior at the OCaml prompt:
+</p>
+<blockquote>
+  <p><tt>
+    # <font color="#FF0000">sumList [1;2;3;4];;</font><br>
+    - : int = 10<br>
+    # <font color="#FF0000">sumList [1;-2;3;5];;</font><br>
+    - : int = 7<br>
+    # <font color="#FF0000">sumList [1;3;5;7;9;11];;</font><br>
+    - : int = 36<br>
+ </tt></p>
+</blockquote>
+
+<h3>(b)<b> 10 points </b></h3>
+<p>Write an OCaml function <tt> digitsOfInt : int -&gt; int list</tt> that
+takes an integer <tt> n </tt>
+as an argument and if the integer is positive (i.e. I don't care what you
+return for the argument <tt> 0 </tt> or any negative number),
+returns the list of digits of <tt> n </tt> in the order in which they
+appear in <tt> n </tt>. Once you have implemented the function,
+you should get the following behavior at the OCaml prompt:
+</p>
+<blockquote>
+  <p><tt>
+    # <font color="#FF0000">digitsOfInt 3124;;</font><br>
+    - : int list = [3;1;2;4] <br>
+    # <font color="#FF0000">digitsOfInt 352663;;</font><br>
+    - : int list = [3;5;2;6;6;3]<br>
+ </tt></p>
+</blockquote>
+
+
+
+<h3>(c)<b> 10+10 points </b></h3>
+<p>Consider the process of taking a number, adding its digits,
+   then adding the digits of the number derived from it, etc.,
+   until the remaining number has only one digit.
+   The number of additions required to obtain a single digit from a number n
+   is called the <i>additive persistence</i> of n, and the digit obtained is called
+   the <i>digital root</i> of n.
+   For example, the sequence obtained from the starting number 9876 is (9876, 30, 3), so
+   9876 has an additive persistence of 2 and a digital root of 3.
+   Write two OCaml functions <tt> additivePersistence : int -&gt; int </tt> and
+   <tt> digitalRoot : int -&gt; int </tt> that take positive
+   integer arguments <tt> n </tt>
+   and return respectively the additive persistence and the digital root of <tt> n </tt>.
+   Once you have implemented the functions, you should get the following
+   behavior at the OCaml prompt:
+</p>
+<blockquote>
+  <p><tt>
+    # <font color="#FF0000">additivePersistence 9876;;</font><br>
+    - : int = 2<br>
+    # <font color="#FF0000">digitalRoot 9876;;</font><br>
+    - : int = 3<br>
+ </tt></p>
+</blockquote>
+
+
+<hr size=5 noshade>
+<h2>Problem #2: Palindromes
+<tt> (misc.ml) </tt></h2>
+
+  <h3>(a)<b> 15 points</b></h3>
+<p>Without using any built-in OCaml functions, write an OCaml function <tt> listReverse : 'a
+list -&gt; 'a list </tt> that
+takes a list <tt> l </tt> as an argument and returns a list of the elements of <tt> l
+</tt> in the reversed order.
+Once you have implemented the function, you should get the following
+behavior at the OCaml prompt:</p>
+<blockquote>
+  <p><tt>
+    # <font color="#FF0000">listReverse [1;2;3;4];;</font><br>
+    - : int list = [4;3;2;1]<br>
+    # <font color="#FF0000">listReverse ["a";"b";"c";"d"];;</font><br>
+    - : string list = ["d";"c";"b";"a"]<br>
+ </tt></p>
+</blockquote>
+
+<h3>(b)<b> 5 points </b></h3>
+<p>A <i>palindrome</i> is a word that reads the same from left-to-right and
+right-to-left. Write an OCaml function <tt> palindrome : string -&gt; bool </tt> that
+takes a string <tt> w </tt> and returns true if the string is a palindrome and false
+otherwise. Your function should be case sensitie. You may want to use the OCaml function <tt> explode </tt>.  (<i>Hint: You may call your <tt>listReverse</tt> function from your <tt>palindrome</tt> function</i>.)
+Once you have implemented the function, you should get the following
+behavior at the OCaml prompt:</p>
+<blockquote>
+  <p><tt>
+    # <font color="#FF0000">palindrome "malayalam";;</font><br>
+    - : bool = true<br>
+    # <font color="#FF0000">palindrome "Malayalam";;</font><br>
+    - : bool = false<br>
+    # <font color="#FF0000">palindrome "myxomatosis";;</font><br>
+    - : bool = false<br>
+ </tt></p>
+</blockquote>
+
+<hr size=5 noshade>
+
+</body>
+
+</html>

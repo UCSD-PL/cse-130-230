@@ -1,0 +1,41 @@
+#!/bin/bash
+
+ZIPFILETEST=`echo $1 | grep "^[a-zA-Z]\+_[a-zA-Z]\+_cse130_pa1.zip$"`
+if [ -z "$ZIPFILETEST" ]; then
+	echo "Validation Failed: the zipped file name $1 is malformed. It should be LastName_FirstName_cse130_pa1.zip."
+	exit 1
+fi
+
+FILE_ENTRY=`unzip -l $1 | grep " misc.ml"`
+FILE_NUM=`unzip -l $1 | grep "1 file"`
+
+#echo $1
+#echo $FILE_ENTRY
+#echo $FILE_NUM
+
+if [ -z "$FILE_ENTRY" ]; then
+	echo "Validation Failed: misc.ml is not found in $1."
+	exit 1
+fi
+
+if [ -z "$FILE_NUM" ]; then
+        echo "Validation Failed: other files than misc.ml are found in $1."
+        exit 1
+fi
+
+PWD=`pwd`
+TMPDIR=`mktemp -d`
+unzip $1 -d $TMPDIR &> /dev/null
+cd $TMPDIR
+COMPILETEST=`ocamlc -w -a -o /dev/null misc.ml 2>&1`
+
+if [ -n "$COMPILETEST" ]; then
+	echo "Validation Failed: compilation failed. $COMPILETEST"
+	cd $PWD
+	rm -r $TMPDIR
+	exit 1
+fi
+
+cd $PWD
+rm -r $TMPDIR
+echo "OK"
