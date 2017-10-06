@@ -178,9 +178,6 @@ let to_str a =
 
 
 
-type mylist =
-        | Nil
-        | NonEmpty of (int * mylist);;
 
 type nat = 
   | Z 
@@ -216,15 +213,6 @@ S (S Z);; (* represents 2 *)
    and returns the int value of that nat *)
 
 let rec to_int n = 
-    match n with
-    | Z -> 0
-    | S i -> 1 + (to_int i);;
-     
-to_int S (S (S (S Z)))  i = (S (S (S Z))
-1 + (to_int (S (S (S Z))))
-1 + (1 + (to_int (S (S Z))))
-1 + (1 + (1 + (to_int (S Z))))
-1 + (1 + (1 + (1 + to_int Z)))
 
 
 
@@ -285,14 +273,6 @@ to_int (S (S Z));;
    a nat resprenting that integer *)
 
 let rec to_nat i =
-   match i with
-   | _ when i>0 -> S (to_nat (i-1))
-   | _ -> Z
-
-to_nat 2
-S (to_nat 1)
-S (S (to_nat 0))
-S (S Z)
 
 
 
@@ -338,14 +318,6 @@ to_nat 100;;
    and returns a nat representing the sum of the two inputs *)
  
 let rec plus n m = 
-   match n with
-   | Z -> m
-   | S n' -> S (plus n' m)
-
-let rec plus n m = 
-   match n with
-   | Z -> m
-   | S n' -> (plus n' (S m))
 
 
 
@@ -562,47 +534,13 @@ type int_list =
 
 
 let rec length l = 
-   match l with
-   | Nil -> 0
-   | Cons (h,t) -> 1 + length t;;
 
 let rec sum l = 
-   match l with
-   | [] -> 0
-   | h::t -> h+sum t;;
-
-sum [1;2]
-sum [2]
-sum []
-
-Stack {h:1,t:[2]} return 1+2 (=3)
-Stack {h:2,t: []} ----  return 2+0 (=2)
-Stack {} return 0
 
 
 
 
-let sum l =
-   let rec helper total remaining_list =
-           match remaining_list with
-           | [] -> total
-           | h::t -> helper (h + total) t
-   in helper 0 l;;
 
-
-total = 0
-remaining_list = t
-while (remaining_list not empty)
-{
-  total = h+total
-  remaining_list = t
-}
-
-total = 0
-while (l!=null) {
-        total = total + l.data
-        l = l.next
-}
 
 
 
@@ -649,16 +587,8 @@ len [2;3]
 
 *)
 
-type int_maybe =
-        | None 
-        | Some of int;;
 let max x y = if x > y then x else y;;
 let rec list_max xs =
-   match xs with
-   | [] -> None
-   | h::t -> match (list_max t) with
-             | None -> Some h
-             | Some max_in_t -> Some (max max_in_t h);;
                    
 
 
@@ -811,16 +741,10 @@ let rec filter f xs =
 type tree = Leaf of int | Node of tree * tree;;
 
 let rec sum_leaves t = 
-   match t with 
-   | Leaf i -> i
-   | Node (t1,t2) -> (sum_leaves t1) + (sum_leaves t2);;
 
 
 
 let rec double_leaves t =
-        match t with 
-        | Leaf i -> Leaf i*2
-        | Node (t1,t2) -> Node(double_leaves t1, double_leave t2);;
 
 
 
@@ -853,6 +777,10 @@ let rec sum_leaves t = match t with
   | Node (l, r) -> sum_leaves l + sum_leaves r;;
 
 
+let rec double_leaves t =
+   match t with
+   | Leaf n -> Leaf 2*n
+   | Node (l,r) -> Node (double_leaves l, double_leaves r);;
 
 
 
@@ -926,10 +854,6 @@ type expr =
 (* write eval function to evaluate an expression e *)
 
 let rec eval e =
-   match e with
-   | Const c -> c
-   | Sum (e1,e2) -> eval e1 + eval e2
-   | Mul (e1,e2) -> eval e1 * eval e2;;
 
 
 
