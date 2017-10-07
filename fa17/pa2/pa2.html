@@ -1,0 +1,507 @@
+<html>
+
+<head>
+  <title>CSE 130 : Programming Assignment #2</title>
+
+  <link rel="stylesheet" type="text/css" href="../styles.css">
+</head>
+
+<body>
+
+<h1 align="center">CSE 130 - Programming Assignment #2</h1>
+<h2 align="center">OCaml</h2>
+<h3 align="center">125 points</h3>
+<h3 align="center">(see submission instructions <a href="#Submission Guidelines">below</a>)</h3>
+<p align="center"><i>(click your browser's refresh button to ensure that you
+have the most recent version)</i></p>
+<h3 align="center">(<a href="pa2_faq.html">Programming Assignment #2 FAQ</a>)</h3>
+
+<b>Note:</b>
+See <a href="../info_ocaml.html"> this </a> for instructions on
+starting OCaml in the ACS lab machines.
+To download and install OCaml on your home machines see the 
+instructions <a href="http://ocaml.org/docs/install.html">here</a>. 
+Remember that this is only to enable you to play with the assignment 
+at home: the final version turned in must work on the ACS Linux machines.
+
+
+
+<b>Note:</b>
+To get the code provided for problem 2 to work at home
+<a
+  href="https://www.imagemagick.org/script/binary-releases.php">Install
+  ImageMagick</a>. Remember that this is only to enable you to play with
+the assignment at home: the final version turned in must work on the ACS Linux machines.
+
+While you can use windows to begin working with OCaml, the code you
+turn in must be that required for the ACS Linux environment.
+
+<!--
+<hr size=5 noshade>
+<h3 align="center">Integrity of Scholarship</h3>
+<p>University rules on integrity of scholarship will be strictly
+enforced. By completing this assignment, you implicitly agree to abide
+by the UCSD Policy on Integrity of Scholarship described of the
+General Catalog, in particular, &quot;all academic work will be done
+by the student to whom it is assigned, without unauthorized aid of any
+kind.&quot;</p>
+<p>You are expected to do your own work on this assignment;
+there are no group projects in this course. You may (and are
+encouraged to) engage in general discussions with your classmates regarding
+the assignment, but specific details of a solution, including the solution
+itself, must always be your own work. Incidents that violate the
+University's rules on integrity of scholarship will be taken seriously:
+In addition to receiving a zero (0) on the assignment, students 
+may also face other penalties, up to and including, expulsion from the 
+University. Should you have any doubt about the moral and/or ethical 
+implications of an activity associated with the completion of this assignment, 
+please see the instructors.</p>
+-->
+<hr size=5 noshade>
+<h3 align="center"><b>Code Documentation and General Requirements</b></h3>
+<p>Code for all programming assignments should be <b>well
+documented</b>. A working program with no comments will <b>receive
+only partial credit</b>. Documentation entails writing a description
+of each function/method, class/structure, as well as comments throughout
+the code to explain  the program logic. Comments in OCaml are enclosed
+within (* *), and may be nested. 
+It is understood that some of the exercises in this programming assignment
+require extremely little code and will not require extensive comments.
+
+<p>While few programming assignments pretend to mimic the &quot;real&quot;
+world, they may, nevertheless, contain some of the ambiguity that exists
+outside the classroom. If, for example, an assignment is amenable to
+differing interpretations, such that more than one algorithm may implement
+a correct solution to the assignment, it is incumbent upon the
+programmer to document not only the functionality of the algorithm (and
+more broadly his/her interpretation of the program requirements), but to
+articulate <b>clearly</b> the reasoning behind a particular choice of
+solution.</p>
+
+
+<hr size=5 noshade>
+<h3 align="center">Assignment Overview</h3>
+<p>The overall objective of this assignment is for you to have fun learning
+about recursion, recursive datatypes, and make some pretty cool pictures.
+All the problems require relatively little
+code ranging from 2 to 10 lines.
+If any function requires more than that,
+you can be sure that you need to rethink your solution.
+The assignment is spread over four files 
+<a href="misc.ml">misc.ml</a>,
+<a href="expr.ml">expr.ml</a>,
+<a href="art.ml">art.ml</a>,
+<a href="test.ml">test.ml</a>, that you need to download.
+The first three files contain several skeleton OCaml functions, with missing
+bodies, i.e. expressions, which currently contain the text
+<code> failwith "to be written" </code>. 
+Your task is to replace the text in those files with the
+the appropriate OCaml code for each of those expressions.
+<p><b>Note:</b> All the solutions can be done using the purely
+functional fragment of ML, using constructs covered in class, and most 
+require the use of <i>recursion</i>. Solutions using imperative features
+such as references, while loops or library functions other than the
+automatically opened<tt>
+  Pervasives </tt> library, will receive <b>no credit</b>. </p>
+It is a good idea to start this assignment early; OCaml programming, while
+quite simple (when you know how), often seems somewhat foreign at first,
+particularly when it comes to recursion and list manipulation.</p> 
+
+
+<hr size=5 noshade>
+<h3 align="center">Assignment Testing and Evaluation</h3>
+<p>Your functions/programs <b>must</b> compile and/or run on a <b>Linux</b> ACS machine (e.g. <tt> ieng6.ucsd.edu </tt>, 
+  as this is where the verification of your solutions will occur. While 
+  you may develop your code on any system, ensure that your code runs as 
+  expected on an ACS machine prior to submission.
+    You should test your code in the directories from 
+  which the zip files (see below) will be created, as this will approximate the 
+  environment used for grading the assignment.</p>
+
+  <p>Most of the points, except those for comments and style, will be <b>awarded 
+  automatically, by evaluating your functions against a given test suite</b>. 
+  The fourth file, <tt> test.ml </tt> contains a very small suite of tests which 
+  gives you a flavor of of these tests. At any stage, by typing at the UNIX
+  shell : <br>
+  <blockquote>
+    <code> ocaml test.ml | grep "130>>" > log </code>
+  </blockquote>
+    you will get a report on how your code stacks up against the simple
+    tests. 
+    </p>
+  <p> The last line of the file <tt>log</tt> <b> must contain the word
+    "Compiled" otherwise you get a zero for the whole assignment</b>.
+  If for some problem, you cannot get the code to compile, leave it as is with the 
+  <tt>failwith ...</tt>, with your partial solution enclosed below as a comment.
+  <b> There will be no exceptions to this rule</b>.
+  The second last line of the log file will contain your overall score, and the 
+  other lines will give you a readout for each test.
+  You are encouraged to try to understand the tests in <tt>test.ml</tt>, and
+  subsequently devise your own tests and add them to <tt>test.ml</tt>, but
+  you will not be graded on this.
+</p>
+  <p>Alternately, inside the OCaml shell, type (user input is in <font color="#FF000">red</font>):
+    <blockquote>
+      <code> # <font color="#FF0000"> #use "test.ml";; </font><br>
+	.<br>
+	.<br>
+	.<br>
+	- : int * int = (...,...) 
+	</code>
+      </blockquote>
+      and it should return a pair of integers, reflecting your score and
+      the max possible score on the sample tests. If instead an error
+      message appears, your code will receive a zero.
+      </p>
+<br>
+<hr size=5 noshade>
+
+<a name="Submission Guidelines"></a>
+<h3 align="center">Submission Instructions</h3>
+  
+<h3>1. Create the zip file for submission</h3>
+<blockquote>
+  <p>Your solutions to this assignment will be stored in separate 
+  files under a directory called <tt>solution/</tt>, inside which you will 
+  place the files: 
+  <tt> misc.ml, expr.ml, art.ml, art_g_sample.jpg, gray1.jpg, gray2.jpg, gray3.jpg, color1.jpg, color2.jpg, color3.jpg</tt>. 
+  The first three files listed above are the versions of the 
+  corresponding supplied file that you will have modified.
+  The last seven .jpg files are described below. 
+  There should be <b>no other files in the directory</b>.</p>
+  
+  
+  <p>After creating and populating the directory as described above,
+  create a zip file called 
+  <tt>&lt;LastName&gt;_&lt;FirstName&gt;_cse130_pa2.zip</tt> <b>by going into 
+      the directory <tt> solution </tt></b> and executing
+  the UNIX shell command: <br> 
+  <blockquote>
+    <tt> zip &lt;LastName&gt;_&lt;FirstName&gt;_cse130_pa2.zip *</tt>
+  </blockquote>
+
+  You can refer to
+  an <a href="LastName_FirstName_cse130_pa2.zip">example submission
+  file</a> to compare with yours. Make sure that your zipped file's
+  structure is the same as the example.
+  </blockquote>
+  
+<h3>2. Test the zip file to check for its validity</h3>
+<blockquote>
+  <p>Once you've created the zip file with your solutions, you will
+  use the <tt> validate_pa2</tt> program to see whether your zip
+  file's structure is well-formed to be inspected by our grading
+  system by executing the UNIX shell command: <br>
+  <blockquote><tt> validate_pa2 &lt;LastName&gt;_&lt;FirstName&gt;_cse130_pa2.zip </tt>
+  </blockquote>
+  The <tt>validate_pa2</tt> program will output <tt>OK</tt> if your
+  zip file is well-formed and your solution is compiled. 
+  Otherwise, it will output some error
+  messages. Before going to step 3, make sure that your zip file
+  passes <tt>validate_pa2</tt> program. <b>Otherwise 
+  you get a zero for the whole assignment.</b>
+  If you have any trouble with
+  this, refer to the instructions in step 1.
+</blockquote>
+
+<h3>3. Submit the zip file via the <tt>turnin_pa2</tt> program</h3>
+
+<blockquote>
+  <p>Once your zip file passes the validation check
+  by <tt>validate_pa2</tt>, you will use the <tt> turnin_pa2</tt> program
+  to submit this file for grading by going into the
+  directory <tt>solution/</tt> and executing the UNIX shell
+  command: <br>
+  <blockquote><tt> turnin_pa2
+      &lt;LastName&gt;_&lt;FirstName&gt;_cse130_pa2.zip </tt>
+  </blockquote>
+    </p>
+  <p>
+  The <tt>turnin_pa2</tt> program will provide you with a confirmation of the
+  submission process; make sure that the size of the file indicated by
+  <tt>turnin_pa2</tt> matches the size of your tar file (<tt>turnin_pa2</tt> is a thin wrapper script around the ACMS command
+  <tt> <a href="http://acms.ucsd.edu/info/turnin.html">turnin</a></tt> 
+  that repeats validation and ensures that the propper assignment name is passed).
+  Note that you may submit multiple times, but your latest submission overwrites previous submissions, and will be the ONLY one we grade. If you submit before the assignment deadline, and again afterwards, we will count it as if you only submitted after the deadline.
+  </p>
+</blockquote>
+
+<hr size=10 noshade>
+
+<hr size=5 noshade>
+<h2>Problem #1: Tail Recursion  <tt> (misc.ml) </tt></h2>
+  
+<h3>(a)<b> 15 points</b></h3>
+<p>Without using any built-in OCaml functions, write an OCaml function <tt>
+assoc : int * string * (string * int) list -&gt; int </tt> (or more
+generally, <tt>'a * 'b * ('b * 'a) list -&gt; 'a</tt>) that takes a
+triple <tt> (d,k,l) </tt> where <tt>l</tt> is a list of key-value
+pairs
+<tt>[(k<sub>1</sub>,v<sub>1</sub>);(k<sub>2</sub>,v<sub>2</sub>);...]</tt>
+and finds the first <tt>k<sub>i</sub></tt> that equals <tt>k</tt>.  If
+such a <tt>k<sub>i</sub></tt> is found, then <tt>v<sub>i</sub></tt> is
+returned.  Otherwise, the default value <tt>d</tt> is returned. </p>
+<p>
+Your function should be tail recursive.
+Once
+you have implemented the function, you should get the following
+behavior at the OCaml prompt:</p> <blockquote>
+  <p><tt>
+    # <font color="#FF0000">assoc (-1,"jeff",[("sorin",85);("jeff",23);("moose",44)]);;</font><br>
+    - : int = 23 <br>
+    # <font color="#FF0000">assoc (-1,"bob",[("sorin",85);("jeff",23);("moose",44);("margaret",99)]);;</font><br>
+    - : int = -1 <br>
+ </tt></p>
+</blockquote>
+
+<h3>(b)<b> 15 points</b></h3>
+
+<p>Without using any built-in OCaml functions, <b>modify the skeleton</b> for 
+<tt> removeDuplicates </tt> to obtain a function of type 
+<tt>int list -&gt; int list </tt> (or more generally, <tt>'a list -&gt; 'a list</tt>) that takes a list <tt> l </tt> and returns the list
+of elements of <tt> l </tt> with the duplicates, i.e. second, third, etc. occurrences,
+removed, and where the remaining elements appear in the same order as in <tt> l </tt>.</p>
+<p>
+For this function only, you may use the library functions <tt>List.rev</tt> and <tt>List.mem</tt>.
+Once you have implemented the function, you should get the following
+behavior at the OCaml prompt:</p>
+<blockquote>
+  <p><tt>
+    # <font color="#FF0000"> removeDuplicates [1;6;2;4;12;2;13;6;9];;</font><br>
+    - : int list = [1;6;2;4;12;13;9] <br>
+ </tt></p>
+</blockquote>
+
+<h3>(c)<b> 15 points</b></h3>
+
+<p>Without using any built-in OCaml functions, or the <tt> while </tt> or <tt> for</tt>
+construct, write an OCaml function:<br>
+<tt> wwhile : (int -&gt; int * bool) * int -&gt; int </tt> (or more generally, <tt>('a -&gt; 'a * bool) * 'a -&gt; 'a </tt>) that takes as
+input a pair <tt> (f,b) </tt> and calls the function <tt>f</tt> on input <tt>b</tt> to get a pair <tt>(b',c')</tt>.
+<tt>wwhile</tt> should continue calling <tt>f</tt> on <tt>b'</tt> to update the pair as long as <tt>c'</tt> is true. Once <tt>f</tt> returns a <tt>c'</tt> that is false, <tt>wwhile</tt> should return <tt>b'</tt>.</p>
+<p>
+Your function should be tail recursive.
+Once you have implemented the function, you should get the following
+behavior at the OCaml prompt:</p>
+<blockquote>
+  <p><tt>
+    # <font color="#FF0000"> let f x = let xx = x*x*x in (xx,xx<100);; </font><br>
+    val f : int -&gt; int * bool = fn <br>
+    # <font color="#FF0000"> wwhile (f,2);; </font><br>
+    - : int = 512 <br>
+ </tt></p>
+</blockquote>
+
+<h3>(d)<b> 10 points </b></h3>
+<p>Without using any built-in OCaml functions, <b>modify the skeleton</b> for 
+<tt>fixpoint</tt> to obtain a function of type 
+<tt>(int -&gt; int) * int -&gt; int </tt> (or more generally, <tt>('a -&gt; 'a) * 'a -&gt; 'a</tt>) which repeatedly updates <tt>b</tt> with <tt>f(b)</tt> until <tt>b=f(b)</tt> and then returns <tt>b</tt>.</p>
+
+<p>
+Once you have implemented the function, you should get the following
+behavior at the OCaml prompt:</p>
+<blockquote>
+  <p><tt>
+    # <font color="#FF0000"> let g x = truncate (1e6 *. cos (1e-6 *. float x));; </font><br>
+    val f : int -&gt; int = fn <br>
+    # <font color="#FF0000"> fixpoint (g,0);; </font><br>
+    - : int = 739085 <br>
+ </tt></p>
+</blockquote>
+
+<hr size=5 noshade>
+
+<h2>Problem #2: Random Art </h2>
+At the end of this assignment, you should be able to produce pictures of
+the kind shown below. To do so, we shall devise a grammar for a certain
+class of expressions, design an OCaml datatype whose values correspond to such
+expressions, write code to evaluate the expressions, and then write a
+function that randomly generates such expressions and plots them thus
+producing random psychedelic art.
+<br><br>
+
+<table cellpadding="2" cellspacing="20" border="10" >
+  <tbody>
+    <tr>
+       <td valign="middle"><img src="color1.jpg" alt="c1">
+       </td>
+       <td valign="middle"><img src="color2.jpg" alt="c2">
+       </td>
+       <td valign="middle"><img src="color3.jpg" alt="c3">
+       </td>
+     </tr>
+     <tr> </tr>
+   <tr>
+     <td valign="middle"><img src="art_g_sample.jpg" alt="g1">
+       </td>
+       <td valign="middle"><img src="gray2.jpg" alt="g2">
+       </td>
+       <td valign="middle"><img src="gray3.jpg" alt="g3">
+       </td>
+   </tr>
+  </tbody>
+</table>
+
+
+<h3>(a)<tt>(expr.ml)</tt><b> 15+15 points </b></h3>
+
+The expressions described by the grammar:
+<blockquote>
+  e ::= x | y | sin (pi*e) | cos (pi*e) | ((e + e)/2) | e * e | (e&lt;e ? e : e)
+  </blockquote>
+
+
+where pi stands for the constant 3.142, are functions over the variables
+x,y, which are guaranteed to produce a value in the range [-1,1] when x and
+y are in that range. We can represent expressions of this grammar in ML
+using values of the following datatype:
+<blockquote>
+<code>
+  type expr = <br> 
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   VarX <br> 
+  &nbsp;&nbsp;&nbsp; | VarY <br> 
+  &nbsp;&nbsp;&nbsp; | Sine of expr <br>
+  &nbsp;&nbsp;&nbsp; | Cosine of expr <br>
+  &nbsp;&nbsp;&nbsp; | Average of expr * expr <br>
+  &nbsp;&nbsp;&nbsp; | Times of expr * expr <br>
+  &nbsp;&nbsp;&nbsp; | Thresh of expr * expr * expr * expr <br>
+</code>
+</blockquote>
+
+First, write a function <tt> exprToString : expr -&gt; string </tt>
+to enable the printing of expressions. 
+Once you have implemented the function, you should get the 
+following behavior at the OCaml prompt:</p>
+<blockquote>
+  <p><tt>
+    # <font color="#FF0000"> exprToString
+      (Thresh(VarX,VarY,VarX,(Times(Sine(VarX),Cosine(Average(VarX,VarY))))));;</font><br>
+    - : string = "(x&lt;y?x:sin(pi*x)*cos(pi*((x+y)/2)))" <br>
+ </tt></p>
+</blockquote>
+
+Next, write the function <tt> eval : expr * float * float -&gt; float
+</tt> that takes an triple <tt> (e,x,y) </tt> and evaluates the expression
+<tt> e </tt> 
+at the point <tt> x,y </tt>.
+You should use Ocaml Math library, in particular, <tt>sin, cos</tt> to build your evaluator. Recall that <tt>Sine(VarX)</tt>
+corresponds to the expression <tt>sin(pi*x)</tt>.
+Once you have implemented the function, you should get the 
+following behavior at the OCaml prompt:</p>
+<blockquote>
+  <p><tt>
+    # <font color="#FF0000"> eval (Sine(Average(VarX,VarY)),0.5,-0.5);;</font><br>
+    - :float = 0.0 <br>
+    # <font color="#FF0000"> eval (Sine(Average(VarX,VarY)),0.3,0.3);;</font><br>
+ - = 0.809016994375 : float <br>
+ # <font color="#FF0000"> eval (sampleExpr,0.5,0.2);;</font><br>
+    - : float = 0.118612572815 <br>
+ </tt></p>
+</blockquote>
+
+At the OCaml prompt, enter:
+<blockquote>
+  <tt> # <font color="#FF0000"> #use "art.ml";; <br>
+  emitGrayscale (eval_fn
+      sampleExpr, 150, "sample") ;;</tt> </font></blockquote>
+    to generate the grayscale image <tt>
+      art_g_sample.jpg </tt> in your working directory. 
+    To receive full credit, this image 
+    must look like the leftmost grayscale image displayed above. 
+    Note that this requires your implementations of
+    <tt> eval </tt> to work correctly. A message 
+    <tt> Uncaught exception ... </tt> is an indication that your <tt> eval
+    </tt> is returning a value outside the range [-1.0,1.0].
+
+<h3>(b)<tt>(art.ml)</tt><b> 20 points </b></h3>
+Next, you must fill in an implementation for the function 
+<tt> build </tt> that generates random expressions. The function is of
+type <tt> build : (int*int -&gt; int)*int -&gt; expr </tt>.
+The function is called with the argument pair <tt> (rand,depth) </tt>. 
+
+<p>The first element <tt> rand </tt> is a random number generator of type
+<tt> int * int -&gt; int </tt>. Each call <tt> rand (i,j) </tt> returns a
+random integer between <tt>i</tt> inclusive and <tt>j </tt> exclusive. 
+Use this function to randomly select operators when composing
+subexpressions to build up larger expressions.</p>
+
+
+<p>The second element <tt> depth </tt> is a maximum nesting depth. 
+A random expression of depth <tt> d </tt> built by randomly composing 
+sub-expressions of maximum depth <tt> d-1 </tt> , and the only expressions of depth <tt> 0 </tt> are
+<tt> VarX </tt> or <tt> VarY </tt>.</p>
+
+<p>
+With this in place you can generate random art using the functions 
+<blockquote><tt>
+    doRandomGray : int * int * int -&gt; unit <br>
+    doRandomColor : int * int * int -&gt; unit <br>
+</tt></blockquote>
+Each function takes as a parameter a triple <tt> (depth,seed1,seed2) </tt>
+where <tt> depth </tt> is the depth of the expression to be generated and
+<tt> seed1,seed2 </tt> are two seeds for the random number generator. 
+The functions generate JPEG files called 
+<blockquote>
+  <tt>
+    art_g_1_&lt;depth&gt;_&lt;seed1&gt;_&lt;seed2&gt;.jpg,<br> 
+  art_c_1_&lt;depth&gt;_&lt;seed1&gt;_&lt;seed2&gt;.jpg </tt>.<br> 
+</blockquote>
+The first is a gray scale image, built by mapping out a single randomly
+generated expression over the plane, and the second is a color image built
+using three functions for the intensities of red, green and blue.</p>
+
+<p>Play around with how you generate the expressions, using the tips below.
+Name your best three color files <tt> color1.jpg, color2.jpg,
+color3.jpg</tt>, and save their parameters, i.e. the depth and the seeds
+in the bodies of <tt>c1,c2,c3</tt>.
+Name your best three gray files <tt> gray1.jpg, gray2.jpg, gray3.jpg </tt>,
+and save their parameters in the bodies of <tt>g1,g2,g3</tt>.</p>
+
+<b>Note:</b>
+<ul>
+  <li> Don't build the datatypes directly -- use the build functions
+  provided in <tt>expr.ml</tt>. The purpose is to hide the actual
+  implementation, i.e. the datatype, for the expressions from the random
+  art code, thus enabling modular code. We will see more of modules
+  later.</li>
+
+  <li>
+  Depths of 8-12 produce interesting pictures, but play around!
+  </li>
+
+  <li>
+  Make sure your expressions don't get "cut-off" early with
+  <tt>VarX,VarY</tt>, as small expressions give simple pictures.
+  In general, play around to bias the generation
+  towards more interesting operators. 
+  </li>
+</ul>
+
+<h3>(c)<tt>(art.ml)</tt><b> 20 points </b></h3> Finally,
+add <b>two</b> new operators to the grammar, i.e. to the datatype, by
+introducing two new datatype constructors, and adding the
+corresponding cases to <tt> exprToString </tt> and <tt> eval </tt>.
+Write a new function <tt> build2 </tt>, which behaves exactly like
+your function <tt>build</tt>, except which generates expressions using
+your two new operators.  Test these functions
+using <tt>doRandomGray2</tt> and <tt>doRandomColor2</tt> which behave
+exactly like the previous versions, except which use <tt>build2</tt>
+instead of <tt>build</tt>.  The only requirements are that the
+operators must return values in the range [-1.0,1.0] if their
+arguments are in that range, and that one of the operators
+take <b>three</b> arguments, i.e. one of the datatype constructors is
+of the form:
+<blockquote> <tt> C of expr * expr * expr </tt> </blockquote>
+<p>You can include images generated with these new operators 
+when choosing your best images for part (b).</p>
+
+<h3>(d)<tt>(art.ml)</tt><b> Extra Credit: 15 points </b></h3>
+The creators of the <b> best five </b> images, will get extra credit.
+Be creative!  (The class will vote to determine the best images.)
+
+<hr size=5 noshade>
+
+ 
+</body>
+ 
+</html>
