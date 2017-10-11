@@ -29,11 +29,6 @@ max_list [1;7;2];;
 (* tail recursive *)
 
 let rec max_list l =
-   let rec helper max_so_far remaining =
-   match remaining with
-   | [] -> max_so_far
-   | h::t -> helper (max max_so_far h) t
-   in helper 0 l;;
 
 
 
@@ -105,11 +100,6 @@ let rec concat l =
 (* tail recursion *)
 
 let concat l =
-  let rec helper concat_so_far remaining =
-  match remaining with
-  | [] -> concat_so_far
-  | h::t -> helper (concat_so_far ^ h) t
-  in helper "" l;;
 
 
 
@@ -165,16 +155,23 @@ helper "123abc" []
 
 (* extract pattern into an uber-helper function! *)
 
-let rec fold f so_far remaining =
-    match remaining with
-    | [] -> so_far
-    | h::t -> fold f (f so_far h) t;;
 
 
-let list_max l = fold max 0 l;;
-let concat l = fold (^) "" l;;
-let sum l = fold (+) 0 l;;
-let mult l = fold ( * ) 1 l;;
+
+        
+        
+        
+        
+        
+        
+        
+        
+
+
+
+
+
+
 
 
 
@@ -228,13 +225,7 @@ let multiplier = fold (fun x y -> x * y) 1;;
 let cons x y = y::x;;
 let myst l = fold cons [] l;;
 
-myst [1;2;3];;
-curr = []
-cons [] 1 => 1::[] => [1]
-curr = [1]
-cons [1] 2 => 2::[1] => [2;1]
-curr = [2;1]
-cons [2;1] 3 => 3::[2;1] => [3;2;1]
+ (* What does myst do? *)
 
 
 
@@ -260,12 +251,7 @@ cons [2;1] 3 => 3::[2;1] => [3;2;1]
 
 
 
-let rec reverse l = 
-        match l with 
-        | [] -> []
-        | h::t -> (reverse t)@[h]
 
- (* What does f do? *)
 
 
 
@@ -277,19 +263,6 @@ let rec reverse l =
 (* return a list in which each element is produced from
  * the corresponding element in l by applying f *)
 let rec map f l = 
-    match l with
-    | [] -> [] 
-    | h::t -> (f h)::(map f t);;
-
-let incr_list l = map ((+) 1) l;; 
-let incr_list = map ((+) 1);; 
-
-
-let myst l = map (fun x -> [x]) l;;
-let inv_myst l = map (fun (h::t) -> h) l;;
-let strs_len l = map String.length l;;
-
-[1;2;3] => [[1];[2];[3]]
 
 
 
@@ -309,16 +282,6 @@ let strs_len l = map String.length l;;
 
 
 
-let f x y = x + y;;
-f: int -> (int -> int)
-
-let g = f 1;;
-g 2;;
-
-(f 1) 2;;
-f 1 2;;
-
-(+)
 
 
 
@@ -395,30 +358,7 @@ let rec interval_init f i j =
 
 (* implement map using fold *)
 let map f l = 
-  let fold_fn acc elmt = acc@[f elmt] in
-  let acc = [] in
-  List.fold_left fold_fn acc l;;
 
-let map f l = 
-  let fold_fn acc elmt = f elmt::acc in
-  let acc = [] in
-  List.fold_left fold_fn acc (List.reverse l);;
-
-acc = []
-l = [1;2;3]
-f = (-) 1
-f = (+) (-1)
-fun x -> x-1
-
-fold_fn [] 1
-acc = [0]
-fold_fn [0] 2
-acc = [0;-11]
-fold_fn [0;-1] 3
-acc = [0;-1;-2]
-
-
-map ((-) 1) [1;2;3] ;;
 
 
 
@@ -476,9 +416,6 @@ map f [1;2;3]
 
 (* implement partition using fold *)
 let partition f l =
-        let base = (,)in
-        let fold_fn (l1,l2) elmt = (,)
-        in fold_left fold_fn base l;;
 
 
 
