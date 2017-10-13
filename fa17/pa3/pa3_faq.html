@@ -1,0 +1,47 @@
+<html>
+<head> </head>
+<body>
+<h1 align="center"> CSE 130 - Programming Assignment #3 FAQ </h1>
+<ol>
+<li> <h3> <b>Do we have to handle negative numbers in part 2? </b> </h3>  </li>
+<p> No. You can assume all big numbers are positive </p>
+
+<li> <h3> <b>What is the behavior of bigAdd/mulByDigit/bigMul when multiplying by 0? </b> </h3>  </li>
+<p>
+# mulByDigit 0 [1;2;3];; <br>
+- : int list = [] <br>
+# bigAdd [0] [0];; <br>
+- : int list = [] <br>
+# bigMul [0] [1;2;3];; <br>
+- : int list = [] <br>
+# bigMul [0;0;0] [1;2;3];; <br>
+- : int list = [] <br>
+</p>
+
+
+
+<li> <h3> <b>Can we use List.nth for any part? </b> </h3>  </li>
+<p>Nope.</p>
+
+<li> <h3> <b>Can we use List.append for 2a? </b> </h3>  </li>
+<p>Yes.</p>
+
+<li> <h3> <b>Are we allowed to give a name to the "_" in (_, res) in bigAdd? </b> </h3>  </li>
+<p>No. You shouldn't need to.</p>
+
+
+<li> <h3> <b>What library functions can we use? </b> </h3>  </li>
+<p>You can use any of the Library functions that are explicitly stated at the top of the misc.ml file: 
+   List.map
+   List.fold_left
+   List.fold_right
+   List.split
+   List.combine
+   List.length
+   List.append
+   List.rev
+</p>
+
+</ol>
+</body>
+</html>
