@@ -1,0 +1,56 @@
+<html>
+<head> </head>
+<body>
+<h1 align="center"> CSE 130 - Programming Assignment #4 FAQ </h1>
+<ol>
+<li> <h3> <b>How do we skip whitespace in nanoLex.mll? </b> </h3>  </li>
+<p> See hint in http://cseweb.ucsd.edu/classes/fa14/cse130-a/parser_notes/beLexer.mll </p>
+
+
+<li> <h3> <b>In 2a do we have to check if both parts of a binary expression is int? </b> </h3>  </li>
+<p> Yes. And raise a properly worded MLFailure exception otherwise.</p>
+
+<li> <h3> <b>Do we have to parse negative values?</b> </h3>  </li>
+<p> No.</p>
+
+<li> <h3> <b>There is no specific constructor for Plus/Minus/Div other binary operations.</b> </h3>  </li>
+<p> Use the Bin constructor for all of those.</p>
+
+<li> <h3> <b>Does the grader care about the exact text in MLFailure exceptions?.</b> </h3>  </li>
+<p> No. Put something reasonable/understandable.</p>
+
+<li> <h3> <b>What does lookup do when it doesn't find a variable in the environment?.</b> </h3>  </li>
+<p> Raise a properly worded MLFailure exception.</p>
+
+<li> <h3> <b>What does eval([], Var "hd") return in the extra credit part?.</b> </h3>  </li>
+<p> Thanks to Val:
+<ol>
+    <li>Add
+<pre>
+    type value = ...
+               | Native of string
+</pre> </li>
+
+    <li>Now if your lookups succeed, check whether it was one of the hd or tl function, and return Native("hd") and Native("tl") </li>
+    <li>In App, deal with the case where the function expression evaluates to a native function, and run the appropriate OCaml code to execute this function</li>
+</ol>
+ 
+
+In that setting, your result should be:
+
+ 
+<pre>
+# open Nano;;
+# eval ([], Var "hd");;
+- : Nano.value = Native "hd"
+# eval ([], Let("hd", Const(0), Var "hd"));;
+- : Nano.value = Int 0
+</pre>
+</p>
+
+<li> <h3> <b>Do we have to ensure that the then and else branch of an if have the same type as in ocaml?</b> </h3>  </li>
+<p> Nope. </p>
+
+</ol>
+</body>
+</html>
