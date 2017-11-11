@@ -1,0 +1,57 @@
+<html>
+<head> </head>
+<body>
+<h1 align="center"> CSE 130 - Programming Assignment #5 FAQ </h1>
+<ol>
+<li> <h3> <b>Is the Fractional Credit for 2e) extra credit? </b> </h3>  </li>
+<p> No its not extra credit. Its part of the grade. </p>
+
+<li> <h3> <b>How is the Fractional Credit for 2e) graded? </b> </h3>  </li>
+<p> Read the assignment. Its specified there. </p>
+
+
+<li> <h3> <b> I'm getting Indentation errors, but my indentation looks fine? </b> </h3>  </li>
+<p> The python interpreter differentiates between spaces and TAB-s. So even
+though two lines may look like they are indented the same width, if one is done
+with spaces, and the other with TAB-s python will complain. Make sure to be
+consistent and only use one or the other. One way to get your code to
+consistently use spaces, is to open it in vim and run the command ":retab"</p>
+
+<li> <h3> <b> Can I import other libraries than what already is there?  </b> </h3>  </li>
+<p> No. You may only use the imporated libraries and the <a
+href='https://docs.python.org/2/library/functions.html'>built-in functions
+</a>.</p>
+
+
+<li> <h3> <b> For 1a) can we assume the list is sorted?  </b> </h3>  </li>
+<p> No.</p>
+
+<li> <h3> <b> For 1a) can numbers be negative?  </b> </h3>  </li>
+<p> Yes.</p>
+
+<li> <h3> <b> For 1b) can lists be of different length?  </b> </h3>  </li>
+<p> No. You can assume lists are of equal length. </p>
+
+<li> <h3> <b> What if in 1b) we have repeating keys?  </b> </h3>  </li>
+<p> Assign the value corresponding to the last occurance of the key. </p>
+
+<li> <h3> <b> What if in 1b) we have repeating keys?  </b> </h3>  </li>
+<p> Assign the value corresponding to the last occurance of the key. </p>
+
+<li> <h3> <b> Can't open/load words/wrods.txt in 2a)  </b> </h3>  </li>
+<p> Make sure that 1) the file words is in the same directory as the scripts 2) you are correctly calling load_words("words"). If you save it as words.txt, you would have to call load_words("words.txt"). </p>
+
+
+<li> <h3> <b> If I crack all passwords given in the assignment file, do I get
+full credit?  </b> </h3>  </li> <p> Not necessarily. If you can crack all
+passwords, you will likely get at least 15 points, since you can probably crack
+all UNTRANSFORMED passwords. We will be testing your code against a much bigger
+set of passwords, with a time limit. As described in the assignment, your score
+will be proportional to how many passwords you crack, relative to the best
+student. </p>
+
+<li> <h3> <b> How much time will our programs be given for 2e)?  </b> </h3>  </li> <p> 5 min. </p>
+<li> <h3> <b> In 2b) transform_capitalize can the word contain non-letters(e.g. numbers)? What should we do about those?  </b> </h3>  </li> <p> Yes it can. You should leave them unchanged, since they obviously can't be capitalized. Notice that upper() won't change anything that is not a letter. Try typing "a3b".upper() in a python shell.  </p>
+</ol>
+</body>
+</html>

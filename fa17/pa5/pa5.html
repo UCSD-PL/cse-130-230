@@ -1,0 +1,521 @@
+<html>
+
+<head>
+  <title>CSE 130 : Programming Assignment #5</title>
+
+  <link rel="stylesheet" type="text/css" href="../styles.css">
+</head>
+
+<body>
+
+<h1 align="center">CSE 130 - Programming Assignment #5</h1>
+<h2 align="center">Python</h2>
+<h3 align="center">130 points</h3>
+<h3 align="center">
+(see submission instructions <a href="#Submission Guidelines">below</a>)</h3>
+<p align="center"><i>(click your browser's refresh button to ensure that you 
+have the most recent version)</i></p>
+<h3 align="center">(<a href="pa5_faq.html">Programming Assignment #5 FAQ</a>)</h3>
+
+<b>Note:</b>
+
+ To download and install Python version 2.7.1 on your home machines see
+<a href="http://python.org/download/releases/2.7.1/">this page</a>.
+Remember that this is only to enable you to play with the assignment
+at home: The final version turned in must work on the ACS Linux
+machines.
+
+
+While you can use Windows to begin working with Python, the code you
+turn in must be that required for the Linux environment.
+
+
+<hr size=5 noshade>
+<h3 align="center">Integrity of Scholarship</h3>
+<p>University rules on integrity of scholarship will be strictly
+enforced. By completing this assignment, you implicitly agree to
+abide by the UCSD Policy on Integrity of Scholarship described 
+in the
+<a href="http://www.ucsd.edu/catalog/front/AcadRegu.html">Academic Regulations</a>, 
+in particular &quot;all academic work will be
+done by the student to whom it is assigned, without unauthorized aid of any
+kind.&quot;</p> <p>You are expected to do your own work on this assignment;
+there are no group projects in this course. You may (and are
+encouraged to) engage in general discussions with your classmates regarding
+the assignment, but specific details of a solution, including the solution
+itself, must always be your own work. Incidents that violate the
+University's rules on integrity of scholarship will be taken seriously:
+In addition to receiving a zero (0) on the assignment, students 
+may also face other penalties, up to and including, expulsion from the 
+University. Should you have any doubt about the moral and/or ethical 
+implications of an activity associated with the completion of this assignment, 
+please see the instructors.</p>
+
+<hr size=5 noshade>
+<h3 align="center"><b>Code Documentation and General Requirements</b></h3>
+<p>Code for all programming assignments should be <b>well
+documented</b>. A working program with no comments will <b>receive
+only partial credit</b>. Documentation entails providing documentation
+strings for all methods, classes, packages, etc., and comments
+throughout the code to explain the program logic. Comments in Python
+are preceded by <tt>#</tt> and extend to the end of the line.
+Documentation strings are strings in the first line of a function,
+method, etc., and are accessible using <tt>help(foo)</tt>, where foo
+is the name of the method, class, etc.  It is understood that some of
+the exercises in this programming assignment require extremely little
+code and will not require extensive comments.
+
+<p>While few programming assignments pretend to mimic the &quot;real&quot;
+world, they may, nevertheless, contain some of the ambiguity that exists
+outside the classroom. If, for example, an assignment is amenable to
+differing interpretations, such that more than one algorithm may implement
+a correct solution to the assignment, it is incumbent upon the
+programmer to document not only the functionality of the algorithm (and
+more broadly his/her interpretation of the program requirements), but to
+articulate <b>clearly</b> the reasoning behind a particular choice of
+solution.</p>
+
+
+<hr size=5 noshade>
+<h3 align="center">Assignment Overview</h3>
+
+<p>The overall objective of this assignment is to introduce you to
+Python.  Emphasis will be placed on text and string manipulations and should use 
+some of Python's facilities for iterating over structures.
+
+The assignment is spread over three python files 
+<a href="misc.py">misc.py</a>,
+<a href="crack.py">crack.py</a>,
+<a href="test.py">test.py</a>, and three files 
+<a href="words">words</a>,
+<a href="passwd">passwd</a>, and
+<a href="news.txt">news.txt</a>
+that you need to download.
+
+The first three files contain several skeleton Python functions, with missing
+bodies, i.e. expressions, which currently contain the text
+<code> raise Failure("to be written")</code>. 
+
+Your task is to replace the text in those files with the the
+appropriate Python code for each of those expressions.  An emphasis
+should be placed on writing concise easy to read code.
+
+
+
+<hr size=5 noshade>
+<h3 align="center">Assignment Testing and Evaluation</h3>
+<p>Your functions/programs <b>must</b> compile and/or run on a <b>Linux</b> ACS machine (e.g. <tt>ieng6.ucsd.edu</tt>), 
+  as this is where the verification of your solutions will occur. While 
+  you may develop your code on any system, ensure that your code runs as 
+  expected on an ACS machine prior to submission.
+    You should test your code in the directories from 
+  which the zip files (see below) will be created, as this will approximate the 
+  environment used for grading the assignment.</p>
+
+  <p>Most of the points, except those for comments and style, will be <b>awarded 
+  automatically, by evaluating your functions against a given test suite</b>. 
+  The fourth file, <tt> test.py </tt> contains a very small suite of tests which 
+  gives you a flavor of these tests. At any stage, by typing at the UNIX
+  shell : <br>
+  <blockquote>
+    <code> python < test.py | grep "130>>" > log </code>
+  </blockquote>
+    you will get a report on how your code stacks up against the simple
+    tests. 
+    </p>
+  <p> The last (or near the bottom) line of the file <tt>log</tt> <b> must contain the word
+    "Compiled" otherwise you get a zero for the whole assignment</b>.
+  If for some problem, you cannot get the code to compile, leave it as is with the 
+  <tt>raise ...</tt>, with your partial solution enclosed below as a comment.
+  <b> There will be no exceptions to this rule</b>.
+  The second last line of the log file will contain your overall score, and the 
+  other lines will give you a readout for each test.
+  You are encouraged to try to understand the code in <tt>test.py</tt>, and
+  subsequently devise your own tests and add them to <tt>test.py</tt>, but
+  you will not be graded on this.
+</p>
+  <p>Alternately, inside the Python shell, type (user input is in <font color="#FF000">red</font>):
+    <blockquote>
+      <code> &gt;&gt;&gt; <font color="#FF0000"> import test </font><br>
+	.<br>
+	.<br>
+	.<br>
+	130&gt;&gt; Results: ...<br>
+	130&gt;&gt; Compiled
+	</code>
+      </blockquote>
+      and it should print a pair of integers, reflecting your score and
+      the max possible score on the sample tests. If instead an error
+      message appears, your code will receive a zero.
+      </p>
+<br>
+<hr size=5 noshade>
+
+<a name="Submission Guidelines"></a>
+<h3 align="center">Submission Instructions</h3>
+  
+<h3>1. Create the zip file for submission</h3>
+<blockquote>
+  <p>Your solutions to this assignment will be stored in separate 
+  files under a directory called <tt>pa5_solution/</tt>, inside which you will 
+  place the files: 
+  <tt> misc.py, crack.py </tt>. 
+  These two files listed are the versions of the 
+  corresponding supplied files that you will have modified.
+  There should be <b>no other files in the directory</b>.</p>
+  
+  
+  <p>After creating and populating the directory as described above,
+  create a zip file called 
+  <tt>&lt;LastName&gt;_&lt;FirstName&gt;_cse130_pa5.zip</tt> by going into 
+  the directory <tt>pa5_solution</tt> and executing
+  the UNIX shell command: <br> 
+  <blockquote>
+    <tt> zip &lt;LastName&gt;_&lt;FirstName&gt;_cse130_pa5.zip *</tt>
+  </blockquote>
+  </blockquote>
+
+
+<h3>2. Test the zip file to check for its validity</h3>
+<blockquote>
+  <p>Once you've created the zip file with your solutions, you will
+  use the <tt> validate_pa5</tt> program to see whether your zip
+  file's structure is well-formed to be inspected by our grading
+  system by executing the UNIX shell command: <br>
+  <blockquote><tt> validate_pa5 &lt;LastName&gt;_&lt;FirstName&gt;_cse130_pa5.zip </tt>
+  </blockquote>
+  The <tt>validate_pa5</tt> program will output <tt>OK</tt> if your
+  zip file is well-formed and your solution is compiled. 
+  Otherwise, it will output some error
+  messages. Before going to step 3, make sure that your zip file
+  passes <tt>validate_pa5</tt> program. <b>Otherwise 
+  you get a zero for the whole assignment.</b>
+  If you have any trouble with
+  this, refer to the instructions in step 1.
+</blockquote>
+
+
+  
+  <h3>3. Submit the zip file via the <tt>turnin_pa5</tt> program</h3>
+
+<blockquote>
+  <p>Once you've created the zip file with your solutions,
+  you will use the <tt>turnin_pa5</tt> program to submit
+  this file for grading by going into the directory <tt>pa5_solution/</tt> 
+  and executing the UNIX shell command: <br>
+  <blockquote><tt> turnin_pa5
+      &lt;LastName&gt;_&lt;FirstName&gt;_cse130_pa5.zip </tt>
+  </blockquote>
+    </p>
+  <p>
+  The <tt>turnin_pa5</tt> program will provide you with a confirmation of the
+  submission process; make sure that the size of the file indicated by
+  <tt>turnin_pa5</tt> matches the size of your zip file. (turnin_pa5 is a thin wrapper script around the ACMS command  <tt> <a href="http://acs.ucsd.edu/info/turnin.php">turnin</a></tt> that repeats validation and ensures that the propper assignment name is passed). Note that you may submit multiple times, but your latest submission overwrites previous submissions, and will be the ONLY one we grade. If you submit before the assignment deadline, and again afterwards, we will count it as if you only submitted after the deadline.
+</p>
+</blockquote>
+
+
+<hr size=5 noshade>
+
+<a name="Hints"></a>
+<h3 align="center">Hints</h3>
+
+<p><b>Using .py Files</b></p>
+
+To load <tt>foo.py</tt> into python, where <tt>bar()</tt> is defined
+in <tt>foo.py</tt> do the following:
+<blockquote>
+<tt>
+import foo<br>
+foo.bar()<br>
+</tt>
+</blockquote>
+Modify <tt>foo.py</tt>, then to reload it:
+<blockquote>
+<tt>
+import imp<br>
+imp.reload(foo)<br>
+foo.bar()<br>
+</tt>
+</blockquote>
+If you use the following syntax instead, you have to restart python to reload it.
+<blockquote>
+<tt>
+from foo import *<br>
+bar()<br>
+</tt>
+</blockquote>
+
+<p><b>Useful Links</b></p>
+
+<ul>
+<li><a href="http://docs.python.org/2/tutorial">Python Tutorial</a></li>
+<li><a href="http://docs.python.org/2/faq/">Python FAQ</a></li>
+<li><a href="http://docs.python.org/2/library">Python Library Reference</a></li>
+</ul>
+
+<p><b>Quirks / Features of Python</b></p>
+
+<ul>
+<li><tt>None</tt> doesn't print a line when it is the return value</li>
+<li><tt>None, 0</tt>, and <tt>[]</tt> all evaluate to false when used as a predicate.</li>
+<li>Many objects can be iterated over with <tt>for</tt> loops, not just lists.</li>
+</ul>
+
+<hr size=10 noshade>
+
+<h2>Problem #1: Warm-Up </a>
+<tt> (misc.py) </tt>
+</h2>
+<h3>(a)<b> 10 points </b></h3>
+<p>Write a function <tt> closest_to(l,v) </tt>,
+which returns the element of the list <tt>l</tt> closest in value to
+<tt>v</tt>.  In the case of a tie, the first such element is returned.
+If l is empty, None is returned.
+
+Once implemented you should get the following behavior at the Python prompt:
+</p>
+<blockquote>
+  <p><tt>
+    &gt;&gt;&gt; <font color="#FF0000">from misc import *</font> # this will load everything in misc.py</br>
+    &gt;&gt;&gt; <font color="#FF0000">closest_to([2,4,8,9],7)</font><br>
+    8<br>
+    &gt;&gt;&gt; <font color="#FF0000">closest_to([2,4,8,9],5)</font><br>
+    4<br>
+ </tt></p>
+</blockquote>
+
+<h3>(b)<b> 10 points </b></h3>
+
+<p>Now, write a function <tt>make_dict(keys,vals)</tt> which takes a
+list of keys and a list of values and returns a dictionary
+(<tt>dict</tt>) pairing keys to corresponding values.
+
+Once you have implemented the function, you should get the following
+behavior at the Python prompt:
+</p>
+<blockquote>
+  <p><tt>
+    &gt;&gt;&gt; <font color="#FF0000">make_dict(["foo","baz"],["bar","blah"])</font><br>
+    {'foo': 'bar', 'baz': 'blah'}<br>
+    &gt;&gt;&gt; <font color="#FF0000">make_dict([1],[100])</font><br>
+    {1: 100}<br>
+ </tt></p>
+</blockquote>
+
+
+<h3>(c)<b> 10 points </b></h3>
+<p>Write a Python function <tt>word_count(filename)</tt> that
+takes a string, <tt>filename</tt>, and returns a dictionary mapping
+words to the number of times they occur in the file <tt>filename</tt>.
+For this function, a word is defined as a sequence of alphanumeric
+characters and underscore.  All other characters should be ignored.
+Words should be returned in lower case, and case should be ignored
+when counting occurrences.
+
+Once you have implemented the function, you should get the following
+behavior at the Python prompt:
+</p>
+<blockquote>
+  <p><tt>
+    &gt;&gt;&gt; <font color="#FF0000">word_count("news.txt")</font><br> 
+    {'all': 2, 'code': 2, 'gupta': 1, 'results': 1, 'four': 1, 'edu': 2, ...}<br>
+ </tt></p>
+</blockquote>
+
+<hr size=5 noshade>
+<h2>Problem #2: Password Cracking
+<tt>(crack.py)</tt></h2>
+
+For this problem, you will write a simple dictionary based password
+cracker.  This should primarily be an exercise in string manipulation
+and data structures.  You will be attempting to crack as many
+passwords as possible in a UNIX password file.  The passwords are
+encrypted using the UNIX <tt>crypt()</tt> function.  For more
+information see <a
+href="http://www.linuxmanpages.com/man5/passwd.5.php"><tt>man 5
+passwd</tt></a> and <a
+href="http://www.linuxmanpages.com/man3/crypt.3.php"><tt>man 3
+crypt</tt></a> on UNIX or Linux.  In addition, more information will
+be provided when used.
+
+<h3>(a)<b> 10 points </b></h3>
+
+<p>Write a Python function <tt>load_words(filename,regexp)</tt> which
+loads the words from the file <tt>filename</tt> which match the
+regular expression <tt>regexp</tt>.  There will be one word per line
+in the input file.  The resulting words should be returned in a list
+in the same order they occur in the input file.</p>
+
+Once you have implemented the function, you should get the following
+behavior at the Python prompt:
+</p>
+<blockquote>
+  <p><tt>
+    &gt;&gt;&gt; <font color="#FF0000">from crack import *</font><br>
+    &gt;&gt;&gt; <font color="#FF0000">load_words("words",r"^[A-Z].{2}$")</font><br>
+    ['A-1', 'AAA', 'AAE', ...]<br>
+    &gt;&gt;&gt; <font color="#FF0000">load_words("words",r"^xYx.*$")</font><br>
+    []<br>
+ </tt></p>
+</blockquote>
+
+<h3>(b) <b>5 + 10 + 15 points</b></h3>
+
+<p>Write three python functions to implement the following string
+transformations: <tt>transform_reverse</tt>, <tt>transform_capitalize</tt>, 
+and <tt>transform_digits</tt>.  Each
+will take a string as an argument and return a list of strings.  The
+order of returned strings does not matter.</p>
+
+<p>The first function, <tt>transform_reverse(str)</tt> should return a
+list with the original string and the reversal of the original string.</p>
+
+<p>The second function, <tt>transform_capitalize(str)</tt> should
+return a list of all the possible ways to capitalize the input string.</p>
+
+<p>Finally, the third function, <tt>transform_digits(str)</tt> should
+return return a list of all possible ways to replace letters with
+similar looking digits according to the following mappings.  This
+should be done without regard to the capitalization of the input
+string, however when a character is not replaced with a digit, it's
+capitalization should be preserved.</p>
+
+<blockquote>
+<table border=2 cellpadding=2><tr><td>o -&gt; 0</td><td>i,l -&gt; 1</td></tr>
+<tr><td> z -&gt; 2 </td><td> e -&gt; 3 </td></tr>
+<tr><td> a -&gt; 4 </td><td> s -&gt; 5 </td></tr>
+<tr><td> b -&gt; 6 </td><td> t -&gt; 7 </td></tr>
+<tr><td> b -&gt; 8 </td><td> g,q -&gt; 9 </td></tr></table>
+</blockquote>
+
+Once you have implemented the function, you should get the following
+behavior at the Python prompt (order of list elements is not important):
+</p>
+<blockquote>
+  <p><tt>
+    &gt;&gt;&gt; <font color="#FF0000">transform_reverse("Moose")</font><br>
+    ['Moose','esooM']<br>
+    &gt;&gt;&gt; <font color="#FF0000">transform_capitalize("foo")</font><br>
+    ['foo', 'Foo', 'fOo', 'FOo', 'foO', 'FoO', 'fOO', 'FOO']<br>
+    &gt;&gt;&gt; <font color="#FF0000">transform_digits("Bow")</font><br>
+    ['Bow', 'B0w', '6ow', '60w', '8ow', '80w']<br>
+ </tt></p>
+</blockquote>
+
+<h3>(c) <b>10 points</b></h3>
+
+<p>Write a function <tt>check_pass(plain,enc)</tt> which will take a
+plain-text password, <tt>plain</tt>, and an encrypted password
+<tt>enc</tt> and will return <tt>True</tt> if <tt>plain</tt> encrypts
+to <tt>enc</tt> using the function crypt.</p>
+
+<p>Crypt is available in Python in the <tt>crypt</tt> module.  You can
+load this modules with <tt>import crypt</tt>.  Then the crypt function
+is available as <tt>crypt.crypt()</tt>.  See
+<tt>help(crypt.crypt)</tt> in Python.  When crypt is used, a salt must
+be provided to perturb the algorithm.  This salt is a random two
+character string which is returned in the beginning of the password.
+Since you are going in the other direction, you should extract the
+salt from the first two characters of the encrypted password (or see
+<a href="http://docs.python.org/lib/module-crypt.html">here</a> for
+more information).</p>
+
+Once you have implemented the function, you should get the following
+behavior at the Python prompt:
+</p>
+<blockquote>
+  <p><tt>
+    &gt;&gt;&gt; <font color="#FF0000">check_pass("asarta","IqAFDoIjL2cDs")</font><br>
+    True<br>
+    &gt;&gt;&gt; <font color="#FF0000">check_pass("foo","AAbcdbcdzyxzy")</font><br>
+    False<br>
+ </tt></p>
+</blockquote>
+
+<h3>(d) <b>10 points</b></h3>
+
+<p>Now, write a Python function <tt>load_passwd(filename)</tt> which
+takes a string as input and returns a list of dictionaries with fields
+"account", "password", "UID", "GID", "GECOS", "directory", and
+"shell", each mapping to the corresponding field of the file.  The UID
+and GID fields should be returned as integers.  The password file
+contains lines of the following format (see <a
+href="http://www.linuxmanpages.com/man5/passwd.5.php">here</a> for
+more information):</p>
+
+<blockquote>
+<tt>account:password:UID:GID:GECOS:directory:shell</tt>
+</blockquote>
+
+Once you have implemented the function, you should get the following
+behavior at the Python prompt:
+</p>
+<blockquote>
+  <p><tt>
+    &gt;&gt;&gt; <font color="#FF0000">load_passwd("passwd")</font><br>
+    [{'account': 'root', 'shell': '/bin/bash', 'UID': 0, 'GID': 0, 'GECOS': 'Corema Latterll', 'directory': '/home/root', 'password': 'VgzdTLne0kfs6'}, <br>
+    &nbsp;&nbsp;... ]<br>
+ </tt></p>
+</blockquote>
+<i>Hint:</i> The function <tt>re.split</tt> may be of use.<br>
+
+<h3>(e) <b>15 points + 25 points fractional credit</b></h3>
+
+<p>Finally, write a function
+<tt>crack_pass_file(filename,words,out)</tt> which takes two strings
+corresponding to a password file and a file with a list of words and a
+string corresponding to an output file.  Attempt to crack as many of
+the passwords in the password file as possible.  As passwords are
+discovered, they should be written to the output file in the following
+format:</p>
+
+<blockquote>
+<i>username</i><tt>=</tt><i>pass</i><br>
+</blockquote>
+for example,
+<blockquote>
+<tt>checani=asarta</tt>
+</blockquote>
+
+<p>After each line is written, the output file should be flushed.
+Your function will only be allowed to run for a limited amount of time
+(several minutes).  Thus, you should attempt to crack the easiest
+passwords first.  All passwords in the input file are between 6 and 8
+characters and can be cracked using words in the provided dictionary
+along with a combination of the transformations above.  The base
+points will be provided if all the passwords which are untransformed
+strings can be cracked.  Fractional credit will be proportional to the
+number of additional passwords cracked, with <i>the student cracking 
+the most extra words getting the full 25 points</i>.</p>
+
+<p>Once you have implemented the function, you should get the following
+behavior at the Python prompt:
+</p>
+<blockquote>
+  <p><tt>
+    &gt;&gt;&gt; <font color="#FF0000">crack_pass_file("passwd","words","out")</font><br>
+    <i>Several minutes pass...</i><br>
+    <font color="#FF0000">Ctrl-C</font><br>
+    Traceback (most recent call last):<br>
+    ...<br>
+    KeyboardInterrupt<br>
+ </tt></p>
+</blockquote>
+
+The file <tt>out</tt> should contain something like the following:
+
+<blockquote>
+  <p><tt>
+  checani=asarta<br>
+  root=...<br>
+  ...=...<br>
+  ...=...<br>
+ </tt></p>
+</blockquote>
+
+<hr size=5 noshade>
+
+</body>
+ 
+</html>

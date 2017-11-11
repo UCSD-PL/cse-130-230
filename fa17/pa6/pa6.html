@@ -1,0 +1,631 @@
+<html>
+<head>
+  <title>CSE 130 : Programming Assignment #6</title>
+  <link rel="stylesheet" type="text/css" href="../styles.css">
+</head>
+<body>
+
+<h1 align="center">CSE 130 - Programming Assignment #6</h1>
+<h2 align="center">Python</h2>
+<h3 align="center">130 points </h3>
+<h3 align="center">
+(see submission instructions <a href="#Submission Guidelines">below</a>)</h3>
+<p align="center"><i>(click your browser's refresh button to ensure that you 
+have the most recent version)</i></p>
+<h3 align="center">(<a href="pa6_faq.html">Programming Assignment #6 FAQ</a>)</h3>
+
+<b>Note:</b>
+To download and install the latest 2.7.x version of Python on your home machines
+see <a href="http://www.python.org/downloads">this page</a>.  Remember
+that this is only to enable you to play with the assignment at home:
+The final version turned in must work on the ACS Linux machines.
+
+While you can use MacOS or Windows to begin working with Python, the
+code you turn in must be that required for the Linux environment.
+
+<hr size=5 noshade>
+<h3 align="center"><b>Code Documentation and General Requirements</b></h3>
+<p>Code for all programming assignments should be <b>well
+documented</b>. A working program with no comments will <b>receive
+only partial credit</b>. Documentation entails providing documentation
+strings for all methods, classes, packages, etc., and comments
+throughout the code to explain the program logic. Comments in Python
+are preceded by <tt>#</tt> and extend to the end of the line.
+Documentation strings are strings in the first line of a function,
+method, etc., and are accessible using <tt>help(foo)</tt>, where foo
+is the name of the method, class, etc.  It is understood that some of
+the exercises in this programming assignment require extremely little
+code and will not require extensive comments.
+
+<p>While few programming assignments pretend to mimic the &quot;real&quot;
+world, they may, nevertheless, contain some of the ambiguity that exists
+outside the classroom. If, for example, an assignment is amenable to
+differing interpretations, such that more than one algorithm may implement
+a correct solution to the assignment, it is incumbent upon the
+programmer to document not only the functionality of the algorithm (and
+more broadly his/her interpretation of the program requirements), but to
+articulate <b>clearly</b> the reasoning behind a particular choice of
+solution.</p>
+
+
+<hr size=5 noshade>
+<h3 align="center">Assignment Overview</h3>
+
+<p>The objective of this assignment is to introduce you to some more
+advanced features of Python.  This assignment will cover topics from
+classes and OOP to higher order functions and the decorator pattern.
+</p>
+
+The assignment is spread over four python files
+<a href="misc.py">misc.py</a>,
+ <a href="vector.py">vector.py</a>,
+<a href="decorators.py">decorators.py</a>, and
+<a href="test.py">test.py</a>, the text files,
+and the sample output file <a href="decorators.out">decorators.out</a> 
+that you need to download.
+
+These files contain several skeleton Python functions and
+classes, with missing bodies or missing definitions, which currently
+contain the text <code> raise Failure("to be written")</code> or are
+present only as comments.
+
+Your task is to replace the text in those files with the the
+appropriate Python code for each of those expressions.  An emphasis
+should be placed on writing concise easy to read code.
+
+
+<hr size=5 noshade>
+<h3 align="center">Assignment Testing and Evaluation</h3>
+<p>Your functions/programs <b>must</b> compile and/or run on a <b>Linux</b> ACS machine (e.g. <tt>ieng6.ucsd.edu</tt>), 
+  as this is where the verification of your solutions will occur. While 
+  you may develop your code on any system, ensure that your code runs as 
+  expected on an ACS machine prior to submission.
+    You should test your code in the directories from 
+  which the zip files (see below) will be created, as this will approximate the 
+  environment used for grading the assignment.</p>
+
+  <p>Most of the points, except those for comments and style, will be <b>awarded 
+  automatically, by evaluating your functions against a given test suite</b>. 
+  The file, <tt> test.py </tt> contains a very small suite of tests which 
+  gives you a flavor of these tests. At any stage, by typing at the UNIX
+  shell : <br>
+  <blockquote>
+    <code> python < test.py | grep "130>>" > log </code>
+  </blockquote>
+    you will get a report on how your code stacks up against the simple
+    tests. 
+    </p>
+  <p> The last (or near the bottom) line of the file <tt>log</tt> <b> must contain the word
+    "Compiled" otherwise you get a zero for the whole assignment</b>.
+  If for some problem, you cannot get the code to compile, leave it as is with the 
+  <tt>raise ...</tt>, with your partial solution enclosed below as a comment.
+  <b> There will be no exceptions to this rule</b>.
+  The second last line of the log file will contain your overall score, and the 
+  other lines will give you a readout for each test.
+  You are encouraged to try to understand the code in <tt>test.py</tt>, and
+  subsequently devise your own tests and add them to <tt>test.py</tt>, but
+  you will not be graded on this.
+</p>
+  <p>Alternately, inside the Python shell, type (user input is in <font color="#FF000">red</font>):
+    <blockquote>
+      <code> &gt;&gt;&gt; <font color="#FF0000"> import test </font><br>
+	.<br>
+	.<br>
+	.<br>
+	130&gt;&gt; Results: ...<br>
+	130&gt;&gt; Compiled</code>
+      </blockquote>
+      and it should print a pair of integers, reflecting your score and
+      the max possible score on the sample tests. If instead an error
+      message appears, your code will receive a zero.
+      </p>
+<br>
+<hr size=5 noshade>
+
+<a name="Submission Guidelines"></a>
+<h3 align="center">Submission Instructions</h3>
+  
+<h3>1. Create the zip file for submission</h3>
+<blockquote>
+  <p>Your solutions to this assignment will be stored in separate 
+  files under a directory called <tt>pa6_solution/</tt>, inside which you will 
+  place the files: 
+  <tt> misc.py, vector.py, decorators.py </tt>. 
+  These three files listed are the versions of the 
+  corresponding supplied files that you will have modified.
+  There should be <b>no other files in the directory</b>.</p>
+  
+  <p>After creating and populating the directory as described above,
+  create a zip file called 
+  <tt>&lt;LastName&gt;_&lt;FirstName&gt;_cse130_pa6.zip</tt> by going into 
+  the directory <tt>pa6_solution</tt> and executing
+  the UNIX shell command: <br> 
+  <blockquote>
+    <tt> zip &lt;LastName&gt;_&lt;FirstName&gt;_cse130_pa6.zip *</tt>
+  </blockquote>
+</blockquote>
+
+<h3>2. Test the zip file to check for its validity</h3>
+<blockquote>
+  <p>Once you've created the zip file with your solutions, you will
+  use the <tt> validate_pa6</tt> program to see whether your zip
+  file's structure is well-formed to be inspected by our grading
+  system by executing the UNIX shell command: <br>
+  <blockquote><tt>
+    validate_pa6 &lt;LastName&gt;_&lt;FirstName&gt;_cse130_pa6.zip
+  </tt></blockquote>
+  The <tt>validate_pa6</tt> program will output <tt>OK</tt> if your
+  zip file is well-formed and your solution is compiled. 
+  Otherwise, it will output some error
+  messages. Before going to step 3, make sure that your zip file
+  passes <tt>validate_pa6</tt> program. <b>Otherwise 
+  you get a zero for the whole assignment.</b>
+  If you have any trouble with
+  this, refer to the instructions in step 1.
+</blockquote>
+  
+<h3>3. Submit the zip file via the <tt>turnin_pa6</tt> program</h3>
+<blockquote>
+  <p>Once you've created the zip file with your solutions,
+  you will use the <tt>turnin</tt> program to submit
+  this file for grading by going into the directory <tt>pa6_solution/</tt> 
+  and executing the UNIX shell command: <br>
+  <blockquote><tt> turnin_pa6 
+      &lt;LastName&gt;_&lt;FirstName&gt;_cse130_pa6.zip </tt>
+  </blockquote>
+    </p>
+  <p>
+  The <tt>turnin_pa6</tt> program will provide you with a confirmation of the
+  submission process; make sure that the size of the file indicated by
+  <tt>turnin_pa6</tt> matches the size of your zip file. Note that you may submit multiple times, but your latest submission overwrites previous submissions, and will be the ONLY one we grade. If you submit before the assignment deadline, and again afterwards, we will count it as if you only submitted after the deadline. </p>
+</blockquote>
+
+
+<hr size=5 noshade>
+
+<a name="Hints"></a>
+<h3 align="center">Hints</h3>
+
+May of the questions in this assignment use more advanced features of
+Python.  You may find the following links useful.
+
+<p><b>Useful Links</b></p>
+
+<ul>
+<li><a href="http://docs.python.org/2/library">Python Library Reference</a></li>
+<li><a href="http://docs.python.org/2/reference">Python Language Reference</a></li>
+</ul>
+
+<p><b>Defining Classes</b></p>
+
+All classes used in this assignment should be <a
+href="https://docs.python.org/2/reference/datamodel.html#new-style-and-classic-classes">new-style</a> Python
+classes which have either <code>object</code> as a base class or only
+other new-style classes as base classes.
+
+<blockquote>
+<code>
+<pre>
+class foo(object):
+    pass
+
+class bar(foo):
+    pass
+</pre>
+</code>
+</blockquote>
+
+<p><b>Quirks / Features of Python</b></p>
+
+<ul>
+<li><tt>None</tt> doesn't print a line when it is the return value</li>
+<li><tt>None, 0</tt>, and <tt>[]</tt> all evaluate to false when used as a predicate.</li>
+<li>Many objects can be iterated over with <tt>for</tt> loops, not just lists (you'll be defining many such objects).</li>
+</ul>
+
+<hr size=10 noshade>
+
+<h2>Problem #0: Documentation</h2> 
+
+None of the functions in this assignment are documented (except the
+Failure exception).  You are expected to document all modules (.py
+files), all classes, and all public functions with doc strings.  Doc
+strings should describe the behavior of the function/class/module.
+For example:
+<blockquote>
+ "The function prod takes two integers and returns their product".
+</blockquote>
+If the implementation is not straightforward and obvious,
+there should be comments.  For example:
+<blockquote>
+<code># prod is implemented using a FFT to get O(n log n) time</code>
+</blockquote>
+
+Once documented you should get the following behavior at the Python prompt:
+</p>
+<blockquote>
+  <p><tt>
+    &gt;&gt;&gt; <font color="#FF0000">import misc</font></br>
+    &gt;&gt;&gt; <font color="#FF0000">import decorators</font></br>
+    <!-- &gt;&gt;&gt; <font color="#FF0000">import streams</font></br> -->
+    &gt;&gt;&gt; <font color="#FF0000">help(misc)</font><br>
+    <i>Screen full of documentation with all your doc strings</i><br>
+    &gt;&gt;&gt; <font color="#FF0000">help(decorators)</font><br>
+    <i>Screen full of documentation with all your doc strings</i><br>
+    <!-- &gt;&gt;&gt; <font color="#FF0000">help(streams)</font><br> -->
+    <!-- <i>Screen full of documentation with all your doc strings</i><br> -->
+ </tt></p>
+</blockquote>
+
+<hr size=5 noshade>
+<h2>Problem #1: Vector class </a>
+<tt> (vector.py) </tt>
+</h2>
+
+The Vector class that you will implement will be a fixed length vector
+which implements a variety of operations.
+
+<h3>(a)<b> 10 points </b></h3>
+<p>
+Add a constructor to the <code>Vector</code> class.  The constructor
+should take a single argument.  If this argument is either an int or a
+long or an instance of a class derived from one of these, then
+consider this argument to be the length of the <code>Vector</code>.
+In this case, construct a <code>Vector</code> of the specified length
+with each element is initialized to 0.0.  If the length is negative,
+raise a <code>ValueError</code> with an appropriate message.  If the
+argument is not considered to be the length, then if the argument is a
+sequence (such as a list), then initialize with vector with the length
+and values of the given sequence.  If the argument is not used as the
+length of the vector and if it is not a sequence, then raise a
+<code>TypeError</code> with an appropriate message.</p>
+
+Next implement the <code>__repr__</code> method to return a string of
+python code which could be used to initialize the <code>Vector</code>.
+This string of code should consist of the name of the class followed
+by an open parenthesis followed by the contents of the vector
+represented as a list followed by a close parenthisis.
+
+Once you have implemented the function, you should get the following
+behavior at the Python prompt:
+</p>
+<blockquote>
+  <p><tt>
+    &gt;&gt;&gt; <font color="#FF0000">from vector import *</font><br>
+    &gt;&gt;&gt; <font color="#FF0000">Vector(3)</font><br> 
+    Vector([0.0, 0.0, 0.0])<br>
+    &gt;&gt;&gt; <font color="#FF0000">Vector(3L)</font><br> 
+    Vector([0.0, 0.0, 0.0])<br>
+    &gt;&gt;&gt; <font color="#FF0000">Vector([4.5, "foo", 0])</font><br>
+    Vector([4.5, 'foo', 0])<br>
+    &gt;&gt;&gt; <font color="#FF0000">Vector(0)</font><br> 
+    Vector([])<br>
+    &gt;&gt;&gt; <font color="#FF0000">Vector(-4)</font><br> 
+    Traceback (most recent call last):<br>
+    &nbsp;&nbsp;File "&lt;stdin&gt;", line 1, in ?<br>
+    &nbsp;&nbsp;File "vector.py", line 14, in __init__<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;raise ValueError("Vector length cannot be negative")<br>
+    ValueError: Vector length cannot be negative<br>
+ </tt></p>
+</blockquote>
+
+<h3>(b)<b> 10 points </b></h3>
+
+<p>
+Implement the functions <code>__len__</code> and <code>__iter__</code>
+in <code>Vector</code>.  The function <code>__len__</code> should
+return the length of the <vector>Vector</vector>.  The function
+<code>__iter__</code> should return an object that can iterate over
+the elements of the <code>Vector</code>.  This is most easily done
+using <code><a href="https://wiki.python.org/moin/Generators">yield()</a></code>.  See <a
+href="https://docs.python.org/2/reference/datamodel.html#emulating-container-types">here</a> for
+more information.
+</p>
+
+Once you have implemented the function, you should get the following
+behavior at the Python prompt:
+</p>
+<blockquote>
+  <p><tt>
+    &gt;&gt;&gt; <font color="#FF0000">from vector import *</font><br>
+    &gt;&gt;&gt; <font color="#FF0000">[x*2 for x in Vector([3,3.25,"foo"])]</font><br> 
+    [6, 6.5, 'foofoo']<br>
+    &gt;&gt;&gt; <font color="#FF0000">len(Vector(23))</font><br>
+    23<br>
+ </tt></p>
+</blockquote>
+
+<h3>(c)<b> 10 points </b></h3>
+
+<p>
+Implement the + and += operators for <code>Vector</code>.  The other
+argument to + and the second argument to += can be any sequence of the
+same length as the <code>vector</code>.  All of these should implement
+component-wise addition.  See <a
+href="https://docs.python.org/2/reference/datamodel.html#emulating-numeric-types">here</a> for more
+information on how to implement these operators.  Other arithmetic
+operators are implemented in a similar way, however it is not
+required for this assignment.
+</p>
+
+Once you have implemented the function, you should get the following
+behavior at the Python prompt:
+</p>
+<blockquote>
+  <p><tt>
+    &gt;&gt;&gt; <font color="#FF0000">from vector import *</font><br>
+    &gt;&gt;&gt; <font color="#FF0000">Vector([6,8,2])+Vector([4,-3,2])</font><br>
+    Vector([10, 5, 4])<br>
+    &gt;&gt;&gt; <font color="#FF0000">Vector([6,8,2])+[4,-3,2]</font><br>
+    Vector([10, 5, 4])<br>
+    &gt;&gt;&gt; <font color="#FF0000">(6,8,2)+Vector([4,-3,2])</font><br>
+    Vector([10, 5, 4])<br>
+    &gt;&gt;&gt; <font color="#FF0000">v=Vector(["f","b"])</font><br>
+    &gt;&gt;&gt; <font color="#FF0000">v+=("oo","oo")</font><br>
+    &gt;&gt;&gt; <font color="#FF0000">v</font><br>
+    Vector(['foo', 'boo'])<br>
+ </tt></p>
+</blockquote>
+
+<h3>(d)<b> 10 points </b></h3>
+
+<p>
+Add the method <code>dot</code> which takes either a
+<code>Vector</code> or a sequence and returns the dot product of the
+argument with current <code>Vector</code> instance.  The dot product
+is defined as the sum of the component-wise products.  The behavior of
+this function if any elements are not numeric is undefined.
+</p>
+
+Once you have implemented the function, you should get the following
+behavior at the Python prompt:
+</p>
+<blockquote>
+  <p><tt>
+    &gt;&gt;&gt; <font color="#FF0000">from vector import *</font><br>
+    &gt;&gt;&gt; <font color="#FF0000">Vector([6,8,2]).dot(Vector([4,-3,2]))</font><br>
+    4<br>
+    &gt;&gt;&gt; <font color="#FF0000">Vector([6,8,2]).dot([4,-3,2])</font><br>
+    4<br>
+ </tt></p>
+</blockquote>
+
+<h3>(e)<b> 10 points </b></h3>
+
+<p>
+Implement the <code>__getitem__</code> and <code>__setitem__</code>
+methods to allow element level access to the <code>Vector</code>.
+Indexing should be 0 based (as in C).  If the index is negative, it
+should translate to the length of the <code>Vector</code> plus the
+index.  Thus, index -1 is the last element.  If the index is out of
+range, your implementation should raise an <code>IndexError</code>
+with an appropriate message.  This behavior should be identical to
+that of a list.  These methods should preserve the length of the
+<code>Vector</code>.
+</p>
+
+Once you have implemented the function, you should get the following
+behavior at the Python prompt:
+</p>
+<blockquote>
+  <p><tt>
+    &gt;&gt;&gt; <font color="#FF0000">from vector import *</font><br>
+    &gt;&gt;&gt; <font color="#FF0000">v=Vector(7)</font><br>
+    &gt;&gt;&gt; <font color="#FF0000">v[4]</font><br>
+    0.0<br>
+    &gt;&gt;&gt; <font color="#FF0000">v[4]="foo"</font><br>
+    &gt;&gt;&gt; <font color="#FF0000">v[4]</font><br>
+    'foo'<br>
+    &gt;&gt;&gt; <font color="#FF0000">v</font><br>    
+    Vector([0.0, 0.0, 0.0, 0.0, 'foo', 0.0, 0.0])<br>
+ </tt></p>
+</blockquote>
+
+<h3>(f)<b> 10 points </b></h3>
+
+<p>
+Extend your implementation of <code>__getitem__</code> and
+<code>__setitem__</code> methods to allow <a
+href="https://docs.python.org/2/reference/datamodel.html#additional-methods-for-emulation-of-sequence-types">slice</a> level
+access to the <code>Vector</code>.  These methods should preserve the
+length of the <code>Vector</code>.  If an assignment to a slice would
+change the length of the vector, raise a <code>ValueError</code>
+exception.  The semantics otherwise should mimic those of <code>list</code>.
+</p>
+
+Once you have implemented the function, you should get the following
+behavior at the Python prompt:
+</p>
+<blockquote>
+  <p><tt>
+    &gt;&gt;&gt; <font color="#FF0000">from vector import *</font><br>
+    &gt;&gt;&gt; <font color="#FF0000">v=Vector(7)</font><br>
+    &gt;&gt;&gt; <font color="#FF0000">v[2:4]=[4,4]</font><br>
+    &gt;&gt;&gt; <font color="#FF0000">v</font><br>
+    Vector([0.0, 0.0, 4, 4, 0.0, 0.0, 0.0])<br>
+    &gt;&gt;&gt; <font color="#FF0000">v[6:2:-3]=[-1,-2]</font><br>
+    &gt;&gt;&gt; <font color="#FF0000">v</font><br>
+    Vector([0.0, 0.0, 4, -2, 0.0, 0.0, -1])<br>
+ </tt></p>
+</blockquote>
+
+<h3>(g)<b> 10 points </b></h3>
+
+<p>
+Implement comparison functions for <code>Vectors</code>.  Two vectors
+should be considered equal if each element in the first
+<code>Vector</code> is equal to the respective element in the second
+<code>Vector</code>.  A <code>Vector</code>, a, should be considered
+greater than a <code>Vector</code>, b, if the largest element of a is
+greater than the largest element of b.  If the largest elements of
+both are equal, then compare the second-largest elements, and so
+forth.  If every pair compared in this fashion is equal, then a should
+not be considered greater than b, but a should be considered greater
+than or equal to b. Note that  if a is greater than b, then a is also greater than or equal to b.  If a is greater than b, then b is less than a.
+This is a nonstandard method for comparing vectors, and for a pair of
+vectors v and w, v&gt;=w does not imply that v&gt;w or v==w.  When a
+<code>Vector</code> is compared to something that isn't a
+<code>Vector</code>, they should never be equal. You can assume that a Vector will never be compared with something that is not a Vector for any comparison operators other than "==", "!=". (i.e. you don't need to handle non-vectors when you implement &lt, &gt, &lt=, &gt=).
+
+You can also assume that vectors will not be compared with a Vector of a different length.
+</p>
+
+Once you have implemented the function, you should get the following
+behavior at the Python prompt:
+</p>
+<blockquote>
+  <p><tt>
+    &gt;&gt;&gt; <font color="#FF0000">from vector import *</font><br>
+    &gt;&gt;&gt; <font color="#FF0000">a=Vector([1,3,5])</font><br>
+    &gt;&gt;&gt; <font color="#FF0000">b=Vector([5,1,3])</font><br>
+    &gt;&gt;&gt; <font color="#FF0000">c=Vector([4,5,4])</font><br>
+    &gt;&gt;&gt; <font color="#FF0000">a&lt;b</font><br>
+    False<br>
+    &gt;&gt;&gt; <font color="#FF0000">a&gt;b</font><br>
+    False<br>
+    &gt;&gt;&gt; <font color="#FF0000">a&gt;=b</font><br>
+    True<br>
+    &gt;&gt;&gt; <font color="#FF0000">a&gt;c</font><br>
+    False<br>
+    &gt;&gt;&gt; <font color="#FF0000">a&lt;c</font><br>
+    True<br>
+    &gt;&gt;&gt; <font color="#FF0000">a&gt;=c</font><br>
+    False<br>
+    &gt;&gt;&gt; <font color="#FF0000">a&lt;=c</font><br>
+    True<br>
+    &gt;&gt;&gt; <font color="#FF0000">a==c</font><br>
+    False<br>
+    &gt;&gt;&gt; <font color="#FF0000">a==a</font><br>
+    True<br>
+    &gt;&gt;&gt; <font color="#FF0000">a!=c</font><br>
+    True<br>
+    &gt;&gt;&gt; <font color="#FF0000">a!=[1,3,5]</font><br>
+    True<br>
+ </tt></p>
+</blockquote>
+
+
+
+<hr size=5 noshade>
+<h2>Problem #2: Decorators <tt>(decorators.py)</tt></h2>
+
+Here are some links on <tt>*args</tt> and <tt>**args</tt>
+<a href="http://www.saltycrane.com/blog/2008/01/how-to-use-args-and-kwargs-in-python/">tutorial</a>,
+<a href="https://docs.python.org/2/tutorial/controlflow.html#arbitrary-argument-lists">python 
+manual</a>.
+
+In the file <code>decorators.py</code> there is an example decorator,
+<code>profiled</code> and stub code for decorators that you will be
+writing.  At the bottom of the file are many examples of decorated
+functions.  The expected output for these functions is available here:
+<a href="decorators.out">decorators.out</a>.
+
+<h3>(a)<b> 30 points </b></h3>
+
+Complete the definition for the decorator <code>traced</code>.  When
+the decorated function is called, the decorator should print out an
+ASCII art tree of the recursive calls and their return values.  The
+format of the tree should be as follows:
+
+<ol>
+
+<li>Print a pipe symbol followed by a space ("<code>| </code>") for every level of
+nested function calls.
+
+<li>Print a comma then a minus sign then a space ("<code>,- </code>") next.
+
+<li>Print the name of the function being traced followed by an open
+parenthesis followed by the <code>repr()</code> of all of the
+arguments.  Arguments should be seperated by a comma followed by a
+space ("<code>, </code>").  After the normal arguments, print all the
+keyword arguments in the form keyword then equals sign then
+<code>repr()</code> of the value of the keyword argument.  The keyword
+arguments should also be seperated by a comma followed by a space.
+Keyword arguments should be printed in the order returnd by
+<code>dict.items()</code>.
+
+<li>Next increase the nesting level and call the function itself.
+
+<li>At the original nesting level, print a pipe symbol followed by a
+space ("<code>| </code>") for every level of nested function calls.
+
+<li>Print a backquote then a minus sign then a space("<code>`- </code>").
+
+<li>Finally, print the <code>repr()</code> of the return value.
+
+</ol>
+
+The return value of the function should be return to the caller after
+all printing is complete.  If an exception occurs in the funciton, the
+nesting level must be adjusted to the appropriate level where the
+exception is caught.  See <code>change</code> for an example.
+</p>
+
+Once you have implemented the function, you should get the following
+behavior at the Python prompt:
+</p>
+<blockquote>
+  <p><tt>
+    &gt;&gt;&gt; <font color="#FF0000">from decorators import *</font><br>
+    &gt;&gt;&gt; <font color="#FF0000">@traced</font><br>
+    &gt;&gt;&gt; <font color="#FF0000">def foo(a,b):</font><br>
+    ...&nbsp;&nbsp;&nbsp;&nbsp;<font color="#FF0000">if a==0: return b</font><br>
+    ...&nbsp;&nbsp;&nbsp;&nbsp;<font color="#FF0000">return foo(b=a-1,a=b-1)</font><br>
+    ...<br>
+    &gt;&gt;&gt; <font color="#FF0000">foo(4,5)</font>
+<pre>
+,- foo(4, 5)
+| ,- foo(a=4, b=3)
+| | ,- foo(a=2, b=3)
+| | | ,- foo(a=2, b=1)
+| | | | ,- foo(a=0, b=1)
+| | | | `- 1
+| | | `- 1
+| | `- 1
+| `- 1
+`- 1
+1
+</pre>
+ </tt></p>
+</blockquote>
+
+<h3>(b)<b> 30 points </b></h3>
+
+<p>
+Complete the definition of the <code>memoized</code> decorator.  When
+the decorated function is called, the decorator should check to see if
+the function has already been called with the given arguments.  If so,
+the decorator should return the value the the function returned when
+it was last called with the given arguments.  If the function last
+threw an exception when called with the given arguments, the same
+exception should be thrown again.  If the function has not been called
+with the given arguments, then call it and record the return value or
+exception.  Then return the return value or raise the thrown
+exception.
+</p>
+
+Once you have implemented the function, you should get the following
+behavior at the Python prompt:
+</p>
+<blockquote>
+  <p><tt>
+    &gt;&gt;&gt; <font color="#FF0000">from decorators import *</font><br>
+    &gt;&gt;&gt; <font color="#FF0000">from time import sleep</font><br>
+    &gt;&gt;&gt; <font color="#FF0000">@memoized</font><br>
+    &gt;&gt;&gt; <font color="#FF0000">def foo(a):</font><br>
+    ...&nbsp;&nbsp;&nbsp;&nbsp;<font color="#FF0000">sleep(a)</font><br>
+    ...&nbsp;&nbsp;&nbsp;&nbsp;<font color="#FF0000">return a</font><br>
+    ...<br>
+    &gt;&gt;&gt; <font color="#FF0000">foo(5)</font><br>
+    <i># 5 second pause</i><br>
+    5<br>
+    &gt;&gt;&gt; <font color="#FF0000">foo(5)</font><br>
+    <i># practically instantaneous</i><br>
+    5<br>
+ </tt></p>
+</blockquote>
+
+<hr size=5 noshade>
+
+</body>
+</html>
