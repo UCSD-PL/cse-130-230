@@ -1,0 +1,354 @@
+<html>
+<head>
+  <title>CSE 130 : Programming Assignment #7</title>
+  <link rel="stylesheet" type="text/css" href="../styles.css">
+</head>
+<body>
+
+<h1 align="center">CSE 130 - Programming Assignment #7</h1>
+<h2 align="center">Prolog</h2>
+<h3 align="center">100 points</h3>
+<h3 align="center">
+(see submission instructions <a href="#Submission Guidelines">below</a>)</h3>
+<p align="center"><i>(click your browser's refresh button to ensure that you 
+have the most recent version)</i></p>
+<h3 align="center">(<a href="pa7_faq.html">Programming Assignment #7 FAQ</a>)</h3>
+
+<b>Note:</b>
+To download and install SWI-Prolog on your home machines see
+<a href="http://www.swi-prolog.org/">this page</a>.
+Remember that this is only to enable you to play with the assignment
+at home: The final version turned in must work on the ACS Linux
+machines. While you can use Windows to begin working with Prolog, 
+the code you turn in must be that required for the ACS Linux environment.
+
+<hr size=5 noshade>
+<h3 align="center"><b>Code Documentation and General Requirements</b></h3>
+<p>Code for all programming assignments should be <b>well
+documented</b>. A working program with no comments will <b>receive
+only partial credit</b>. Documentation entails writing a description
+of each predicate as well as comments throughout
+the code to explain  the program logic. Comments in Prolog begin
+with a percent sign (%) and are terminated by a newline/carriage return. It is
+understood that some of the exercises in this programming assignment
+require extremely little code and will not require extensive comments.
+Nevertheless, comments describing recursions and helper predicates are
+required.</p>
+
+<p>While few programming assignments pretend to mimic the &quot;real&quot;
+world, they may, nevertheless, contain some of the ambiguity that exists
+outside the classroom. If, for example, an assignment is amenable to
+differing interpretations, such that more than one algorithm may implement
+a <b> correct</b> solution to the assignment, it is incumbent upon the
+programmer to document not only the functionality of the algorithm (and
+more broadly his/her interpretation of the program requirements), but to
+articulate <b>clearly</b> the reasoning behind a particular choice of
+solution.</p>
+
+<hr size=5 noshade>
+<h3 align="center">Assignment Overview</h3>
+<p>The overall objective of this assignment is for you to gain some
+hands-on experience with problem solving using Prolog, using simple facts and rules,
+recursion, and database handling capabilities of the language. 
+</p>
+
+<p>
+It is a good idea to start this assignment early; Prolog programming, while
+not inherently difficult, often seem somewhat foreign at first,
+particularly when it comes to recursion and list manipulation.</p>
+
+<p> So as not to make the code overly long, it is not required that you deal
+with user errors: you can assume that the user always types valid commands (e.g., 
+if a predicate is supposed to take an atom as argument, you do not have to check
+whether the argument is instead a list and throw an error). Note
+that the Prolog interpreter catches a good number of user errors anyway.</p>
+
+<a name="Submission Guidelines"></a>
+<hr size=5 noshade>
+<h3 align="center">Submission Guidelines/Instructions</h3>
+<h3>1. Testing</h3>
+<blockquote>
+  <p>Your functions/programs <b>must</b> compile and/or run on a <b>UNIX</b> ACS machine, 
+  as this is where the verification of your solutions will occur. While 
+  you may develop your code on any system, ensure that your code runs as 
+  expected on an ACS machine prior to submission. Code which does not 
+  compile and/or produce the desired results on the testing machine will receive 
+  little or no credit. You should test your code in the directories from 
+  which the tar file (see below) will be created, as this will approximate the 
+  environment used for grading the assignment.</p>
+</blockquote>
+
+<h3>2. Submitting the program via the <tt>turnin_pa7</tt> program</h3>
+  <p>You will turn in your solution, by filling in the template file: 
+  <a href="misc.pl">misc.pl</a>.
+<blockquote>
+  This file is submitted using turnin as follows:
+  <blockquote>
+    <p><tt>turnin_pa7 misc.pl</tt></p>
+  </blockquote>
+  <p>
+  The <tt>turnin_pa7</tt> program will provide you with a confirmation of the
+  submission process; make sure that the size of the file indicated by
+  <tt>turnin_pa7</tt> matches the size of your file. Note that you may submit multiple times, but your latest submission overwrites previous submissions, and will be the ONLY one we grade. If you submit before the assignment deadline, and again afterwards, we will count it as if you only submitted after the deadline. </p>
+</blockquote>
+<b>General Hint:</b>
+<ul>
+  <li> you may use built-in functions <tt>append, reverse, bagof</tt> judiciously
+</ul>
+
+<h2>Problem #0 - Lists </h2>
+
+The skeleton file provides several useful list functions (<tt>isin, zip, assoc,
+remove_duplicates, union, intersection</tt>) that you may use in the next problem
+if you wish. Although these functions have been defined for you, make sure you
+understand how they work.
+
+<h2>Problem #1 - Taqueria Database </h2>
+Prolog can be used as a sophisticated database system in which data is
+stored in the form of structured predicates. In this problem we consider a
+database of taquerias that sell various items, for a variety of budgets and
+palates. First, we have a set of facts that encode the price of different
+ingredients. For example, the first fact stipulates that a serving of carne
+asada costs 3 dollars (this is high-quality, organic, grass-fed beef).
+
+<pre><code>
+cost(carne_asada,3).
+cost(lengua,2).
+cost(birria,2).
+cost(carnitas,2).
+cost(adobado,2).
+cost(al_pastor,2).
+cost(guacamole,1).
+cost(rice,1).
+cost(beans,1).
+cost(salsa,1).
+cost(cheese,1).
+cost(sour_cream,1).
+cost(taco,1).
+cost(tortilla,1).
+cost(sopa,1).
+</code></pre>
+
+Next, we have a list of menu items, and for each item, we have a fact that
+tells us which ingredients go into the item. For example, the carnitas
+taco, is a tasty snack comprising carnitas, salsa and guacamole, generously
+stuffed into a fresh taco.
+
+<pre><code>
+ingredients(carnitas_taco, [taco,carnitas, salsa, guacamole]).
+ingredients(birria_taco, [taco,birria, salsa, guacamole]).
+ingredients(al_pastor_taco, [taco,al_pastor, salsa, guacamole, cheese]).
+ingredients(guacamole_taco, [taco,guacamole, salsa,sour_cream]).
+ingredients(al_pastor_burrito, [tortilla,al_pastor, salsa]).
+ingredients(carne_asada_burrito, [tortilla,carne_asada, guacamole, rice, beans]).
+ingredients(adobado_burrito, [tortilla,adobado, guacamole, rice, beans]).
+ingredients(carnitas_sopa, [sopa,carnitas, guacamole, salsa,sour_cream]).
+ingredients(lengua_sopa, [sopa,lengua,beans,sour_cream]).
+ingredients(combo_plate, [al_pastor, carne_asada,rice, tortilla, beans, salsa, guacamole, cheese]).
+ingredients(adobado_plate, [adobado, guacamole, rice, tortilla, beans, cheese]).
+</code></pre>
+
+Finally, we the database has a set of facts specifying the different
+taqueries, and for each taqueria, the list of employees, and the list of
+comestibles available for purchase at the taqueria.
+
+<code><pre>
+taqueria(el_cuervo, [ana,juan,maria], 
+        [carnitas_taco, combo_plate, al_pastor_taco, carne_asada_burrito]).
+
+taqueria(la_posta, 
+        [victor,maria,carla], [birria_taco, adobado_burrito, carnitas_sopa, combo_plate, adobado_plate]).
+
+taqueria(robertos, [hector,carlos,miguel],
+        [adobado_plate, guacamole_taco, al_pastor_burrito, carnitas_taco, carne_asada_burrito]).
+
+taqueria(la_milpas_quatros, [jiminez, martin, antonio, miguel],  
+        [lengua_sopa, adobado_plate, combo_plate]).
+</pre></code>
+
+<p>
+The first store has three employees and sells four different items, the
+second store has three employees and sells five different items, and so on.
+You can assume that there are no duplicates (<tt>carnitas</tt> is not 
+listed twice in any ingredient list, <tt>maria</tt> is not listed twice 
+in any employee list, the same menu item is is not listed twice in any 
+store menu, etc.).  Given a database of facts, the questions below 
+have you write predicates that implement queries to the database.</p> 
+
+<h3>(a) available_at <b> (5 Points) </b></h3>
+<p>
+Write a Prolog predicate <tt>available_at(X,Y)</tt> that 
+is true if the item <tt>X</tt> is available at the taqueria <tt>Y</tt>.
+When you are done, you should get the following behavior:</p>
+<blockquote>
+<tt>
+<p>?- <font color="#FF0000">available_at(lengua_sopa,el_cuervo).</font><br>
+false <br>
+
+<p>?- <font color="#FF0000">available_at(X,Y).</font><br>
+X = carnitas_taco,<br/>
+Y = el_cuervo <font color="#FF0000">;</font> <br>
+X = combo_plate,<br/>
+Y = el_cuervo <font color="#FF0000">;</font> <br>
+X = al_pastor_taco,<br/>
+Y = el_cuervo <font color="#FF0000">;</font> <br>
+X = carne_asada_burrito,<br/>
+Y = el_cuervo <font color="#FF0000">;</font> <br>
+X = birria_taco,<br/>
+Y = la_posta <font color="#FF0000">;</font> <br>
+X = adobado_burrito,<br/>
+Y = la_posta <font color="#FF0000">;</font> <br>
+X = carnitas_sopa,<br/>
+Y = la_posta <font color="#FF0000">;</font> <br>
+X = combo_plate,<br/>
+Y = la_posta <font color="#FF0000">;</font> <br>
+X = adobado_plate,<br/>
+Y = la_posta <font color="#FF0000">;</font> <br>
+X = adobado_plate,<br/>
+Y = robertos <font color="#FF0000">;</font> <br>
+X = guacamole_taco,<br/>
+Y = robertos <font color="#FF0000">;</font> <br>
+X = al_pastor_burrito,<br/>
+Y = robertos <font color="#FF0000">;</font> <br>
+X = carnitas_taco,<br/>
+Y = robertos <font color="#FF0000">;</font> <br>
+X = carne_asada_burrito,<br/>
+Y = robertos <font color="#FF0000">;</font> <br>
+X = lengua_sopa,<br/>
+Y = la_milpas_quatros <font color="#FF0000">;</font> <br>
+X = adobado_plate,<br/>
+Y = la_milpas_quatros <font color="#FF0000">;</font> <br>
+X = combo_plate,<br/>
+Y = la_milpas_quatros <font color="#FF0000">;</font> <br>
+false.
+</tt>
+</blockquote>
+
+<p>Similarly, if one has a hankering for a carnitas taco, one can query the
+database thus: 
+<blockquote>
+<tt>
+<p>?- <font color="#FF0000">available_at(carnitas_taco,Y).</font><br>
+Y = el_cuervo <font color="#FF0000">;</font> <br>
+Y = robertos <font color="#FF0000">;</font> <br>
+false <br>
+</tt>
+</blockquote>
+
+<h3>(b) multi_available <b> (10 Points) </b></h3>
+<p>Write a Prolog predicate <tt>multi_available(X)</tt> that is true if the
+item <tt>X</tt> is available in more than one place.
+For example:
+<blockquote>
+<tt>
+<p>?- <font color="#FF0000">multi_available(carnitas_taco).</font><br>
+true<br>
+<p>?- <font color="#FF0000">multi_available(lengua_sopa).</font><br>
+false<br>
+<p>?- <font color="#FF0000">multi_available(X).</font><br>
+X = carnitas_taco <font color="#FF0000">;</font><br>
+X = carne_asada_burrito <font color="#FF0000">;</font><br>
+X = adobado_plate <font color="#FF0000">;</font><br>
+X = combo_plate <font color="#FF0000">;</font><br>
+false<br>
+</tt>
+</blockquote>
+
+<h3>(c) overworked <b> (10 Points) </b></h3>
+<p>Write a Prolog predicate <tt>overworked(X)</tt> that is true the person
+<tt> X </tt> works at more than one taqueria. For instance:
+<blockquote>
+<tt>
+<p>?- <font color="#FF0000">overworked(maria).</font><br>
+true<br>
+<p>?- <font color="#FF0000">overworked(carlos).</font><br>
+false<br>
+<p>?- <font color="#FF0000">overworked(X).</font><br>
+X = maria <font color="#FF0000">;</font><br>
+X = miguel <font color="#FF0000">;</font><br>
+false<br>
+</tt>
+</blockquote>
+
+<h3>(d) total_cost <b> (15 Points) </b></h3>
+<p>Write a Prolog predicate <tt>total_cost(X,K)</tt> that is true if the
+sum of the costs of the ingredients of item <tt> X </tt> is equal to 
+<tt> K </tt>. When you are done, you should get the following: 
+<blockquote>
+<tt>
+<p>?- <font color="#FF0000">total_cost(carnitas_taco,3).</font><br>
+false<br>
+<p>?- <font color="#FF0000">total_cost(carnitas_taco,X).</font><br>
+X = 5<br>
+<p>?- <font color="#FF0000">total_cost(X,5).</font><br>
+X = carnitas_taco <font color="#FF0000">;</font><br>
+X = birria_taco <font color="#FF0000">;</font><br>
+X = lengua_sopa <font color="#FF0000">;</font><br>
+false<br>
+</tt>
+</blockquote>
+
+<h3>(e) has_ingredients <b> (20 Points) </b></h3>
+<p>Write a Prolog predicate <tt>has_ingredients(X,L)</tt> that is true if
+the item <tt>X</tt> has all the ingredients listed in <tt> L </tt>.
+When you are done, you should get the following:
+<blockquote>
+<tt>
+<p>?- <font color="#FF0000">has_ingredients(lengua_sopa,[cheese,lengua]).</font><br>
+false<br>
+<p>?- <font color="#FF0000">has_ingredients(X,[salsa,guacamole,cheese]).</font><br>
+X = al_pastor_taco <font color="#FF0000">;</font><br>
+X = combo_plate <font color="#FF0000">;</font><br>
+false<br>
+</tt>
+</blockquote>
+
+<h3>(e) avoids_ingredients <b> (20 Points) </b></h3>
+<p>Write a Prolog predicate <tt>avoids_ingredients(X,L)</tt> that is true if
+the item <tt>X</tt> does not have any of the ingredients listed in <tt> L </tt>.
+When you are done, you should get the following:
+<blockquote>
+<tt>
+<p>?- <font color="#FF0000">avoids_ingredients(lengua_sopa,[cheese,lengua]).</font><br>
+false<br>
+<p>?- <font color="#FF0000">avoids_ingredients(lengua_sopa,[cheese,tortilla]).</font><br>
+true<br>
+<p>?- <font color="#FF0000">avoids_ingredients(X,[guacamole]).</font><br>
+X = al_pastor_burrito <font color="#FF0000">;</font><br>
+X = lengua_sopa <font color="#FF0000">;</font><br>
+false<br>
+<p>?- <font color="#FF0000">avoids_ingredients(X,[salsa,guacamole]).</font><br>
+X = lengua_sopa <font color="#FF0000">;</font><br>
+false<br>
+</tt>
+</blockquote>
+
+<h3>(f) find_items <b> (10 + 10 Points) </b></h3>
+<p>In the given file, we have filled in an implementation for a predicate
+<tt> find_items(L,X,Y) </tt> that is true if <tt> L </tt> is the list of
+<i> all items </i> that contain all the ingredients in <tt> X </tt>  and do
+not contain any of the ingredients in <tt> Y </tt>.
+This predicate is specified using two helper predicates <tt>p1,p2</tt>
+that <i> you must implement</i>, to obtain a complete specification for
+<tt> find_items </tt>.
+When you are done, you should obtain the following results:
+<blockquote>
+<tt>
+<p>?- <font color="#FF0000">find_items(X,[taco,guacamole],[cheese]).</font><br>
+X = [carnitas_taco, birria_taco, guacamole_taco]<br/>
+
+<p>?- <font color="#FF0000">find_items(X,[tortilla],[rice]).</font><br>
+X = [al_pastor_burrito]<br/>
+<p>?- <font color="#FF0000">find_items(X,[],[rice,guacamole]).</font><br>
+X = [al_pastor_burrito, lengua_sopa]<br>
+<p>?- <font color="#FF0000">find_items(X,[rice,guacamole],[salsa]).</font><br>
+X = [carne_asada_burrito, adobado_burrito, adobado_plate]<br>
+<p>?- <font color="#FF0000">find_items(X,[guacamole,cheese,salsa],[]).</font><br>
+X = [al_pastor_taco, combo_plate]<br>
+</tt>
+</blockquote>
+
+
+</body>
+
+</html>
