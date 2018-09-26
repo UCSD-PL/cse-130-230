@@ -1,0 +1,49 @@
+  <HTML><head> 
+  <link rel="stylesheet" type="text/css" href="styles.css">
+  <title>OCaml Howto</title></head>
+<TITLE> </TITLE>
+
+<BODY>
+<BODY BGCOLOR="WHITE"> 
+<br>
+<P>
+<H2> CSE 130: How to run OCaml in the Lab machines</H2> 
+
+<P>
+<HR><P>
+
+<br>
+  Here is a sample session. You need to type "prep cs130f" before you can run ocaml. 
+
+<p>
+<blockquote>
+<tt>
+$ prep cs130f<br>
+<br>
+[you@ieng6...]:~:$ ocaml<br>
+        OCaml version 4.03.0<br>
+<br>
+#
+<br>
+</tt>
+</blockquote>
+
+<p>At the OCaml prompt:
+<ul>
+<li>Enter <tt> #use "foo.ml"; </tt> to "load" the file <tt> foo.ml 
+</tt>. This has the same effect as typing out the file at the prompt, 
+but its usually more convenient to type and edit the file with Vim/Emacs 
+and load it in like this. 
+A more convenient option is the 
+<a href="http://www.smlnj.org/doc/Emacs/sml-mode.html">
+  OCaml-mode for Emacs.</a></li>
+<li>Press "Ctrl-D" to exit OCaml.</li>
+</ul>
+
+You can directly send the file <tt>foo.ml</tt> 
+into OCaml and get the output piped to stdout by typing: <br>
+<blockquote> 
+  <tt>$ ocaml foo.ml </tt>
+</blockquote>
+
+</html>  
