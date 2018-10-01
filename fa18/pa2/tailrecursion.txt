@@ -1,0 +1,93 @@
+
+================================================================================
+Tail Recursion Notes
+
+One potential problem when executing a recursive function is a stack overflow,
+which is something you've probably come across when writing recursive functions
+in other languages like Java or C. The runtime stack is a data structure that
+keeps records of information for every function that is currently executing.
+For example, in C, every program starts executing a main function, and
+main may call a function foo, which may in turn call bar. While bar is executing
+the runtime stack looks like
+
+ |        |
+ |        |
+ |        |
+ |--------|
+ |  bar() |
+ |--------|
+ |  foo() |
+ |--------|
+ | main() |
+ |--------|
+
+At all times, the top of the stack holds information for the function that is
+currently executing, including the function's inputs. When the function
+completes and produces a return value, that function's record is popped off
+the stack and execution resumes where it left off in the previous function.
+Whenever a function is called, a new record for the call is pushed onto the
+stack.
+
+The stack dynamically grows and shrinks during program execution, and since
+memory is finite, it might completely fill up so that execution is unable to
+proceed. Such a stack overflow may be a symptom of an infinite recursion.
+For example, consider the following function that attempts to sum the first n
+integers:
+
+# let rec sum_n_bad n = n + sum_n_bad (n-1);;
+
+Since there's no base case provided, the recursion continues infinitely.
+
+# sum_n_bad 1;;
+Stack overflow during evaluation (looping recursion?).
+
+We can fix this by only recursing when n is positive:
+
+# let rec sum_n n = if n <= 0 then 0 else n + sum_n (n-1);;
+
+This is great, but passing in large values of n result in a stack overflow,
+because the recursion depth becomes too large.
+
+# sum_n 1000000;;
+Stack overflow during evaluation (looping recursion?).
+
+This example shows that, even though we've avoided infinite recursion, there is
+still a limit to how many outstanding recursive calls can be on the stack at
+once.
+
+Tail recursion is a technique that allows a recursive function to use only
+_constant_ amount of space on the stack instead of an amount _linear_ in the
+number of calls. The idea is that if making a recursive call is the last thing
+that a function does before returning its result, then there does not need to be
+a separate stack record for each invocation.
+
+Consider, a tail-recursive implementation of the same function:
+
+# let rec sum_n_tr acc n = if n <= 0 then acc else sum_n_tr (n+acc) (n-1);;
+
+Notice that whenever a recursive call to sum_n_tr for (n-1) returns, that value
+is returned immediately as the return value of sum_n_tr for n. We also use an
+additional parameter called acc (or accumulator) which is used to incrementally
+accumulate the final result that will eventually be returned. So in the
+inductive case, we add n to the running total stored in acc, and when we finally
+get to the base case n <= 0, we simply return the running total that we've
+accumulated in acc.
+
+# sum_n_tr 0 1000000;;
+- : int = -363189984
+
+Awesome, no stack overflow! The result is surprising, however, but that's
+because of an integer overflow, not the recursion depth... :-)
+
+So in general, whenever all recursive calls to a function occur as the final
+result of the function, the function is said to be tail-recursive, and the OCaml 
+compiler is able to perform an optimization that allows the code at runtime to
+only use a _single_ record on the stack frame. Think about why this is possible.
+
+One thing to note is that sum_n is probably more readable and elegant than 
+solution, but sum_n_tr is more efficient (runs faster) and does not run out of
+stack space on large inputs. There is often a tradeoff between simplicity and
+efficiency, but for practical purposes, it is usually preferable to write
+functions as tail-recursive if possible, especially because the resulting
+functions are typically still very readable in OCaml.
+
