@@ -13,7 +13,7 @@
    Build an expression tree.  The second argument is the depth, 
    the first is a random function.  A call to rand(2,5) will give
    you a random number in the range [2,5] 
-   (2 inclusive, and 5 inclusive).
+   (2 inclusive, and 5 exclusive).
 
    Your code should call buildX, buildSine, etc. to construct
    the expression.
@@ -55,7 +55,7 @@ let c3 () = failwith "to be implemented"
    Example:
       let rand = makeRand(10,39) in 
       let x =  rand(1,4) in 
-          (* x is 1,2,3, or 4 *)
+          (* x is 1,2,3 *)
 *)
 
 let makeRand (seed1, seed2) = 
