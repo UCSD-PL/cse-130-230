@@ -12,8 +12,8 @@
 (* build: (int*int->int) * int -> Expr 
    Build an expression tree.  The second argument is the depth, 
    the first is a random function.  A call to rand(2,5) will give
-   you a random number in the range [2,5)  
-   (2 inclusive, and 5 exclusive).
+   you a random number in the range [2,5] 
+   (2 inclusive, and 5 inclusive).
 
    Your code should call buildX, buildSine, etc. to construct
    the expression.
