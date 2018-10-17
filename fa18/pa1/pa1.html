@@ -213,6 +213,8 @@ behavior at the OCaml prompt:
 </p>
 <blockquote>
   <p><tt>
+    # <font color="#FF0000">sumList [];;</font><br>
+    - : int = 0 <br>
     # <font color="#FF0000">sumList [1;2;3;4];;</font><br>
     - : int = 10<br>
     # <font color="#FF0000">sumList [1;-2;3;5];;</font><br>
@@ -281,6 +283,8 @@ Once you have implemented the function, you should get the following
 behavior at the OCaml prompt:</p>
 <blockquote>
   <p><tt>
+    # <font color="#FF0000">listReverse [];;</font><br>
+    - : int list = []<br>
     # <font color="#FF0000">listReverse [1;2;3;4];;</font><br>
     - : int list = [4;3;2;1]<br>
     # <font color="#FF0000">listReverse ["a";"b";"c";"d"];;</font><br>
@@ -303,6 +307,8 @@ behavior at the OCaml prompt:</p>
     - : bool = false<br>
     # <font color="#FF0000">palindrome "myxomatosis";;</font><br>
     - : bool = false<br>
+    # <font color="#FF0000">palindrome "";;</font><br>
+    - : bool = true<br>
  </tt></p>
 </blockquote>
 
