@@ -1,0 +1,874 @@
+<html>
+
+<head>
+  <title>CSE 130 : Programming Assignment #4</title>
+
+  <link rel="stylesheet" type="text/css" href="../styles.css">
+</head>
+
+<body>
+
+<h1 align="center">CSE 130 - Programming Assignment #4</h1>
+<h2 align="center">OCaml</h2>
+<h3 align="center">125 points</h3>
+
+<!--         <h2>Notes and Hints:</h2> -->
+<!--         <a href="../parser_notes/">Lexer and Parser </a>, -->
+<!--         <a href="../interpreter_notes/"> Interpreter </a>. -->
+<!-- <a href="http://plus.kaist.ac.kr/~shoh/ocaml/ocamllex-ocamlyacc/ocamllex-tutorial/">OCamlLex -->
+<!-- Tutorial</a> -->
+<!-- <a href="http://plus.kaist.ac.kr/~shoh/ocaml/ocamllex-ocamlyacc/ocamlyacc-tutorial/">OCamlYacc -->
+<!-- Tutorial</a> -->
+<h3 align="center">
+(see submission instructions <a href="#Submission Guidelines">below</a>)</h3>
+<p align="center"><i>(click your browser's refresh button to ensure that you
+have the most recent version)</i></p>
+<h3 align="center">(<a href="pa4_faq.html">Programming Assignment #4 FAQ</a>)</h3>
+
+<b>Note:</b>
+See <a href="../misc/ocaml/info_ocaml.html"> this </a> for instructions on
+starting OCaml in the ACS lab machines.
+To download and install OCaml version 3.12.0 on your home machines see the
+instructions <a href="http://caml.inria.fr/download.en.html">here</a>.
+Remember that this is only to enable you to play with the assignment
+at home: the final version turned in must work on the ACS Linux machines.
+
+While you can use windows to begin working with OCaml, the code you
+turn in must be that required for the ACS Linux environment.
+<!--
+<hr size=5 noshade>
+<h3 align="center">Integrity of Scholarship</h3>
+<p>University rules on integrity of scholarship will be strictly
+enforced. By completing this assignment, you implicitly agree to
+abide by the UCSD Policy on Integrity of Scholarship described beginning on
+page 68 of the Academic Regulations section (<a
+href="http://infopath-1.ucsd.edu/catalog/pdffiles/0708_UCSD_General_Catalog.pdf">PDF</a>) of the
+2007-2008 General Catalog, in particular, &quot;all academic work will be
+done by the student to whom it is assigned, without unauthorized aid of any
+kind.&quot;</p> <p>You are expected to do your own work on this assignment;
+there are no group projects in this course. You may (and are
+encouraged to) engage in general discussions with your classmates regarding
+the assignment, but specific details of a solution, including the solution
+itself, must always be your own work. Incidents that violate the
+University's rules on integrity of scholarship will be taken seriously:
+In addition to receiving a zero (0) on the assignment, students
+may also face other penalties, up to and including, expulsion from the
+University. Should you have any doubt about the moral and/or ethical
+implications of an activity associated with the completion of this assignment,
+please see the instructors.</p>
+-->
+<hr size=5 noshade>
+<h3 align="center"><b>Code Documentation and General Requirements</b></h3>
+<p>Code for all programming assignments should be <b>well
+documented</b>. A working program with no comments will <b>receive
+only partial credit</b>. Documentation entails writing a description
+of each function/method, class/structure, as well as comments throughout
+the code to explain  the program logic. Comments in OCaml are enclosed
+within (* *), and may be nested.
+It is understood that some of the exercises in this programming assignment
+require extremely little code and will not require extensive comments.
+
+<p>While few programming assignments pretend to mimic the &quot;real&quot;
+world, they may, nevertheless, contain some of the ambiguity that exists
+outside the classroom. If, for example, an assignment is amenable to
+differing interpretations, such that more than one algorithm may implement
+a correct solution to the assignment, it is incumbent upon the
+programmer to document not only the functionality of the algorithm (and
+more broadly his/her interpretation of the program requirements), but to
+articulate <b>clearly</b> the reasoning behind a particular choice of
+solution.</p>
+
+
+<hr size=5 noshade>
+<h3 align="center">Assignment Overview</h3>
+<p>The overall objective of this assignment is to expose you to some
+advanced features of OCaml such as higher-order functions, abstract datatypes
+and modules, as well as to fully understand the notion of scoping, binding,
+environments and closures, by implementing a mini-ML interpreter.  In addition, in this assignment you will be building a lexer and a parser.
+Again, no individual function requires more than 15-25 lines, so if you're
+answer is longer, you can be sure that you need to rethink your solution.
+The template for the assignment, as well as several test cases is available as a zip file <a href="pa4.zip">pa4.zip</a> that you need to download.
+
+<p><b>Note:</b> All the solutions can be done using the purely
+functional fragment of OCaml, using constructs covered in class, and most
+require the use of <i>recursion</i>.
+Solutions using imperative features
+such as references or while loops will receive <b>no credit</b>. Feel free
+to use any library functions that you want.</p>
+<b>It is a good idea to start this assignment early as it is somewhat longer
+than the first three assignments.</b></p>
+
+Even though we have included sample inputs and expected outputs for each step
+in the assignment, these tests <i>are not comprehensive</i>. It is possible to
+pass them all and still have a lot of mistakes (which our grading will
+expose). You are responsible for understanding the problems and testing other
+cases to make sure your implementation is correct.
+
+
+<hr size=5 noshade>
+<h3 align="center">Assignment Testing and Evaluation</h3>
+<p>Your functions/programs <b>must</b> compile and/or run on a <b>Linux</b> ACS machine (e.g. <tt> ieng6.ucsd.edu </tt>,
+  as this is where the verification of your solutions will occur. While
+  you may develop your code on any system, ensure that your code runs as
+  expected on an ACS machine prior to submission.
+    You should test your code in the directories from
+  which the zip files (see below) will be created, as this will approximate the
+  environment used for grading the assignment.</p>
+
+  <p>Most of the points, except those for comments and style, will be <b>awarded
+  automatically, by evaluating your functions against a given test suite</b>.
+
+  In the <tt>tests</tt> directory, there is a small handful of tests.  For this project, you will use <tt>make</tt> to compile your program.
+  If for some problem, you cannot get the code to compile, leave it as is with the
+  <tt>raise ...</tt>, with your partial solution enclosed below as a comment.
+  <b> There will be no exceptions to this rule</b>.
+
+	If the code you submit does not compile with make, you will receive 0 for the assignment.
+      </p>
+<br>
+<hr size=5 noshade>
+
+<a name="Submission Guidelines"></a>
+<h3 align="center">Submission Instructions</h3>
+
+<h3>1. Create the zip file for submission</h3>
+<blockquote>
+  <p>Your solutions to this assignment will be stored in separate
+  files under a directory called <tt>solution/</tt>, inside which you
+  will place the files :
+    <tt> config.make,main.ml,Makefile,nanoLex.mll,nano.ml,nanoParse.mly,rules.make,test.ml,toplevel.ml</tt>
+  and there should be <b>no other files in the directory</b>.</p>
+
+  <p>After creating and populating the directory as described above,
+  create a zip file called
+  <tt>&lt;LastName&gt;_&lt;FirstName&gt;_cse130_pa4.zip</tt> by going into
+  the directory <tt> solution </tt> and executing
+  the UNIX shell command: <br>
+  <blockquote>
+    <tt> zip &lt;LastName&gt;_&lt;FirstName&gt;_cse130_pa4.zip *</tt>
+  </blockquote>
+
+  You can refer to
+  an <a href="LastName_FirstName_cse130_pa4.zip">example submission
+  file</a> to compare with yours. Make sure that your zipped file's
+  structure is the same as the example.
+  </blockquote>
+
+<h3>2. Test the zip file to check for its validity</h3>
+<blockquote>
+  <p>Once you've created the zip file with your solutions, you will
+  use the <tt> validate_pa4</tt> program to see whether your zip
+  file's structure is well-formed to be inspected by our grading
+  system by executing the UNIX shell command: <br>
+  <blockquote><tt> validate_pa4 &lt;LastName&gt;_&lt;FirstName&gt;_cse130_pa4.zip </tt>
+  </blockquote>
+  The <tt>validate_pa4</tt> program will output <tt>OK</tt> if your
+  zip file is well-formed and your solution is compiled.
+  Otherwise, it will output some error
+  messages. Before going to step 3, make sure that your zip file
+  passes <tt>validate_pa4</tt> program. <b>Otherwise
+  you get a zero for the whole assignment.</b>
+  If you have any trouble with
+  this, refer to the instructions in step 1.
+</blockquote>
+
+<h3>3. Submit the zip file via the <tt>turnin</tt> program</h3>
+<blockquote>
+  <p>Once your zip file passes the validation check
+  by <tt>validate_pa4</tt>, you will use the <tt> turnin_pa4</tt> program
+  to submit this file for grading by going into the
+  directory <tt>solution/</tt> and executing the UNIX shell
+  command: <br>
+  <blockquote><tt> turnin_pa4
+      &lt;LastName&gt;_&lt;FirstName&gt;_cse130_pa4.zip </tt>
+  </blockquote>
+    </p>
+  <p>
+  The <tt>turnin_pa4</tt> program will provide you with a confirmation of the
+  submission process; make sure that the size of the file indicated by
+  <tt>turnin_pa4</tt> matches the size of your tar file. (turnin_pa4 is a thin wrapper script around the ACMS command  <tt> <a href="http://acs.ucsd.edu/info/turnin.php">turnin</a></tt> that repeats validation and ensures that the propper assignment name is passed) Note that you may submit multiple times, but your latest submission overwrites previous submissions, and will be the ONLY one we grade. If you submit before the assignment deadline, and again afterwards, we will count it as if you only submitted after the deadline.
+.</p>
+</blockquote>
+
+<hr size=10 noshade>
+<h2>Data structures and overview <tt> (nano.ml) </tt></h2>
+
+<blockquote><code><pre>
+type binop =
+  Plus
+| Minus
+| Mul
+| Div
+| Eq      (* =  *)
+| Ne      (* <> *)
+| Lt      (* &lt;  *)
+| Le      (* &lt;= *)
+| And
+| Or
+| Cons
+
+(* data types for Expressions in nano-ml *)
+type expr =
+  Const of int
+| True
+| False
+| NilExpr
+| Var of string
+| Bin of expr * binop * expr
+| If  of expr * expr * expr
+| Let of string * expr * expr     (* let X = E1 in E2 -> Let (X,E1,E2) *)
+| App of expr * expr              (* F X -> App(F,X) -- (calling function F w/ argument X) *)
+| Fun of string * expr            (* fun X -> E -> Fun(X,E) *)
+| Letrec of string * expr * expr  (* let rec X = E1 in E2 -> Letrec (X,E1,E2) *)
+
+(* data types for Values in nano-ml *)
+type value =
+  Int of int
+| Bool of bool
+| Closure of env * string option * string * expr (* Closure(environment,Some name_of_function (* or None if anonymous *),formal,body) *)
+| Nil
+| Pair of value * value
+
+and env = (string * value) list
+</pre></code></blockquote>
+
+
+<hr size=10 noshade>
+
+<!--
+<h2> WARNING: Before getting started please go through the following notes/tutorials: </h2>
+<ul>
+<li><a href="../parser_notes/">Lexer and Parser </a> </li>
+<li><a href="../interpreter_notes/"> Interpreter </a></li>
+<li><a href="http://plus.kaist.ac.kr/~shoh/ocaml/ocamllex-ocamlyacc/ocamllex-tutorial/">OCamlLex
+Tutorial</a> </li>
+<li><a href="http://plus.kaist.ac.kr/~shoh/ocaml/ocamllex-ocamlyacc/ocamlyacc-tutorial/">OCamlYacc
+Tutorial</a></li>
+</ul>
+-->
+
+<h2>Problem #1: ML-nano parser &amp; lexer <tt> (nanoParse.mly, nanoLex.mll) </tt></h2>
+<p>The goal of this problem is to write a parser and lexer for nano-ml using mlyacc.</p>
+<p>In each subproblem, we will increase the complexity of the expressions parsed by your program.</p>
+
+<h3>(a)<b>10 points </b></h3>
+<p>We will begin by making our parser recognize some of the simplest ML expressions: constants and variables.</p>
+<p>Begin with <tt>nanoParse.mly</tt> and define tokens <tt>TRUE</tt> and <tt>FALSE</tt> (note that some tokens like <tt>Num</tt>, <tt>Id</tt>, etc., are already defined).  An <tt>Id</tt> token has a single agurment of a string, which will store the name of the variable.</p>
+<p>Next add rules to <tt>nanoLex.mll</tt>.  A <tt>Num</tt> constant is a sequence of one or more digits.  An <tt>Id</tt> is a letter (capital or lowercase) followed by zero or more letters or digits.  These two are provided for you.  The strings "true" and "false" should return the corresponding tokens.  Add those to <tt>nanoLex.mll</tt>.</p>
+<p>Finally, notice a rule in <tt>nanoLex.mll</tt> to ignore whitespace: space, newline (\n), carriage return (\r), and tab (\t).  You don't need to understand the production on the right, it just means that those characters are ignored in the lexing buffer.</p>
+
+<p>Once you have implemented this functionality, you should get the following behavior (<tt>$</tt> is a shell prompt, <tt>#</tt> is a nanoml.top prompt)</p>
+
+<blockquote>
+  <p><tt>
+    $ <font color="#FF0000">make</font><br>
+<i>output from make, hopefully with no errors</i><br>
+    $ <font color="#FF0000">./nanoml.top</font><br>
+	NanoML <br>
+<br>
+	$ ./nanoml.top <br>
+	        Objective Caml version 3.10.0<br>
+<br>
+	# <font color="#FF0000">NanoLex.token (Lexing.from_string "true");;</font><br>
+	- : NanoParse.token = NanoParse.TRUE <br>
+	# <font color="#FF0000">Main.token_list_of_string "true false 12345 foo bar baz";;</font><br>
+	- : NanoParse.token list =
+	[NanoParse.TRUE; NanoParse.FALSE; NanoParse.Num 12345; NanoParse.Id "foo";
+	 NanoParse.Id "bar"; NanoParse.Id "baz"]
+</tt></p>
+</blockquote>
+
+<p>Now return to <tt>nanoParse.mly</tt>.  Add rules to the parser so that true, false, integers, and ids are parsed into expressions (of type <tt>Nano.expr</tt> from <tt>nano.ml</tt>).
+<p>In particular, notice that we have set up scaffolding for the grammar, so that precedence is resolved by the structure of the grammar.  You should therefore add these rules to the <tt>exp1</tt> production.  We give you the <tt>Num</tt> rule as an example.</p>
+
+<p>Once you have implemented this functionality, you should get the following behavior (<tt>$</tt> is a shell prompt, <tt>#</tt> is a nanoml.top prompt)</p>
+
+<blockquote>
+  <p><tt>
+    $ <font color="#FF0000">make</font><br>
+<i>output from make, hopefully with no errors</i><br>
+    $ <font color="#FF0000">./nanoml.top</font><br>
+	NanoML <br>
+<br>
+	$ ./nanoml.top <br>
+	        Objective Caml version 3.10.0<br>
+<br>
+	# <font color="#FF0000">NanoParse.exp NanoLex.token (Lexing.from_string "true");;</font><br>
+	- : Nano.expr = Nano.True <br>
+	# <font color="#FF0000">NanoParse.exp NanoLex.token (Lexing.from_string "false");;</font><br>
+	- : Nano.expr = Nano.False <br>
+	# <font color="#FF0000">NanoParse.exp NanoLex.token (Lexing.from_string "   \n123");;</font><br>
+	- : Nano.expr = Nano.Const 123 <br>
+	# <font color="#FF0000">NanoParse.exp NanoLex.token (Lexing.from_string "\rfoo");;</font><br>
+	- : Nano.expr = Nano.Var "foo" <br>
+</tt></p>
+</blockquote>
+
+<h3>(b) <b>10 points</b></h3>
+
+<p>Add the following tokens to the lexer and parser.
+
+<blockquote>
+<table border="1">
+	<tr><th>String</th><th>Token</th></tr>
+	<tr><td><tt>let</tt></td><td><tt>LET</tt></td></tr>
+	<tr><td><tt>rec</tt></td><td><tt>REC</tt></td></tr>
+	<tr><td><tt>=</tt></td><td><tt>EQ</tt></td></tr>
+	<tr><td><tt>in</tt></td><td><tt>IN</tt></td></tr>
+	<tr><td><tt>fun</tt></td><td><tt>FUN</tt></td></tr>
+	<tr><td><tt>-&gt;</tt></td><td><tt>ARROW</tt></td></tr>
+	<tr><td><tt>if</tt></td><td><tt>IF</tt></td></tr>
+	<tr><td><tt>then</tt></td><td><tt>THEN</tt></td></tr>
+	<tr><td><tt>else</tt></td><td><tt>ELSE</tt></td></tr>
+</table>
+</blockquote>
+
+These should be parsed as in real ML to give <tt>Nano.Let</tt>, <tt>Nano.Letrec</tt>, <tt>Nano.Fun</tt>, and <tt>Nano.If</tt> expressions (of type <tt>Nano.expr</tt>).  That is, a let expression should be "let &lt;id&gt; = &lt;expr&gt; in &lt;expr&gt;", a letrec expression should be the same, but with "rec" added.  A fun expression should be "fun &lt;id&gt; -> &lt;expr&gt;", and an if expression should be "if &lt;expr&gt; then &lt;expr&gt; else &lt;expr&gt;".  Here &lt;id&gt; denotes any id from part (a), and &lt;expr&gt; denotes any expression from part (a), or any let / letrec / fun / if expression.</p>
+
+<p>Rules for those expressions should be added at the lowest precedence level, that is, in <tt>exp8</tt>.</p>
+
+<p>Once you have implemented this functionality and recompiled, you should get the following behavior at the <tt>./nanoml.top</tt> prompt:</p>
+
+<blockquote>
+  <p><tt>
+	# <font color="#FF0000">Main.token_list_of_string "let rec foo = fun x -> if y then z else w in foo";;</font><br>
+	- : NanoParse.token list =
+	[NanoParse.LET; NanoParse.REC; NanoParse.Id "foo"; NanoParse.EQ;
+	 NanoParse.FUN; NanoParse.Id "x"; NanoParse.ARROW; NanoParse.IF;
+	 NanoParse.Id "y"; NanoParse.THEN; NanoParse.Id "z"; NanoParse.ELSE;
+	 NanoParse.Id "w"; NanoParse.IN; NanoParse.Id "foo"] <br>
+	# <font color="#FF0000">Main.string_to_expr "let rec foo = fun x -> if y then z else w in foo";;</font><br>
+	- : Nano.expr =
+	Nano.Letrec ("foo",
+	 Nano.Fun ("x", Nano.If (Nano.Var "y", Nano.Var "z", Nano.Var "w")),
+	 Nano.Var "foo")<br>
+	</tt></p>
+</blockquote>
+
+<h3>(c) <b>10 points</b></h3>
+
+<p>Add the following tokens to the lexer and parser.
+
+<blockquote>
+<table border="1">
+	<tr><th>String</th><th>Token</th></tr>
+	<tr><td><tt>+</tt></td><td><tt>PLUS</tt></td></tr>
+	<tr><td><tt>-</tt></td><td><tt>MINUS</tt></td></tr>
+	<tr><td><tt>*</tt></td><td><tt>MUL</tt></td></tr>
+	<tr><td><tt>/</tt></td><td><tt>DIV</tt></td></tr>
+	<tr><td><tt>&lt;</tt></td><td><tt>LT</tt></td></tr>
+	<tr><td><tt>&lt;=</tt></td><td><tt>LE</tt></td></tr>
+	<tr><td><tt>!=</tt></td><td><tt>NE</tt></td></tr>
+	<tr><td><tt>&amp;&amp;</tt></td><td><tt>AND</tt></td></tr>
+	<tr><td><tt>||</tt></td><td><tt>OR</tt></td></tr>
+</table>
+</blockquote>
+
+Add all of these as binary operators to your parser.  Each should result in a <tt>Nano.Bin</tt> with the corresponding <tt>Nano.binop</tt>.  The arguments to these binary operators may be any expressions.  (You don't need to worry about types.  "3+true||7" is allowed as far as the parser is concerned.)
+
+<p>Once you have implemented this functionality and recompiled, you should get the following behavior at the <tt>./nanoml.top</tt> prompt:</p>
+
+<blockquote>
+  <p><tt>
+	# <font color="#FF0000">Main.token_list_of_string "+ - /*|| &lt;&lt;= &amp;&amp;!=";;</font><br>
+	- : NanoParse.token list =
+	[NanoParse.PLUS; NanoParse.MINUS; NanoParse.DIV; NanoParse.MUL; NanoParse.OR;
+	 NanoParse.LT; NanoParse.LE; NanoParse.AND; NanoParse.NE]
+	<br>
+	# <font color="#FF0000">Main.string_to_expr "x + y";;</font><br>
+	- : Nano.expr = Nano.Bin (Nano.Var "x", Nano.Plus, Nano.Var "y")
+    <br>
+	# <font color="#FF0000">Main.string_to_expr "if x &lt; 4 then a || b else a &amp;&amp; b";;</font><br>
+	- : Nano.expr =
+	Nano.If (Nano.Bin (Nano.Var "x", Nano.Lt, Nano.Const 4), <br>
+	 Nano.Bin (Nano.Var "a", Nano.Or, Nano.Var "b"), <br>
+	 Nano.Bin (Nano.Var "a", Nano.And, Nano.Var "b"))
+    <br>
+	# <font color="#FF0000">Main.string_to_expr "if 4 &lt;= z then 1-z else 4*z";;</font><br>
+	- : Nano.expr =
+	Nano.If (Nano.Bin (Nano.Const 4, Nano.Le, Nano.Var "z"), <br>
+	 Nano.Bin (Nano.Const 1, Nano.Minus, Nano.Var "z"), <br>
+	 Nano.Bin (Nano.Const 4, Nano.Mul, Nano.Var "z"))
+    <br>
+	# <font color="#FF0000">Main.string_to_expr "let a = 6 / 2 in a!=11";;</font><br>
+	- : Nano.expr =
+	Nano.Let ("a", Nano.Bin (Nano.Const 6, Nano.Div, Nano.Const 2), <br>
+	 Nano.Bin (Nano.Var "a", Nano.Ne, Nano.Const 11))
+    <br>
+	</tt></p>
+</blockquote>
+
+<h3>(d) <b>5 points</b></h3>
+
+<!-- <p>Add the following tokens to the lexer and parser. -->
+
+<!-- <blockquote> -->
+<!-- <table border="1"> -->
+<!-- 	<tr><th>String</th><th>Token</th></tr> -->
+<!-- 	<tr><td><tt>(</tt></td><td><tt>LPAREN</tt></td></tr> -->
+<!-- 	<tr><td><tt>)</tt></td><td><tt>RPAREN</tt></td></tr> -->
+<!-- </table> -->
+<!-- </blockquote> -->
+
+<!-- Add rules to your parser to allow parenthesized expressions.  In addition, add a rule to your parser for function application.  Function application is simply "&lt;expr<sub>1</sub>&gt; &lt;expr<sub>2</sub>&gt;", which corresponds to calling &lt;expr<sub>1</sub>&gt; on argument &lt;expr<sub>2</sub>&gt;. -->
+
+<!-- <p>Once you have implemented this functionality and recompiled, you should get the following behavior at the <tt>./nanoml.top</tt> prompt:</p> -->
+
+<p>Ensure that your parser recognizes function application (see the rule in <tt>exp2</tt>), and parentheses (see the rule in <tt>exp1</tt>).  You should get the following behavior:</p>
+
+<blockquote>
+  <p><tt>
+	# <font color="#FF0000">Main.token_list_of_string "() (  )";;</font><br>
+	- : NanoParse.token list =
+	[NanoParse.LPAREN; NanoParse.RPAREN; NanoParse.LPAREN; NanoParse.RPAREN]
+	<br>
+	# <font color="#FF0000">Main.string_to_expr "f x";;</font><br>
+	- : Nano.expr = Nano.App (Nano.Var "f", Nano.Var "x")
+    <br>
+	# <font color="#FF0000">Main.string_to_expr "(fun x -> x+x) (3*3)";;</font><br>
+	- : Nano.expr =
+	Nano.App (Nano.Fun ("x", Nano.Bin (Nano.Var "x", Nano.Plus, Nano.Var "x")),<br>
+	 Nano.Bin (Nano.Const 3, Nano.Mul, Nano.Const 3))
+    <br>
+	# <font color="#FF0000">Main.string_to_expr "(((add3 (x)) y) z)";;</font><br>
+	- : Nano.expr =
+	Nano.App (Nano.App (Nano.App (Nano.Var "add3", Nano.Var "x"), Nano.Var "y"),
+	 Nano.Var "z")
+    <br>
+	# <font color="#FF0000">Main.filename_to_expr "tests/t1.ml";;</font><br>
+	- : Nano.expr =
+	Nano.Bin (Nano.Bin (Nano.Const 2, Nano.Plus, Nano.Const 3), Nano.Mul,<br>
+	 Nano.Bin (Nano.Const 4, Nano.Plus, Nano.Const 5))
+    <br>
+	# <font color="#FF0000">Main.filename_to_expr "tests/t2.ml";;</font><br>
+	- : Nano.expr =
+	Nano.Let ("z1", Nano.Const 4,
+	 Nano.Let ("z", Nano.Const 3,<br>
+	  Nano.Let ("y", Nano.Const 2,
+	   Nano.Let ("x", Nano.Const 1,
+	    Nano.Let ("z1", Nano.Const 0,<br>
+	     Nano.Bin (Nano.Bin (Nano.Var "x", Nano.Plus, Nano.Var "y"), Nano.Minus,
+	      Nano.Bin (Nano.Var "z", Nano.Plus, Nano.Var "z1")))))))
+    <br>
+	</tt></p>
+</blockquote>
+
+<h3>(d) <b>20 points</b></h3>
+
+Ensure your parser gives binary operators the following precedence and associativity.
+<!-- This will likely require that you add additional rules to your parser. -->
+
+<blockquote>
+<table border="1">
+	<tr><th>Operators</th><th>Associativity</th></tr>
+	<tr><td colspan=2><center><i>High Precedence</i></center></td></tr>
+	<tr><td>function application</td><td>left</td></tr>
+	<tr><td><tt>*</tt>, <tt>/</tt></td><td>left</td></tr>
+	<tr><td><tt>+</tt>, <tt>-</tt></td><td>left</td></tr>
+	<tr><td><tt>=</tt>, <tt>!=</tt>, <tt>&lt;</tt>, <tt>&lt;=</tt></td><td>left</td></tr>
+	<tr><td><tt>&amp;&amp;</tt></td><td>left</td></tr>
+	<tr><td><tt>||</tt></td><td>left</td></tr>
+	<tr><td><tt>let</tt>, <tt>fun</tt>, <tt>if</tt></td><td>N/A</td></tr>
+	<tr><td colspan=2><center><i>Low Precedence</i></center></td></tr>
+</table>
+</blockquote>
+
+<p>Left associative means that "1-2-3-4" should be parsed as if it were "((1-2)-3)-4", and "f x y z" should be parsed as if it were "((f x) y) z".</p>
+
+<p>Function application having higher precedence than multiplications, and multiplication higher than addition means that "1+f x*3" should be parsed as if it were "1+((f x)*3)"</p>
+
+<p>Precedence should be handled by carefully selecting in which stage to put each rule.  Associativity can be handled by picking a different non-terminal for the left-hand-side and the right-hand-side of binary operator rules.  See the given rules for <tt>PLUS</tt> and <tt>MUL</t> for an example.</p>
+
+<p>Once you have implemented this functionality and recompiled, you should get the following behavior at the <tt>./nanoml.top</tt> prompt:</p>
+
+<blockquote>
+  <p><tt>
+	# <font color="#FF0000">Main.string_to_expr "1-2-3-4";;</font><br>
+	- : Nano.expr =
+	Nano.Bin
+	 (Nano.Bin (Nano.Bin (Nano.Const 1, Nano.Minus, Nano.Const 2), Nano.Minus,
+	   Nano.Const 3),
+	 Nano.Minus, Nano.Const 4)
+    <br>
+	# <font color="#FF0000">Main.string_to_expr "1+a&amp;&amp;b||c+d*e-f/g x";;</font><br>
+	- : Nano.expr =
+	Nano.Bin
+	 (Nano.Bin (Nano.Bin (Nano.Const 1, Nano.Plus, Nano.Var "a"), Nano.And,
+	   Nano.Var "b"),
+	 Nano.Or,
+	 Nano.Bin
+	  (Nano.Bin (Nano.Var "c", Nano.Plus,
+	    Nano.Bin (Nano.Var "d", Nano.Mul, Nano.Var "e")),
+	  Nano.Minus,
+	  Nano.Bin (Nano.Var "f", Nano.Div, Nano.App (Nano.Var "g", Nano.Var "x"))))
+    <br>
+	# <font color="#FF0000">Main.filename_to_expr "tests/t13.ml";;</font><br>
+	- : Nano.expr =
+	Nano.Let ("f",
+	 Nano.Fun ("x",
+	  Nano.Fun ("y",
+	   Nano.Fun ("a",<br>
+	    Nano.Bin (Nano.App (Nano.Var "a", Nano.Var "x"), Nano.Mul, Nano.Var "y")))),<br>
+	 Nano.Let ("g",
+	  Nano.Fun ("x",
+	   Nano.Bin (Nano.Var "x", Nano.Plus,
+	    Nano.Bin (Nano.Const 1, Nano.Mul, Nano.Const 3))),<br>
+	  Nano.App (Nano.App (Nano.App (Nano.Var "f", Nano.Const 7), Nano.Const 8),
+	   Nano.Var "g")))
+    <br>
+	</tt></p>
+</blockquote>
+
+<h3>(e) <b>10 points extra credit</b></h3>
+
+<p>Add the following tokens to the lexer and parser.
+
+<blockquote>
+<table border="1">
+	<tr><th>String</th><th>Token</th></tr>
+	<tr><td><tt>[</tt></td><td><tt>LBRAC</tt></td></tr>
+	<tr><td><tt>]</tt></td><td><tt>RBRAC</tt></td></tr>
+	<tr><td><tt>;</tt></td><td><tt>SEMI</tt></td></tr>
+	<tr><td><tt>::</tt></td><td><tt>COLONCOLON</tt></td></tr>
+</table>
+</blockquote>
+
+Add a rule to your parser to support parsing lists.  Notice that we already built the grammar for parsing semicolon sequences (see the <tt>expseq</tt> non-terminal).  You should use this as part of your rule, but must additionally ensure that you see a left and right curly braces.
+
+"[a;b;c;d;e;f;g]" should be parsed as if it were "a::b::c::d::e::f::g::[]".  The :: operator should have higher priority than the comparison functions (=, &lt;=, etc.), and lower priority than + and -.  In addition, :: should be right associative.  [] should give <tt>NilExpr</tt>, and :: should be treated as any other binary operator.
+
+<p>Once you have implemented this functionality and recompiled, you should get the following behavior at the <tt>./nanoml.top</tt> prompt:</p>
+
+<blockquote>
+  <p><tt>
+	# <font color="#FF0000">Main.string_to_expr "1::3::5::[]";;</font><br>
+	- : Nano.expr =
+	Nano.Bin (Nano.Const 1, Nano.Cons,
+	 Nano.Bin (Nano.Const 3, Nano.Cons,
+	  Nano.Bin (Nano.Const 5, Nano.Cons, Nano.NilExpr)))
+    <br>
+	# <font color="#FF0000">Main.string_to_expr "[1;3;5]";;</font><br>
+	- : Nano.expr =
+	Nano.Bin (Nano.Const 1, Nano.Cons,
+	 Nano.Bin (Nano.Const 3, Nano.Cons,
+	  Nano.Bin (Nano.Const 5, Nano.Cons, Nano.NilExpr)))
+    <br>
+	# <font color="#FF0000">Main.string_to_expr "1::3::5::[]=[1;3;5]";;</font><br>
+	- : Nano.expr =<br>
+	Nano.Bin
+	 (Nano.Bin (Nano.Const 1, Nano.Cons,
+	   Nano.Bin (Nano.Const 3, Nano.Cons,
+	    Nano.Bin (Nano.Const 5, Nano.Cons, Nano.NilExpr))),<br>
+	 Nano.Eq,
+	 Nano.Bin (Nano.Const 1, Nano.Cons,
+	  Nano.Bin (Nano.Const 3, Nano.Cons,
+	   Nano.Bin (Nano.Const 5, Nano.Cons, Nano.NilExpr))))
+    <br>
+	</tt></p>
+</blockquote>
+
+
+
+<hr size=10 noshade>
+<h2>Problem #2: ML-nano interpreter <tt> (nano.ml) </tt></h2>
+In this problem, you will implement an interpreter for a small fragment of
+ML.
+<h3>(a)<b> 15 points</b></h3>
+<code>
+  <pre>
+    type binop = Plus | Minus | Mul | Div
+
+    type expr = Const of int
+	| Var of string
+	| Bin of expr * binop * expr
+
+    type value = Int of int
+
+    type env = (string * value) list
+  </pre>
+</code>
+
+<p>
+First consider the types described above: <tt>binop, expr </tt> are
+used to capture simple ML expressions. Each expression is either an integer
+constant, a variable, or a binary operator applied to two sub-expressions.
+A value is an integer, and an environment
+is a list of pairs of variable names and values.
+Use <tt>listAssoc </tt> to write a function
+<tt> lookup: string * env -&gt; value </tt> that finds the most recent
+binding for a variable (i.e. the first from the left) in the list representing the
+environment.
+Using this function, write a function <tt> eval : env * expr -&gt; value
+</tt> that when called with the pair <tt>(evn,e)</tt> evaluates an
+ML-nano expression <tt> e </tt> of the above type, in the environment
+<tt> evn </tt>, and raises an exception <tt> MLFailure ("variable not bound:
+  x")</tt> if the expression contains an unbound variable.</p>
+
+<p>Once you have implemented this functionality and recompiled, you should get the following behavior at the <tt>./nanoml.top</tt> prompt:</p>
+
+<blockquote>
+  <p><tt>
+	# <font color="#FF0000">open Nano;;</font><br>
+    # <font color="#FF0000"> let evn =[("z1",Int 0);("x",Int 1);("y",Int 2);("z",Int 3);("z1",Int 4)];;
+ </font><br>
+val evn : (string * Nano.value) list =
+  [("z1", Int 0); ("x", Int 1); ("y", Int 2); ("z", Int 3); ("z1", Int 4)]
+<br>
+ # <font color="#FF0000"> let e1 =Bin(Bin(Var "x",Plus,Var "y"), Minus, Bin(Var "z",Plus,Var "z1"));;
+ </font><br>
+val e1 : Nano.expr =
+  Bin (Bin (Var "x", Plus, Var "y"), Minus, Bin (Var "z", Plus, Var "z1"))
+<br>
+  # <font color="#FF0000">eval (evn,e1);;</font><br>
+- : Nano.value = Int 0
+<br>
+ # <font color="#FF0000">eval (evn,Var "p");;</font><br>
+Exception: Nano.MLFailure "Variable not bound: p".
+</tt></p>
+</blockquote>
+
+<h3>(b)<b> 15 points</b></h3>
+
+<code>
+  <pre>
+    type binop = Plus | Minus | Mul | Div
+               | Eq | Ne | Lt | Le | And | Or
+
+    type expr = Const of int
+              | True | False
+              | Var of string
+              | Bin of expr * binop * expr
+              | If  of expr * expr * expr
+
+    type value = Int of int
+               | Bool of bool
+
+    type env = (string * value) list
+  </pre>
+</code>
+
+<p>
+Add support for the binary operators <tt>=</tt>, <tt>!=</tt>, <tt>&lt;</tt>, <tt>&lt;=</tt>, <tt>&amp;&amp;</tt>, <tt>||</tt>.  This will require using the new value type <tt>Bool</tt>.  The operators <tt>=</tt> and <tt>!=</tt> should work if both operands are <tt>Int</tt> values, or if both operands are <tt>Bool</tt> values.  The operators <tt>&lt;</tt> and <tt>&lt;=</tt> are only defined for <tt>Int</tt> arguments, and <tt>&amp;&amp;</tt> and <tt>||</tt> are only defined for <tt>Bool</tt>arguments.  For all other arguments, a MLFailure exception should be raised with an appropriate error message.</p>
+
+<p>Now implement <tt>If</tt> expressions.  Given <tt>If(p,t,f)</tt>, <tt>p</tt> should be evaluated first, and if it evaluates to true (as a <tt>Bool</tt>), then <tt>t</tt> should be evaluated, and the value of the if expression should be the value of <tt>t</tt>.  Similarly, if <tt>p</tt> evaluates to false, then <tt>f</tt> should be evaluated and the result returned.  If <tt>p</tt> does not evaluate to a <tt>Bool</tt>, a MLFailure exception should be raised with an appropriate error message.</p>
+
+<p>Once you have implemented this functionality and recompiled, you should get the following behavior at the <tt>./nanoml.top</tt> prompt:</p>
+
+<blockquote>
+  <p><tt>
+	# <font color="#FF0000">open Nano;;</font><br>
+    # <font color="#FF0000"> let evn =[("z1",Int 0);("x",Int 1);("y",Int 2);("z",Int 3);("z1",Int 4)];;
+ </font><br>
+val evn : (string * Nano.value) list =
+  [("z1", Int 0); ("x", Int 1); ("y", Int 2); ("z", Int 3); ("z1", Int 4)]
+<br>
+ # <font color="#FF0000"> let e1 =If(Bin(Var "z1",Lt,Var "x"),Bin(Var "y",Ne,Var "z"),False);;
+ </font><br>
+val e1 : Nano.expr =
+  If (Bin (Var "z1", Lt, Var "x"), Bin (Var "y", Ne, Var "z"), False)
+<br>
+  # <font color="#FF0000">eval (evn,e1);;</font><br>
+- : Nano.value = Bool true
+<br>
+ # <font color="#FF0000">let e2 =If(Bin(Var "z1",Eq,Var "x"),Bin(Var "y",Le,Var "z"),Bin(Var "z",Le,Var "y"));;</font><br>
+val e2 : Nano.expr =
+  If (Bin (Var "z1", Eq, Var "x"), Bin (Var "y", Le, Var "z"),
+   Bin (Var "z", Le, Var "y"))
+  # <font color="#FF0000">eval (evn,e2);;</font><br>
+- : Nano.value = Bool false
+</tt></p>
+</blockquote>
+
+
+
+<h3>(c)<b> 10 points</b></h3>
+<code>
+  <pre>
+    type expr = ...
+	| Let of string * expr * expr
+	| Letrec of string * expr * expr
+  </pre>
+</code>
+<p>
+Now consider the extended the types as shown above to include "let-in"
+expressions that introduce local bindings exactly as in OCaml. <tt> Let (b,e1,e2) </tt> should be
+evaluated as the ML expression <tt> let b = e1 in e2 </tt>.  Similarly, <tt> Letrec (b,e1,e2) </tt>should be
+evaluated as <tt> let rec b = e1 in e2 </tt>.  (Since at this point, we do not support functions, Let and Letrec should do the same thing.)</p>
+
+<p>Once you have implemented this functionality and recompiled, you should get the following behavior at the <tt>./nanoml.top</tt> prompt:</p>
+
+<blockquote>
+  <p><tt>
+	# <font color="#FF0000">open Nano;;</font><br>
+    # <font color="#FF0000"> let e1 = Bin(Var "x",Plus,Var "y");;
+ </font><br>
+val e1 : Nano.expr = Bin (Var "x", Plus, Var "y")
+<br>
+ # <font color="#FF0000"> let e2 = Let("x",Const 1,Let("y",Const 2,e1));;
+ </font><br>
+val e2 : Nano.expr =
+  Let ("x", Const 1, Let ("y", Const 2, Bin (Var "x", Plus, Var "y")))
+<br>
+  # <font color="#FF0000">eval ([],e2);;</font><br>
+- : Nano.value = Int 3
+<br>
+ # <font color="#FF0000">let e3 = Let("x",Const 1,Let("y",Const 2,Let("z",e1,Let("x",Bin(Var "x",Plus,Var "z"),e1))));;
+	</font><br>
+	val e3 : Nano.expr =
+	  Let ("x", Const 1,
+	   Let ("y", Const 2,
+	    Let ("z", Bin (Var "x", Plus, Var "y"),
+	     Let ("x", Bin (Var "x", Plus, Var "z"), Bin (Var "x", Plus, Var "y")))))
+<br>
+  # <font color="#FF0000">eval ([],e3);;</font><br>
+- : Nano.value = Int 6
+</tt></p>
+</blockquote>
+
+
+<h3>(d)<b> 15 points</b></h3>
+<code>
+  <pre>
+    type expr = ...
+		| App of expr * expr
+		| Fun of string * expr
+
+    type value = ...
+		   | Closure of env * string option * string * expr
+  </pre>
+</code>
+We now extend the above types so that there is an expression for function
+application: <tt> App(e1,e2) </tt> corresponds to applying <tt> e2 </tt> to
+the function <tt> e1 </tt>, we allow function declarations via the expression
+<tt> Fun (x,e) </tt> where <tt>x</tt> and <tt>e</tt> are respectively the formal parameter and body-expression of the function.
+For now, assume the function is not recursive.
+However, functions do have values represented by the <tt> Closure
+  (evn,f,x,e)</tt> where <tt> evn </tt> is the
+environment at the point where that function was declared, and <tt> n,x,e
+</tt> are name, formal and body expression of the function.  If the function is anonymous or declared in a let statement, the name should be <tt>None</tt>.  If the function is declared in a <tt>let rec</tt> statement, then the name of the function should be <tt>Some f</tt> (where f is the name of the function).
+Extend your implementation of <tt> eval </tt> by adding the
+appropriate cases for the new type constructors.</tt>
+
+<p>Once you have implemented this functionality and recompiled, you should get the following behavior at the <tt>./nanoml.top</tt> prompt:</p>
+
+<blockquote>
+  <p><tt>
+	# <font color="#FF0000">open Nano;;</font><br>
+    # <font color="#FF0000">eval ([],Fun ("x",Bin(Var "x",Plus,Var "x")));;
+ </font><br>
+- : Nano.value = Closure ([], None, "x", Bin (Var "x", Plus, Var "x"))
+<br>
+ # <font color="#FF0000">eval ([],App(Fun ("x",Bin(Var "x",Plus,Var "x")),Const 3));;
+ </font><br>
+- : Nano.value = Int 6
+<br>
+  # <font color="#FF0000">let e3=Let("h",Fun("y",Bin(Var "x", Plus, Var "y")),App(Var "f",Var "h"));;</font><br>
+val e3 : Nano.expr =
+  Let ("h", Fun ("y", Bin (Var "x", Plus, Var "y")), App (Var "f", Var "h"))
+<br>
+ # <font color="#FF0000">let e2 = Let("x",Const 100,e3);;</font><br>
+val e2 : Nano.expr =
+  Let ("x", Const 100,
+   Let ("h", Fun ("y", Bin (Var "x", Plus, Var "y")), App (Var "f", Var "h")))
+<br>
+ # <font color="#FF0000">let e1 = Let("f",Fun("g",Let("x",Const 0,App(Var "g",Const 2))),e2);;</font><br>
+val e1 : Nano.expr =<br>
+  Let ("f", Fun ("g", Let ("x", Const 0, App (Var "g", Const 2))),<br>
+   Let ("x", Const 100,<br>
+    Let ("h", Fun ("y", Bin (Var "x", Plus, Var "y")),<br>
+     App (Var "f", Var "h"))))
+<br>
+  # <font color="#FF0000">eval ([],e1);;</font><br>
+- : Nano.value = Int 102
+<br>
+# <font color="#FF0000">eval ([],Letrec("f",Fun("x",Const 0),Var "f"));;</font><br>
+- : Nano.value = Closure ([], Some "f", "x", Const 0)
+</tt></p>
+</blockquote>
+
+<h3>(e)<b> 15 points</b></h3>
+<p>Make the above work for recursively defined functions (when declared with <tt>let rec</tt>).</p>
+
+<p>Once you have implemented this functionality and recompiled, you should get the following behavior at the <tt>./nanoml.top</tt> prompt:</p>
+
+<blockquote>
+  <p><tt>
+	# <font color="#FF0000">open Nano;;</font><br>
+    # <font color="#FF0000">eval ([],Letrec("fac",Fun("n",If(Bin(Var "n",Eq,Const 0),Const 1,Bin(Var "n",Mul,App(Var "fac",Bin(Var "n",Minus,Const 1))))),App(Var "fac",Const 10)));;</font><br>
+	- : Nano.value = Int 3628800
+</tt>
+</blockquote>
+
+<h3>(f)<b> 10 points extra credit</b></h3>
+<code>
+  <pre>
+	type binop = ...
+	          | Cons
+
+    type expr = ...
+              | NilExpr
+
+    type value = ...
+               | Nil
+               | Pair of value * value
+  </pre>
+</code>
+
+<p>
+Extend your program to support operations on lists.  In addition to the changes to the data types, add support for two functions "hd" and "tl" which do what the corresponding ML functions do.</p>
+
+<p>Once you have implemented this functionality and recompiled, you should get the following behavior at the <tt>./nanoml.top</tt> prompt:</p>
+
+<blockquote>
+  <p><tt>
+	# <font color="#FF0000">open Nano;;</font><br>
+    # <font color="#FF0000">eval ([],Bin(Const 1,Cons,Bin(Const 2,Cons,NilExpr)));;</font><br>
+	- : Nano.value = Pair (Int 1, Pair (Int 2, Nil))
+<br>
+# <font color="#FF0000">eval ([],App(Var "hd",Bin(Const 1,Cons,Bin(Const 2,Cons,NilExpr))));;</font><br>
+- : Nano.value = Int 1
+<br>
+# <font color="#FF0000">eval ([],App(Var "tl",Bin(Const 1,Cons,Bin(Const 2,Cons,NilExpr))));;</font><br>
+- : Nano.value = Pair (Int 2, Nil)
+</tt>
+</blockquote>
+
+<hr size=10 noshade>
+<h2>Problem #3: ML-nano executable</h2>
+
+<p>Once you have completed all the above parts, you should end up with an executable "nanoml.byte".  You should be able to test it as follows from the shell prompt:</p>
+
+<blockquote>
+  <p><tt>
+	$ <font color="#FF0000">./nanoml.byte tests/t1.ml</font><br>
+	...<br>
+	out: 45
+	<br>
+	$ <font color="#FF0000">./nanoml.byte tests/t2.ml</font><br>
+	...<br>
+	out: 0
+	<br>
+	$ <font color="#FF0000">./nanoml.byte tests/t3.ml</font><br>
+	...<br>
+	out: 2
+	<br>
+</tt></p>
+</blockquote>
+
+and so forth, for all the files in tests.  To get the expected value for the other tests, run them with ocaml:
+
+<blockquote>
+  <p><tt>
+	# <font color="#FF0000">#use "tests/t1.ml";;</font><br>
+	- : int = 45
+	</tt></p>
+</blockquote>
+
+and so forth.  "tests/t14.ml" requires that you have completed both extra credit parts.
+
+<hr size=10 noshade>
+<h2>If the code you submit does not get passed the test with <tt>validate_pa4</tt>, you will get 0 for the assignment.</h2>
+
+</body>
+
+</html>
