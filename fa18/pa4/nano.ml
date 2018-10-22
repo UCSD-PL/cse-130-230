@@ -32,6 +32,7 @@ type value =
 | Closure of env * string option * string * expr 
 | Nil                    
 | Pair of value * value     
+| NativeFunc of string
 
 and env = (string * value) list
 
