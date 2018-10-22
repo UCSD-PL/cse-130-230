@@ -39,7 +39,7 @@ let pipe fs =
   let base = failwith "to be implemented" in
     List.fold_left f base fs
 
-let rec sepConcat sep sl = match sl with 
+let sepConcat sep sl = match sl with 
   | [] -> ""
   | h :: t -> 
       let f a x = failwith "to be implemented" in
