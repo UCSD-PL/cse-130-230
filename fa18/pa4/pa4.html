@@ -371,7 +371,7 @@ val e2 : Nano.expr =
 
 <hr size=10 noshade>
 <h2>Problem #2: NanoML bindings and functions <tt> (nano.ml) </tt></h2>
-<h3>(a)<b> 10 points</b></h3>
+<h3>(a)<b> 15 points</b></h3>
 <p> Next, you will extend <tt>eval</tt> to handle let-bindings, i.e. the following datatypes: </p>
 
 <code>
@@ -499,7 +499,7 @@ val e1 : Nano.expr =<br>
 <h2>Problem #3: NanoML lists <tt> (nano.ml) </tt></h2>
 <p>
 Finally, you will add language support for lists to NanoML. You will start with the basic operations for representing and building lists:</p>
-<h3>(a)<b> 10 points</b></h3>
+<h3>(a)<b> 15 points</b></h3>
 <code>
   <pre>
 	  type binop = ...
@@ -575,7 +575,7 @@ At runtime, the value of a list is either empty (<tt>Nil</tt>) or a pair of the 
 		</tt></p>
 </blockquote>
 
-<h3>(c)<b> 15 points</b></h3>
+<h3>(c)<b> 10 points</b></h3>
 <p>Finally, you will implement several higher-order list functions: <tt>map</tt> and <tt>foldl</tt>.
 <tt>map</tt> takes a function as input and a list as (curried) inputs and applies the function to each element of the list. This is OCaml's <tt>List.map</tt>.
 <tt>foldl</tt> takes a function, initial value, and list as (curried) inputs and reduces the list using the function and initial value. This is Ocaml's <tt>List.fold_left</tt>.

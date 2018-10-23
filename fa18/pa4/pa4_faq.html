@@ -4,7 +4,7 @@
 <h1 align="center"> CSE 130 - Programming Assignment #4 FAQ </h1>
 <ol>
 
-<li> <h3> <b>In 2a do we have to check if both parts of a binary expression is int? </b> </h3>  </li>
+<li> <h3> <b>In 1a do we have to check if both parts of a binary expression is int? </b> </h3>  </li>
 <p> Yes. And raise a properly worded MLFailure exception otherwise.</p>
 
 
@@ -21,7 +21,7 @@
 <p> Nope. </p>
 
 <li> <h3> <b>Do we have to worry about the type of a list i.e. that all elements have the same type?</b> </h3>  </li>
-<p> Only if it is used in an ill-typed manner. For example <tt>let mixed = [1,false]</tt> is fine but <tt>(hd mixed) && true </tt> should throw an error.   </p>
+<p> Only if it is used in an ill-typed manner. For example <tt>let mixed = [1;false]</tt> is fine but <tt>(hd mixed) && true </tt> should throw an error.   </p>
 
 <li> <h3> <b>Do we have to worry about the arguments of map/fold?</b> </h3>  </li>
 <p> Again, only if it is used in an ill-typed manner. For example <tt>let badIfUsed = map true</tt> is fine because it is never used, even though map expects a function but boolean foo is not a function. However, <tt>badIfUsed [1]</tt> should throw an error.</p>
