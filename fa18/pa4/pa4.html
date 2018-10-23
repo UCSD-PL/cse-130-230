@@ -194,7 +194,7 @@ cases to make sure your implementation is correct.
 <h2>Problem #0: Review the NanoML template </h2>
 <p>
 In the template for NanoML, we have provided an idiomatic OCaml compiler project. The project includes many files, but the only file you will need to edit is nano.ml. 
-Nano.ml contains the definitions for the NanoML language (lines 3-36), several helper functions (38-104), as well as your starter code (108-110).
+Nano.ml contains the definitions for the NanoML language (<tt>binop</tt>, <tt>expr</tt>, <tt>value</tt>, and <tt>env</tt>), several helper functions (<tt>*toString</tt>, <tt>fold</tt>, and <tt>listAssoc</tt>), as well as your starter code (<tt>lookup</tt> and <tt>eval</tt>).
 To load strings and files into the NanoML language, we have provided a parser and lexer, which you do not need to modify. To build the project,
 use the provided Makefile by running <tt>make</tt>. This links your code in <tt>nano.ml</tt> with the parser and lexer, and generates an executible 
 OCAML interpreter in <tt>nanoml.top</tt>. The parser provides two useful functions for you: <tt>string_to_expr</tt>, which converts a string to an NanoML expression, and <tt>filename_to_expr</tt>, which does
@@ -224,6 +224,8 @@ Nano.Bin (Nano.Bin (Nano.Const 2, Nano.Plus, Nano.Const 3), Nano.Mul,<br>
 <p>
 In the command <tt>Main.string_to_expr "x + y";;</tt>, we converted the string "x+y" to a NanoML expression. Similarly,
 the command <tt>Main.filename_to_expr "tests/t1.ml";;</tt> converted the file tests/t1.ml to a NanoML expression.
+You do <b>not</b> need to use <tt>string_to_expr</tt> or <tt>filename_to_expr</tt> in your submitted code: doing this will cause a 
+compile-time error. 
 As a shortcut, the makefile also produces an executible <tt>nanoml.byte</tt> which runs <tt>filename_to_expr</tt> and <tt>eval</tt> on its argument, e.g.
 </p>
 <blockquote>
