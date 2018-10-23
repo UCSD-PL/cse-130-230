@@ -28,8 +28,8 @@ have the most recent version)</i></p>
 <b>Note:</b>
 See <a href="../misc/ocaml/info_ocaml.html"> this </a> for instructions on
 starting OCaml in the ACS lab machines.
-To download and install OCaml version 3.12.0 on your home machines see the
-instructions <a href="http://caml.inria.fr/download.en.html">here</a>.
+To download and install OCaml on your home machines see the
+instructions <a href="http://ocaml.org/docs/install.html">here</a>.
 Remember that this is only to enable you to play with the assignment
 at home: the final version turned in must work on the ACS Linux machines.
 
@@ -84,9 +84,7 @@ solution.</p>
 <p>The overall objective of this assignment is to expose you to some
 advanced features of OCaml such as higher-order functions, abstract datatypes
 and modules, as well as to fully understand the notion of scoping, binding,
-environments and closures, by implementing a mini-ML interpreter.  In addition, in this assignment you will be building a lexer and a parser.
-Again, no individual function requires more than 15-25 lines, so if you're
-answer is longer, you can be sure that you need to rethink your solution.
+environments and closures, by implementing a mini-ML interpreter. 
 The template for the assignment, as well as several test cases is available as a zip file <a href="pa4.zip">pa4.zip</a> that you need to download.
 
 <p><b>Note:</b> All the solutions can be done using the purely
@@ -187,22 +185,21 @@ cases to make sure your implementation is correct.
   The <tt>turnin_pa4</tt> program will provide you with a confirmation of the
   submission process; make sure that the size of the file indicated by
   <tt>turnin_pa4</tt> matches the size of your tar file. (turnin_pa4 is a thin wrapper script around the ACMS command  <tt> <a href="http://acs.ucsd.edu/info/turnin.php">turnin</a></tt> that repeats validation and ensures that the propper assignment name is passed) Note that you may submit multiple times, but your latest submission overwrites previous submissions, and will be the ONLY one we grade. If you submit before the assignment deadline, and again afterwards, we will count it as if you only submitted after the deadline.
-.</p>
+</p>
 </blockquote>
 
 <hr size=10 noshade>
 
 
 <h2>Problem #0: Review the NanoML template </h2>
-In the template for NanoML, we have provided an idiomatic OCaml compiler project. The project includes many files, but the only file you will need to edit is nano.ml. <br>
-
+<p>
+In the template for NanoML, we have provided an idiomatic OCaml compiler project. The project includes many files, but the only file you will need to edit is nano.ml. 
 Nano.ml contains the definitions for the NanoML language (lines 3-36), several helper functions (38-104), as well as your starter code (108-110).
 To load strings and files into the NanoML language, we have provided a parser and lexer, which you do not need to modify. To build the project,
 use the provided Makefile by running <tt>make</tt>. This links your code in <tt>nano.ml</tt> with the parser and lexer, and generates an executible 
-OCAML interpreter in <tt>nanoml.top</tt>. <br>
-
-The parser provides two useful functions for you: <tt>string_to_expr</tt>, which converts a string to an NanoML expression, and <tt>filename_to_expr</tt>, which does
+OCAML interpreter in <tt>nanoml.top</tt>. The parser provides two useful functions for you: <tt>string_to_expr</tt>, which converts a string to an NanoML expression, and <tt>filename_to_expr</tt>, which does
 the same for a file. For example, you should see the following behavior:
+</p>
 
 <blockquote>
   <p><tt>
@@ -224,11 +221,11 @@ Nano.Bin (Nano.Bin (Nano.Const 2, Nano.Plus, Nano.Const 3), Nano.Mul,<br>
 <br>
 
 </tt></blockquote>
-
+<p>
 In the command <tt>Main.string_to_expr "x + y";;</tt>, we converted the string "x+y" to a NanoML expression. Similarly,
 the command <tt>Main.filename_to_expr "tests/t1.ml";;</tt> converted the file tests/t1.ml to a NanoML expression.
 As a shortcut, the makefile also produces an executible <tt>nanoml.byte</tt> which runs <tt>filename_to_expr</tt> and <tt>eval</tt> on its argument, e.g.
-
+</p>
 <blockquote>
   <p><tt>
     $ <font color="#FF0000">make</font><br>
@@ -241,7 +238,8 @@ As a shortcut, the makefile also produces an executible <tt>nanoml.byte</tt> whi
 <br>
 </tt></blockquote>
 
-To get the expected value for a test, import the file in an OCaml session e.g. 
+
+<p>To get the expected value for a test, import the file in an OCaml session e.g. </p>
 <blockquote>
   <p><tt>
 	$ <font color="#FF0000">ocaml</font><br>
@@ -250,72 +248,19 @@ To get the expected value for a test, import the file in an OCaml session e.g.
 	- : int = 45
 	</tt></p>
 </blockquote>
-<!-- 
-<h2>Data structures and overview <tt> (nano.ml) </tt></h2>
 
-<blockquote><code><pre>
-type binop =
-  Plus
-| Minus
-| Mul
-| Div
-| Eq      (* =  *)
-| Ne      (* <> *)
-| Lt      (* &lt;  *)
-| Le      (* &lt;= *)
-| And
-| Or
-| Cons
-
-(* data types for Expressions in nano-ml *)
-type expr =
-  Const of int
-| True
-| False
-| NilExpr
-| Var of string
-| Bin of expr * binop * expr
-| If  of expr * expr * expr
-| Let of string * expr * expr     (* let X = E1 in E2 -> Let (X,E1,E2) *)
-| App of expr * expr              (* F X -> App(F,X) -- (calling function F w/ argument X) *)
-| Fun of string * expr            (* fun X -> E -> Fun(X,E) *)
-| Letrec of string * expr * expr  (* let rec X = E1 in E2 -> Letrec (X,E1,E2) *)
-
-(* data types for Values in nano-ml *)
-type value =
-  Int of int
-| Bool of bool
-| Closure of env * string option * string * expr (* Closure(environment,Some name_of_function (* or None if anonymous *),formal,body) *)
-| Nil
-| Pair of value * value
-
-and env = (string * value) list
-</pre></code></blockquote>
-
-
-<hr size=10 noshade> -->
-
-<!--
-<h2> WARNING: Before getting started please go through the following notes/tutorials: </h2>
-<ul>
-<li><a href="../parser_notes/">Lexer and Parser </a> </li>
-<li><a href="../interpreter_notes/"> Interpreter </a></li>
-<li><a href="http://plus.kaist.ac.kr/~shoh/ocaml/ocamllex-ocamlyacc/ocamllex-tutorial/">OCamlLex
-Tutorial</a> </li>
-<li><a href="http://plus.kaist.ac.kr/~shoh/ocaml/ocamllex-ocamlyacc/ocamlyacc-tutorial/">OCamlYacc
-Tutorial</a></li>
-</ul>
--->
-
+<p>
 Now that you are familiar with how to use this project, we proceed with the assignment. 
 You will implement NanoML in several separate stages, each more expressive than the last. In each
 problem, you will extend <tt>eval</tt> to handle more of the <tt>expr</tt> datatype. By the end of the assignment, your NanoML interpreter
-will be able to run any of the code you wrote in the previous 3 assignments. <br>
-
+will be able to run most of the code you wrote in the previous 3 programming assignments. <br>
+</p>
 <hr size=10 noshade>
 <h2>Problem #1: NanoML basics <tt> (nano.ml) </tt></h2>
+<p>
 In this problem, you will start the assignment by implementing some language basics in OCaml. 
 Specifically, you will extend <tt>eval</tt> to handle the following datatypes:
+</p>
 <h3>(a)<b> 15 points</b></h3>
 <code>
   <pre>
@@ -425,7 +370,7 @@ val e2 : Nano.expr =
 <hr size=10 noshade>
 <h2>Problem #2: NanoML bindings and functions <tt> (nano.ml) </tt></h2>
 <h3>(a)<b> 10 points</b></h3>
-Next, you will extend <tt>eval</tt> to handle let-bindings, i.e. the following datatypes:
+<p> Next, you will extend <tt>eval</tt> to handle let-bindings, i.e. the following datatypes: </p>
 
 <code>
   <pre>
@@ -482,7 +427,7 @@ val e2 : Nano.expr =
 		   | Closure of env * string option * string * expr
   </pre>
 </code>
-We now extend the above types so that there is an expression for function
+<p> We now extend the above types so that there is an expression for function
 application: <tt> App(e1,e2) </tt> corresponds to applying <tt> e2 </tt> to
 the function <tt> e1 </tt>, we allow function declarations via the expression
 <tt> Fun (x,e) </tt> where <tt>x</tt> and <tt>e</tt> are respectively the formal parameter and body-expression of the function.
@@ -490,9 +435,11 @@ For now, assume the function is not recursive.
 However, functions do have values represented by the <tt> Closure
   (evn,f,x,e)</tt> where <tt> evn </tt> is the
 environment at the point where that function was declared, and <tt> n,x,e
-</tt> are name, formal and body expression of the function.  If the function is anonymous or declared in a let statement, the name should be <tt>None</tt>.  If the function is declared in a <tt>let rec</tt> statement, then the name of the function should be <tt>Some f</tt> (where f is the name of the function).
+</tt> are name, formal and body expression of the function.  If the function is anonymous or declared in a let statement, the name should be <tt>None</tt>.  If the function is declared in a <tt>let rec</tt> statement, then the name of the function should be <tt>Some f</tt> (where f is the name of the function). <b>It is very important that you save the name of let-rec functions for the next problem.</b>
 Extend your implementation of <tt> eval </tt> by adding the
-appropriate cases for the new type constructors.</tt>
+appropriate cases for the new type constructors.
+</p>
+
 
 <p>Once you have implemented this functionality and recompiled, you should get the following behavior at the <tt>./nanoml.top</tt> prompt:</p>
 
@@ -532,7 +479,10 @@ val e1 : Nano.expr =<br>
 </blockquote>
 
 <h3>(c)<b> 15 points</b></h3>
-<p>Make the above work for recursively defined functions (when declared with <tt>let rec</tt>).</p>
+<p>Make the above work for recursively defined functions (when declared with <tt>let rec</tt>). The key to recursive functions is that
+	their evaluation environment in the <tt>App</tt> needs a binding for the function's own name. Use the <tt>Some name</tt> field of the <tt>Closure</tt> datatype
+	to properly handle recursive functions in the <tt>App</tt> rule.
+</p>
 
 <p>Once you have implemented this functionality and recompiled, you should get the following behavior at the <tt>./nanoml.top</tt> prompt:</p>
 
@@ -545,7 +495,8 @@ val e1 : Nano.expr =<br>
 </blockquote>
 
 <h2>Problem #3: NanoML lists <tt> (nano.ml) </tt></h2>
-Finally, you will add language support for lists to NanoML. You will start with the basic operations for representing and building lists:
+<p>
+Finally, you will add language support for lists to NanoML. You will start with the basic operations for representing and building lists:</p>
 <h3>(a)<b> 10 points</b></h3>
 <code>
   <pre>
@@ -562,7 +513,6 @@ Finally, you will add language support for lists to NanoML. You will start with 
 </code>
 
 <p>
-	
 Extend your program to support basic list operations. We use <tt>Cons</tt> and <tt>NilExpr</tt> to represent OCaml's <tt>::</tt> operator and <tt>[]</tt> expression. 
 At runtime, the value of a list is either empty (<tt>Nil</tt>) or a pair of the element and the tail (i.e. <tt>element::tail</tt> -- this is known as a <i>cons cell</i>). </p>
 
@@ -635,7 +585,7 @@ ill-typed expression is never fully evaluated, for example <tt>foldl (fun x -> x
 	a <tt>map</tt> or <tt>foldl</tt> variable, it returns the saved library version.
 </p>
 
-<p>After you have implemented this code, you should see the following behavior:</p>
+<p>After you have implemented this portion, you should see the following behavior:</p>
 
 <blockquote>
 		<p><tt>
@@ -683,7 +633,7 @@ and so forth, for all the files in tests.  To get the expected value for the oth
 </blockquote>
 
 <hr size=10 noshade>
-<h2>If the code you submit does not get passed by <tt>validate_pa4</tt>, you will get 0 for the assignment.</h2>
+<h2>If the code you submit does not get passed by <tt>validate_pa4</tt> or submitted by <tt>turnin_pa4</tt>, you will get 0 for the assignment.</h2>
 
 </body>
 
