@@ -592,10 +592,10 @@ ill-typed expression is never fully evaluated, for example <tt>foldl (fun x -> x
 <blockquote>
 		<p><tt>
 		# <font color="#FF0000">open Nano;;</font><br>
-			# <font color="#FF0000">eval ([],Main.string_to_expr "map (fun x -> x + 1) 1::2::3::[]");;</font><br>
+			# <font color="#FF0000">eval ([],Main.string_to_expr "map (fun x -> x + 1) [1;2;3]");;</font><br>
 			- : Nano.value = Pair(Int 2, Pair(Int 3, Pair (Int 4, Nil))
 			<br>
-			# <font color="#FF0000">eval ([],Main.string_to_expr "foldl (fun acc -> fun next -> acc + next) 0 1::2::3::[]");;</font><br>
+			# <font color="#FF0000">eval ([],Main.string_to_expr "foldl (fun acc -> fun next -> acc + next) 0 [1;2;3]");;</font><br>
 			- : Nano.value = Int 6 <br>
 	<br>
 		</tt></p>
