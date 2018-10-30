@@ -435,9 +435,9 @@ the function <tt> e1 </tt>, we allow function declarations via the expression
 <tt> Fun (x,e) </tt> where <tt>x</tt> and <tt>e</tt> are respectively the formal parameter and body-expression of the function.
 For now, assume the function is not recursive.
 However, functions do have values represented by the <tt> Closure
-  (evn,f,x,e)</tt> where <tt> evn </tt> is the
+  (evn,n,x,e)</tt> where <tt> evn </tt> is the
 environment at the point where that function was declared, and <tt> n,x,e
-</tt> are name, formal and body expression of the function.  If the function is anonymous or declared in a let statement, the name should be <tt>None</tt>.  If the function is declared in a <tt>let rec</tt> statement, then the name of the function should be <tt>Some f</tt> (where f is the name of the function). <b>It is very important that you save the name of let-rec functions for the next problem.</b>
+</tt> are the name, formal parameter, and body expression of the function.  If the function is anonymous or declared in a let statement, the name should be <tt>None</tt>.  If the function is declared in a <tt>let rec</tt> statement, then the name of the function should be <tt>Some f</tt> (where f is the name of the function). <b>It is very important that you save the name of let-rec functions for the next problem.</b>
 Extend your implementation of <tt> eval </tt> by adding the
 appropriate cases for the new type constructors.
 </p>
