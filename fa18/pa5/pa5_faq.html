@@ -1,0 +1,46 @@
+<html>
+<head> </head>
+<body>
+<h1 align="center"> CSE 130 - Programming Assignment #5 FAQ </h1>
+<ol>
+
+<li> <h3> <b>  Can we create helper rules? </b> </h3>  </li>
+<p> Yes. </p>
+
+<li> <h3> <b> I output all the correct values, but in different order from the problem writeup. Is this ok?  </b> </h3>  </li>
+<p> Yes. </p>
+
+<li> <h3> <b> How to I store all things matching a query in a list?  </b> </h3>  </li>
+<p> Read the documentation for bagof. </p>
+
+<li> <h3> <b> Can we use findall? How is it different from bagof?  </b> </h3>  </li>
+<p> You can use either. For the purposes of this assignment they are very similar. A good example of their differences can be found here:
+http://cs.union.edu/~striegnk/learn-prolog-now/html/node97.html
+</p>
+
+<li> <h3> <b> What does \= mean?  </b> </h3>  </li>
+<p> Means that the two terms cannot be unified. </p>
+
+<li> <h3> <b> Is there length in Prolog?  </b> </h3>  </li>
+<p> You have to implement it if you want to use it. </p>
+
+<li> <h3> <b> Can we use sum_list?  </b> </h3>  </li>
+<p> Nope. That would be no fun. </p>
+
+<li> <h3> <b> Having trouble with arithmetic! Why does this happen:
+
+<pre>
+helper(One,Two,Three) :- Three = One + Two.
+?- helper(1,X,4).
+false.
+?- helper(X,Y,Z).
+Z = X+Y.
+</pre> ?</b> </h3>  </li>
+<p> The "=" sign does not signify arithmetic equality, instead it performs unification. You probably want the "is" keyword. </p>
+
+
+<li> <h3> <b> What additional tests should I run?  </b> </h3>  </li>
+<p> Get creative! The usual suspects such as empty lists, and substituting things with variables are good things to try. </p>
+</ol>
+</body>
+</html>
