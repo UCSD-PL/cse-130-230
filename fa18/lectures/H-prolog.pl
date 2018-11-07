@@ -33,29 +33,29 @@ parent(felix,maya).
 
 
 %queries
-parent(pat,X).
-parent(X,kim).
+% parent(pat,X).
+% parent(X,kim).
 
     
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%    
 % unification
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-t1 = t2.
-foo(bar) = foo(bar).
-foo(X) = foo(bar).
-f(X,dog) = f(cat,Y).
-f(cat) = f(dog).
-q(X,dog,X) = q(cat,Y,Y).
-a(W,foo(W,Y),Y) = a(2,foo(X,3),Z).
-a(W,foo(W,Y),Y) = a(2,foo(X,3),X).
+% t1 = t2.
+% foo(bar) = foo(bar).
+% foo(X) = foo(bar).
+% f(X,dog) = f(cat,Y).
+% f(cat) = f(dog).
+% q(X,dog,X) = q(cat,Y,Y).
+% a(W,foo(W,Y),Y) = a(2,foo(X,3),Z).
+% a(W,foo(W,Y),Y) = a(2,foo(X,3),X).
     
 % so what happens when we ask: parent(pat, alex). Unification!
-parent(pat, alex).
+% parent(pat, alex).
 % what about: parent(X,kim). Again unification!
-parent(X,kim).
+% parent(X,kim).
 % What about: parent(X,Y).    
-parent(X,Y).
+% parent(X,Y).
     
     
 
@@ -63,8 +63,8 @@ parent(X,Y).
 % Conjunction
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-parent(pat, X), parent(X, holly).
-parent(X,Y), parent(Y,Z), parent(Z,kim).
+% parent(pat, X), parent(X, holly).
+% parent(X,Y), parent(Y,Z), parent(Z,kim).
     
         
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%    
@@ -76,8 +76,8 @@ greatgrandparent(X,Y) :- parent(X,Z),grandparent(Z,Y).
 
 
 % queries
-grandparent(X,kim).
-greatgrandparent(X,holly).
+% grandparent(X,kim).
+% greatgrandparent(X,holly).
 
     
 % Multiple clauses: disjunction    
@@ -100,9 +100,9 @@ has_family(X) :- parent(_,X).
 
 
 % queries
-has_family(holly).
-has_family(kim).
-has_family(bob).
+% has_family(holly).
+% has_family(kim).
+% has_family(bob).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % recursion
@@ -131,13 +131,13 @@ has_family(bob).
 
 
 
-X
-.
-.   ancerstor(X,Z)
-.
-Z
-|   parent(Z,Y)
-Y
+% X
+% .
+% .   ancestor(X,Z)
+% .
+% Z
+% |   parent(Z,Y)
+% Y
 
 
 
@@ -153,11 +153,11 @@ ancestor(X,Y) :- parent(Z,Y),ancestor(X,Z).
 
 
 %queries:
-ancestor(kim,X).
-ancestor(X,kim).
+% ancestor(kim,X).
+% ancestor(X,kim).
 
 
-ancestor(felix,holly).
+% ancestor(felix,holly).
 
 %               ancestor(felix,holly)?
 %                 /             \
@@ -192,8 +192,8 @@ ancestor1(X,Y) :- parent(X,Y).
 
 
 %queries:
-ancestor1(X,kim).
-ancestor1(felix,holly).
+% ancestor1(X,kim).
+% ancestor1(felix,holly).
 
 
 
@@ -233,7 +233,7 @@ ancestor2(X,Y) :- parent(Z,Y),ancestor2(X,Z).
 ancestor2(X,Y) :- parent(X,Y).
 
 %queries:
-ancestor2(X,kim).
+% ancestor2(X,kim).
 
 
 
@@ -242,7 +242,7 @@ ancestor3(X,Y) :- parent(X,Y).
 ancestor3(X,Y) :- ancestor3(X,Z),parent(Z,Y).
 
 %queries:
-ancestor3(X,kim).
+% ancestor3(X,kim).
 
 
 
@@ -257,7 +257,7 @@ ancestor3(X,kim).
 sibling(X,Y) :- parent(P,X),parent(P,Y).
 
 %queries:
-sibling(X,Y).
+% sibling(X,Y).
 
 
 
@@ -279,8 +279,8 @@ sibling(X,Y).
 sibling1(X,Y) :- not(X=Y),parent(P,X),parent(P,Y).
     
 %queries:
-sibling1(alex,maya).
-sibling1(X,Y).
+% sibling1(alex,maya).
+% sibling1(X,Y).
 
 
 
@@ -293,27 +293,25 @@ sibling1(X,Y).
 
 
 
-X = Y.
-not(X = Y).
 
 sibling2(X,Y) :- parent(P,X),parent(P,Y),not(X=Y).
 
 
 %queries:
-sibling2(alex,maya).
-sibling2(X,Y).
+% sibling2(alex,maya).
+% sibling2(X,Y).
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % lists
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-[1,2,3].
-X = [1,2,3].
-X = [1 | [2,3] ].
-[X|T] = [1,2,3].
-[1,2,3] = [X|T].
-[X,2,3] = [1|T].
+% [1,2,3].
+% X = [1,2,3].
+% X = [1 | [2,3] ].
+% [X|T] = [1,2,3].
+% [1,2,3] = [X|T].
+% [X,2,3] = [1|T].
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -578,7 +576,7 @@ rev_helper([H|T],SoFar,Res) :- rev_helper(T,[H|SoFar],Res).
 
 
 %% soln:
-palyndrome(X) :- rev(X,X)
+palyndrome(X) :- rev(X,X).
 
 
 
@@ -762,8 +760,8 @@ len([_|T],N) :- len(T,Nt), N = Nt + 1.
 
 
 % Let's try it again
-% len([],0).
-% len([_|T],N) :- len(T,Nt), N is Nt + 1.
+len2([],0).
+len2([_|T],N) :- len(T,Nt), N is Nt + 1.
 
 %queries:
 % len([1,2,3],X).
@@ -846,6 +844,8 @@ fib(N, V) :-
   N1 is N - 1,
   N2 is N - 2,
   fib(N1, V1),
+  fib(N2,V2),
+  V is V1 + V2.
 
   
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -876,8 +876,6 @@ foo(d).
 
 
 %% soln:
-isin(X,[X|_]).
-isin(X,[_|T]) :- isin(X,T).
 
 isfoolist(L) :- isfoolist_helper(L,[]).
 
@@ -932,16 +930,16 @@ pq(X,Y) :- p(X),q(Y).
 
 
 % Recall from before:
-parent(kim,holly).
-parent(pat,kim).  
-parent(herbert,pat). 
-parent(alex,kim).
-parent(felix,alex).  
-parent(albert,felix).
-parent(albert,dana).
-parent(felix,maya).
-ancestor(X,Y) :- parent(X,Y).
-ancestor(X,Y) :- parent(Z,Y),ancestor(X,Z).
+% parent(kim,holly).
+% parent(pat,kim).  
+% parent(herbert,pat). 
+% parent(alex,kim).
+% parent(felix,alex).  
+% parent(albert,felix).
+% parent(albert,dana).
+% parent(felix,maya).
+% ancestor(X,Y) :- parent(X,Y).
+% ancestor(X,Y) :- parent(Z,Y),ancestor(X,Z).
 
 
 
@@ -1040,8 +1038,8 @@ isin2(X,[_|T]) :- isin2(X,T).
 
 
 
-% len(X, 3).
-% bagof(X,len(X,3),L).
+% len2(X, 3).
+% bagof(X,len2(X,3),L).
 
 % How can we modify len so that it returns only one answer?
 
@@ -1060,10 +1058,7 @@ isin2(X,[_|T]) :- isin2(X,T).
 
 
 % soln:
-len2([],0).
-len2([_|T],N) :- len2(T,Nt), N is Nt + 1, !.
-
-len2(L,R) :- len_helper(L,0,R) .
+len3(L,R) :- len_helper(L,0,R) .
 len_helper([],R,R) :- !.
 len_helper([_|T],Len,R) :- Len1 is Len+1, len_helper(T,Len1,R) .
 
@@ -1094,7 +1089,7 @@ len_helper([_|T],Len,R) :- Len1 is Len+1, len_helper(T,Len1,R) .
 
 
 %% one approach:
-count(X, [], 0).
+count(_, [], 0).
 count(X, [X|T], Res) :- count(X,T,RecRes), Res is RecRes + 1.
 count(X, [_|T], Res) :- count(X,T,Res).
 
@@ -1111,7 +1106,11 @@ count(X, [_|T], Res) :- count(X,T,Res).
 % false.
 % 
 
-count_cut(X, [], 0) :- !.
+% We could fix this using:
+%   count(X, [H|T], Res) :- not(X=H),count(X,T,Res).
+% But here is another way:
+
+count_cut(_, [], 0) :- !.
 count_cut(X, [X|T], Res) :- !, count_cut(X,T,RecRes), Res is RecRes + 1.
 count_cut(X, [_|T], Res) :- !, count_cut(X,T,Res).
 
