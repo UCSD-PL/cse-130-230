@@ -1,0 +1,51 @@
+  <HTML><head> 
+  <link rel="stylesheet" type="text/css" href="styles.css">
+  <title>Prolog Howto</title></head>
+<TITLE> </TITLE>
+
+<BODY>
+<BODY BGCOLOR="WHITE"> 
+<br>
+<P>
+<H2> CSE 130: How to run Prolog in the Lab machines</H2> 
+
+<P>
+<HR><P>
+
+<br>
+  Here is a sample session. You need to type "cs130f" before you can run prolog ("swipl"). 
+
+<p>
+<blockquote>
+<tt>
+$ cs130f<br>
+<br>
+[you@ieng6...]:~:$ swipl<br>
+Welcome to SWI-Prolog (Multi-threaded, 64 bits, Version 6.2.6)<br>
+... copyright text and prolog info ... 
+<br>
+?-
+<br>
+</tt>
+</blockquote>
+
+<p>At the prolog prompt:
+<ul>
+<li>Enter <tt> [foo]. </tt> to "load" the file <tt> foo.pl 
+</tt>. This has the same effect as typing out the file at the prompt, 
+but its usually more convenient to type and edit the file with Vim/Emacs 
+and load it in like this. 
+<li>Press "Ctrl-D" to exit Prolog.</li>
+
+<li>
+You can directly send the file <tt>foo.pl</tt> 
+into Prolog and start a prompt by typing: <br>
+<blockquote> 
+  <tt>$ swipl -s foo.pl </tt>
+</blockquote>
+</li>
+
+<li>For more information, see <a href=http://www.swi-prolog.org/FAQ/LoadProgram.html>this page</a></li>
+</ul>
+
+</html>  
