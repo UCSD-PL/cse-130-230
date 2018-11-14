@@ -1,0 +1,92 @@
+<html>
+<head> </head>
+<body>
+<h1 align="center"> CSE 130 - Programming Assignment #6 FAQ </h1>
+<ol>
+
+
+<li> <h3> <b> I'm getting Indentation errors, but my indentation looks fine? </b> </h3>  </li>
+<p> The python interpreter differentiates between spaces and TAB-s. So even
+though two lines may look like they are indented the same width, if one is done
+with spaces, and the other with TAB-s python will complain. Make sure to be
+consistent and only use one or the other. One way to get your code to
+consistently use spaces, is to open it in vim and run the command ":retab"</p>
+
+<li> <h3> <b> Can I import other libraries than what already is there?  </b> </h3>  </li>
+<p> No. You may only use the imporated libraries and the <a
+href='https://docs.python.org/3/library/functions.html'>built-in functions
+</a>.</p>
+
+
+<li> <h3> <b> For 1a) can we assume the list is sorted?  </b> </h3>  </li>
+<p> No.</p>
+
+<li> <h3> <b> For 1a) can numbers be negative?  </b> </h3>  </li>
+<p> Yes.</p>
+
+<li> <h3> <b> For 1b) can lists be of different length?  </b> </h3>  </li>
+<p> No. You can assume lists are of equal length. </p>
+
+<li> <h3> <b> What if in 1b) we have repeating keys?  </b> </h3>  </li>
+<p> Assign the value corresponding to the last occurance of the key. </p>
+
+
+<li> <h3> <b> 2a) What happens when I call "Vector("HELLO")?"  </b> </h3>  </li>
+<p> A vector is just a sequence. So you should get the same thing as calling "Vector(['H', 'E', 'L', 'L', 'O'])".</p>
+<li> <h3> <b> 2c) What is the difference between + and += ?</b> </h3>  </li>
+<p> "v1+v2" builds a new vector equal to the sum of v1 and v2 and returns it. The original vectors v1 and v2 are unchanged.
+"v1+=v2" changes the vector v1 to qual the usm of v1 and v2. v2 remains unchanged. </p>
+
+<li> <h3> <b> 2c) Does + change the two original vectors?</b> </h3>  </li>
+<p> See previous. </p>
+
+<li> <h3> <b> 2c) I'm having trouble adding a tuple and a vector (but the reverse order works!)?</b> </h3>  </li>
+<p> If you're having trouble with something like this (6,8,2)+Vector([4,-3,2]) you probably didn't implement the __radd__ function. </p>
+
+<li> <h3> <b> 2c) What happens when we pass vectors of different length to +/+=?  </b> </h3>  </li>
+<p> Throw a value error. </p>
+
+<li> <h3> <b> 2d) For the dot product, if the argument and current Vector instance are not the same length should that raise an exception?  </b> </h3>  </li>
+<p> Yes.</p>
+
+<li> <h3> <b> 2g) Can I do "Vector([1,2,3]) < [0,0,0]"? </b> </h3>  </li>
+<p> No. </p>
+
+<li> <h3> <b> 2g) What happens when we compare vectors of different length?  </b> </h3>  </li>
+<p> You can assume that only vectors of equal length will be compared. </p>
+
+<li> <h3> <b> 2g) I'm confused by the comparison between vectors?</b> </h3>  </li>
+<p> Here's a handy example thanks to Valentin Robert:
+
+<pre>
+v = Vector([1, 2, 3])
+w = Vector([3, 2, 1])
+
+v > w    is False
+w > v    is False
+v == w    is False
+v >= w   is True
+w <= v   is True
+</pre>
+
+  </p>
+
+<li> <h3> <b> 2f) What type do we return when we get a slice from a Vector?  </b> </h3>  </li>
+<p>
+<pre>
+>>> Vector([1,2,3,4,5])[3:5]
+Vector([4, 5])
+</pre>
+</p>
+
+
+<li> <h3> <b> 2f) Getting an exception when trying to call __lt__/__gt__ ... on an object()(e.g. super(Vector, self).__lt__(other))  </b> </h3>  </li>
+<p> Instead of  super(Vector, self).__lt__(other) try super(Vector, self) < other</p>
+
+<li> <h3> <b> 2f) How do I treat vectors as objects when comparing them?  </b> </h3>  </li>
+<p> See previous.</p>
+
+
+</ol>
+</body>
+</html>

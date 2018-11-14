@@ -1,26 +1,23 @@
 import misc
 import vector
-import decorators
-import math
-
-
+import sys
 
 KEY="130>>"
 
 def run_test(fun,args,chk,pts):
     try:
-        print "%s calling %s(%s)... " % \
-              (KEY,fun.__name__,",".join([repr(x) for x in args])),
         rv=fun(*args)
-    except Exception, e:
-        print "Exception: "+str(e)
+        print("%s calling %s(%s)... " % \
+              (KEY,fun.__name__,",".join([repr(x) for x in args])),rv)
+    except Exception as e:
+        print("Exception: "+str(e))
         return 0
     else:
         if chk(rv):
-            print "Good"
+            print("Good")
             return pts
         else:
-            print "Wrong"
+            print("Wrong")
             return 0
 
 def chk_val(x):
@@ -34,21 +31,12 @@ def chk_dict(qry,rslt,sz):
 
 def chk_set(qry,sz):
     return lambda d: len(d)==sz and qry in d
-
+    
 def chk_repr(str):
     return lambda d: repr(d)==str
 
 def chk_file(fn):
     return lambda d: sys.stdout.write("\nSee file \"%s\"\n" % fn) or True
-
-def uncurried(f):
-    def uncurried_f(*args):
-        rv=f
-        for a in args:
-            rv=rv(*a)
-        return rv
-    uncurried_f.__name__="uncurried(%s)" % f.__name__
-    return uncurried_f
 
 def run_tests(tests):
     score=0
@@ -81,29 +69,27 @@ def run_all_tests():
         v=vector.Vector(7)
         v[4]="foo"
         return v
-    def test_4b_a():
-        fn="test_4b_a.txt"
-        f=open(fn,"w")
-        f.write("as of\n")
-        f.close()
-        s=set(streams.transformed_words_in_file(fn))
-#        print repr(s)
-        return s
     return run_tests([
-        #problem 1a
+        #problem 1
+        (misc.closest_to,[[2,4,8,9],7],chk_val(8),1),
+        (misc.closest_to,[[2,4,8,9],5],chk_val(4),1),
+        (misc.make_dict,[["foo","baz"],["bar","blah"]],chk_val({'foo': 'bar', 'baz': 'blah'}),1),
+        (misc.make_dict,[[1],[100]],chk_val({1: 100}),1),
+        (misc.word_count,["news.txt"],chk_dict("edu",2,407),1),
+
+        #problem 2a
         (vector.Vector,[3],chk_repr("Vector([0.0, 0.0, 0.0])"),1),
-        (vector.Vector,[3L],chk_repr("Vector([0.0, 0.0, 0.0])"),1),
         (vector.Vector,[[4.5,"foo",0]],
          chk_repr("Vector([4.5, 'foo', 0])"),1),
         (vector.Vector,[0],chk_repr("Vector([])"),1),
         (test_1a_a,[],chk_val(True),1),
 
-        #problem 1b
+        #problem 2b
         (lambda: [x*2 for x in vector.Vector([3,3.25,"foo"])],[],
          chk_val([6,6.5,"foofoo"]),1),
         (lambda: len(vector.Vector(23)),[],chk_val(23),1),
 
-        #problem 1c
+        #problem 2c
         (lambda: vector.Vector([6,8,2])+vector.Vector([4,-3,2]),[],
          chk_repr("Vector([10, 5, 4])"),1),
         (lambda: vector.Vector([6,8,2])+[4,-3,2],[],
@@ -112,19 +98,19 @@ def run_all_tests():
          chk_repr("Vector([10, 5, 4])"),1),
         (test_1c_a,[],chk_repr("Vector(['foo', 'boo'])"),1),
 
-        #problem 1d
+        #problem 2d
         (lambda: vector.Vector([6,8,2]).dot(vector.Vector([4,-3,2])),[],
          chk_val(4),1),
         (lambda: vector.Vector([6,8,2]).dot([4,-3,2]),[],
          chk_val(4),1),
 
-        #problem 1e
+        #problem 2e
         (test_1e_a,[],chk_val(0.0),1),
         (test_1e_b,[],chk_val("foo"),1),
         (test_1e_c,[],
          chk_repr("Vector([0.0, 0.0, 0.0, 0.0, 'foo', 0.0, 0.0])"),1),
 
-        #problem 1f
+        #problem 2f
         (lambda: (lambda a,b,c:a<b)(vector.Vector([1,3,5]),
                                     vector.Vector([5,1,3]),
                                     vector.Vector([4,5,4])),[],
@@ -165,12 +151,10 @@ def run_all_tests():
                                     vector.Vector([5,1,3]),
                                     vector.Vector([4,5,4])),[],
          chk_val(True),1),
-           
-        #problem 2
-        # see decorators.out
+        
         ])
 
 (s,t)=run_all_tests()
-print "%s Results: (%d/%d)" % (KEY,s,t)
-print "%s Compiled" % KEY
+print("%s Results: (%d/%d)" % (KEY,s,t))
+print("%s Compiled" % KEY)
     
