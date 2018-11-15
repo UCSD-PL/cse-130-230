@@ -294,8 +294,6 @@ behavior at the Python prompt:
     &gt;&gt;&gt; <font color="#FF0000">from vector import *</font><br>
     &gt;&gt;&gt; <font color="#FF0000">Vector(3)</font><br> 
     Vector([0.0, 0.0, 0.0])<br>
-    &gt;&gt;&gt; <font color="#FF0000">Vector(3L)</font><br> 
-    Vector([0.0, 0.0, 0.0])<br>
     &gt;&gt;&gt; <font color="#FF0000">Vector([4.5, "foo", 0])</font><br>
     Vector([4.5, 'foo', 0])<br>
     &gt;&gt;&gt; <font color="#FF0000">Vector(0)</font><br> 
@@ -426,11 +424,11 @@ behavior at the Python prompt:
 <p>
 Extend your implementation of <code>__getitem__</code> and
 <code>__setitem__</code> methods to allow <a
-href="https://docs.python.org/2/reference/datamodel.html#additional-methods-for-emulation-of-sequence-types">slice</a> level
+href="https://docs.python.org/3/reference/datamodel.html#emulating-container-types">slice</a> level
 access to the <code>Vector</code>.  These methods should preserve the
 length of the <code>Vector</code>.  If an assignment to a slice would
 change the length of the vector, raise a <code>ValueError</code>
-exception.  The semantics otherwise should mimic those of <code>list</code>.
+exception.  The semantics otherwise should mimic those of <code>list</code>; a valid slice of a Vector should return a .
 </p>
 
 Once you have implemented the function, you should get the following
@@ -440,6 +438,8 @@ behavior at the Python prompt:
   <p><tt>
     &gt;&gt;&gt; <font color="#FF0000">from vector import *</font><br>
     &gt;&gt;&gt; <font color="#FF0000">v=Vector(7)</font><br>
+    &gt;&gt;&gt; <font color="#FF0000">v[0:3]</font><br>
+    Vector([0.0, 0.0, 0.0])<br>
     &gt;&gt;&gt; <font color="#FF0000">v[2:4]=[4,4]</font><br>
     &gt;&gt;&gt; <font color="#FF0000">v</font><br>
     Vector([0.0, 0.0, 4, 4, 0.0, 0.0, 0.0])<br>
