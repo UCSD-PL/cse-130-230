@@ -1,0 +1,101 @@
+<html>
+<head> </head>
+<body>
+<h1 align="center"> CSE 130 - Programming Assignment #6 FAQ </h1>
+<ol>
+
+<li> <h3> <b> 1a) What happens when I call "Vector("HELLO")?"  </b> </h3>  </li>
+<p> A vector is just a sequence. So you should get the same thing as calling "Vector(['H', 'E', 'L', 'L', 'O'])".</p>
+<li> <h3> <b> 1c) What is the difference between + and += ?</b> </h3>  </li>
+<p> "v1+v2" builds a new vector equal to the sum of v1 and v2 and returns it. The original vectors v1 and v2 are unchanged.
+"v1+=v2" changes the vector v1 to qual the usm of v1 and v2. v2 remains unchanged. </p>
+
+<li> <h3> <b> 1c) Does + change the two original vectors?</b> </h3>  </li>
+<p> See previous. </p>
+
+<li> <h3> <b> 1c) I'm having trouble adding a tuple and a vector (but the reverse order works!)?</b> </h3>  </li>
+<p> If you're having trouble with something like this (6,8,2)+Vector([4,-3,2]) you probably didn't implement the __radd__ function. </p>
+
+<li> <h3> <b> 1c) What happens when we pass vectors of differen length to +/+=?  </b> </h3>  </li>
+<p> Throw a value error. </p>
+
+<li> <h3> <b> 1 d) For the dot product, if the argument and current Vector instance are not the same length should that raise an exception?  </b> </h3>  </li>
+<p> Yes.</p>
+
+<li> <h3> <b> 1g) Can I do "Vector([1,2,3]) < [0,0,0]"? </b> </h3>  </li>
+<p> No. </p>
+
+<li> <h3> <b> 1g) What happens when we compare vectors of different length?  </b> </h3>  </li>
+<p> You can assume that only vectors of equal length will be compared. </p>
+
+<li> <h3> <b> 1g) I'm confused by the comparison between vectors?</b> </h3>  </li>
+<p> Here's a handy example thanks to Valentin Robert:
+
+<pre>
+v = Vector([1, 2, 3])
+w = Vector([3, 2, 1])
+
+v > w    is False
+w > v    is False
+v == w    is False
+v >= w   is True
+w <= v   is True
+</pre>
+
+  </p>
+
+<li> <h3> <b> 1f) What type do we return when we get a slice from a Vector?  </b> </h3>  </li>
+<p>
+<pre>
+>>> Vector([1,2,3,4,5])[3:5]
+Vector([4, 5])
+</pre>
+</p>
+
+
+<li> <h3> <b> 1f) Getting an exception when trying to call __lt__/__gt__ ... on an object()(e.g. super(Vector, self).__lt__(other))  </b> </h3>  </li>
+<p> Instead of  super(Vector, self).__lt__(other) try super(Vector, self) < other</p>
+
+<li> <h3> <b> 1f) How do I treat vectors as object's when comparing them?  </b> </h3>  </li>
+<p> See previous.</p>
+
+<li> <h3> <b> 2a)/2)b Getting "TypeError: unsupported operand type(s) for +: 'NoneType' and 'NoneType'" for fib for any of the decorators. </b> </h3>  </li>
+<p> Did you forget to return a value from the decorated function?  </p>
+
+<li> <h3> <b> 2b) Getting 'TypeError: unhashable type: ...' in memoizing decorator ( </b> </h3>  </li>
+<p> You cannot use lists,dictionaries or any other mutable data type as a key for a python dictionary. You are going to have to
+figure out a different way to rememer arguments containing dictionaries/lists and the keyword arguments.  </p>
+
+<li> <h3> <b> 2a) What do I do about exceptions in traced? </b> </h3>  </li>
+<p> You should think carefully what happens to control flow when an exception is thrown? Based on that, think how you need to adjust indentation. </p>
+
+<li> <h3> <b> 2b) How do I handle exceptions in memoized? </b> </h3>  </li>
+<p> Exceptions are a value like any other, than can be stored, and then thrown again (read the docs on try/catch/raise). </p>
+
+
+<li> <h3> <b> 2b) Do we have to include keyword args? And also I don't fully understand the question, we just return a value if we call the function twice with the same parameters?  </b> </h3>  </li>
+<p> Yes. </p>
+
+
+<li> <h3> <b> Are these two calls the same? <br><pre>
+@memoized 
+def foo(a,b,c): ... 
+
+foo(5,3,2)
+foo(5,c=2,b=3) </pre>   </b> </h3>  </li>
+<p> In the first case the decorated function would see 5,3,2 as positional arguments, and in the second it would see 5 as a positional argument, and c=2 and b=3 as keyword arguments. So unfortunately, these would be different calls. (i.e. you can't memoize the second, using the result of the first).
+
+</p>
+
+<li> <h3> <b> Can I save the output of "run_examples" to a file? (so that I can diff them)  </b> </h3>  </li>
+<p> Yes. Create a new python script (lets call it foo.py) with the following contents:
+<pre>
+from decorators import *
+run_examples()
+</pre>
+
+Then from the command line run "python foo.py > output.txt" and Voila! </p>
+
+</ol>
+</body>
+</html>
