@@ -1,39 +1,30 @@
 #!/usr/bin/env python3
 
 from misc import Failure
-from typing import List
 
 # prologable trait
 class Prologable():
     def toProlog(self) -> str:
         raise Failure("TODO")
 
+    def __eq__(self, other):
+        if isinstance(other, Prologable):
+            return self.toProlog() == other.toProlog()
+        else:
+            return False
+    def __str__(self):
+        return self.toProlog()
+
 
 # expression interface
 class Expression(Prologable):
-    def ctor(self) -> (str, List[str]):
-        raise Failure("TODO")
-
-    def __repr__(self) -> str:
-        (name, args) = self.ctor()
-        return name + "(" + ",".join(args) + ")"
-
-    def __eq__(self, other):
-        if isinstance(other, Expression):
-            return self.ctor() == other.ctor()
-        else:
-            return False
+    pass
 
 # binop interface
 class Bop(Prologable):
     pass
 class Plus(Bop):
-    def __init__(self):
-        return
-    def __repr__(self):
-        return "Plus()"
-    def toProlog(self):
-        return "plus"
+    pass
 class Minus(Bop):
     pass
 class Mul(Bop):
@@ -56,82 +47,75 @@ class Cons(Bop):
     pass
 
 class Const(Expression):
-    def __init__(self, v:int):
-        self.v = v
+    def __init__(self, i: int):
+        self.v = i
     def ctor(self):
         return ("Const", [str(x) for x in [self.v]])
     def toProlog(self):
         return "const(%i)" % self.v
 class Bool(Expression):
-    def ctor(self):
-        return ("TODO", [x for x in ["TODO"]])
+    def __init__(self, b: bool):
+        self.v = b
 class NilExpr(Expression):
-    def ctor(self):
-        return ("TODO", [x for x in ["TODO"]])
+    def __init__(self):
+        return
 class Var(Expression):
-    def ctor(self):
-        return ("TODO", [x for x in ["TODO"]])
+    def __init__(self, v: str):
+        self.v = v
+    
 
 class Bin(Expression):
-    def ctor(self):
-        return ("TODO", [x for x in ["TODO"]])
+    def __init__(self, l: Expression, o: Bop, r:Expression):
+        self.l = l
+        self.r = r
+        self.o = o
     
 class If(Expression):
-    def ctor(self):
-        return ("TODO", [x for x in ["TODO"]])
+    def __init__(self, c: Expression, t: Expression, f: Expression):
+        self.c = c
+        self.t = t
+        self.f = f
 class Let(Expression):
-    def ctor(self):
-        return ("TODO", [x for x in ["TODO"]])
+    def __init__(self, v: str, e: Expression, body: Expression):
+        self.v = v
+        self.e = e
+        self.body = body
 
 class Letrec(Expression):
-    def ctor(self):
-        return ("TODO", [x for x in ["TODO"]])
+    def __init__(self, v: str, e: Expression, body: Expression):
+        self.v = v
+        self.e = e
+        self.body = body
 
 class App(Expression):
-    def ctor(self):
-        return ("TODO", [x for x in ["TODO"]])
+    def __init__(self, f: Expression, arg: Expression):
+        self.f = f
+        self.arg = arg
 
 class Fun(Expression):
-    def ctor(self):
-        return ("TODO", [x for x in ["TODO"]])
+    def __init__(self, v: str, body: Expression):
+        self.v = v
+        self.body = body
 
 
-# types
 class Type(Prologable):
-
-    def pprint(self) -> str:
-        raise Failure("TODO")
-
-    def __eq__(self, other):
-        if isinstance(other, Type):
-            return self.toProlog() == other.toProlog()
-        else:
-            return False
+    pass
 
 class IntTy(Type):
-    def __repr__(self):
-        cname = "TODO"
-        args = [x for x in ["TODO"]]
-        return cname + "(" + ",".join(args) + ")"
+    def __init__(self):
+        return
 class BoolTy(Type):
-    def __repr__(self):
-        cname = "TODO"
-        args = [x for x in ["TODO"]]
-        return cname + "(" + ",".join(args) + ")"
+    def __init__(self):
+        return
 class ArrowTy(Type):
-    def __repr__(self):
-        cname = "TODO"
-        args = [x for x in ["TODO"]]
-        return cname + "(" + ",".join(args) + ")"
+    def __init__(self, l: Type, r: Type):
+        self.l = l
+        self.r = r
 class ListTy(Type):
-    def __repr__(self):
-        cname = "TODO"
-        args = [x for x in ["TODO"]]
-        return cname + "(" + ",".join(args) + ")"
+    def __init__(self, inner: Type):
+        self.inner = inner
 
 class VarTy(Type):
-    def __repr__(self):
-        cname = "TODO"
-        args = [x for x in ["TODO"]]
-        return cname + "(" + ",".join(args) + ")"
+    def __init__(self, name: str):
+        self.name = name
 

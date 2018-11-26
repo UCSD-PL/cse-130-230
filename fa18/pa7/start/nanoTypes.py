@@ -30,7 +30,7 @@ def exprToType(e: Expression) -> str:
     print("Type error for: %s" % str(e))
     return "Type Error"
   else:
-    print("Typed to %s" % results[0]['T'])
+    # print("Typed to %s" % results[0]['T'])
     return results[0]['T']
 
 def strToType(s: str) -> Type:
