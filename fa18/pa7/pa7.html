@@ -233,9 +233,94 @@ Once documented you should get the following behavior at the Python prompt:
 
 <p>
 In this problem, you will write a <i>type-inference</i> algorithm for the NanoML language of PA4. 
-Type-inference is very naturally expressed in Prolog and so you will implement the logic of your algorithm in a Prolog file, <tt>types</tt>.
+Type-inference is very naturally expressed in Prolog and so you will implement the logic of your algorithm in a Prolog file, <tt>types.pl</tt>.
 You will also reuse the project from PA4, provided in the <tt>nano/</tt> directory, to parse NanoML programs.
-Finally, you will use Python to coordinate between OCaml and Prolog, and to hold the results of the type-inference algorithm.
+Finally, you will use Python to coordinate between OCaml and Prolog.
+</p>
+
+<style>
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+th, td {
+    padding: 5px;
+}
+</style>
+
+First, we shall encode NanoML expressions as Prolog terms via the following grammar:
+<pre>
+    Expr ::= const(Ints)
+           | var(Name)
+           | bin(Expr, Bop, Expr)
+           | leq(Expr, Expr)
+           | ite(Expr, Expr, Expr)
+           | let(Name, Expr, Expr)
+           | letrec(Name, Expr, Expr)
+           | fun(Name, Expr)
+           | app(Expr, Expr)
+
+    Name ::= lower case variable name
+
+    Ints ::= 0 | 1 | 2 | ... (all integer constants)
+
+    Bop  ::= plus | minus | mul | div | eq | neq | lt | leq | and | or
+</pre>
+
+Similarly, we shall encode ML types as Prolog terms using the following grammar:
+
+<pre>
+      Type ::= int | bool | arrow(Type, Type) | list(Type)
+</pre>
+
+<p>The table below shows several examples of Ocaml expressions, the Prolog term encoding that expression,
+and the Prolog term encoding the type of the expression.</p>
+
+<p>
+<tt>
+<table style="width:80%">
+  <tr>
+    <th>NanoML Expression</th>
+    <th>Prolog Expression</th> 
+    <th>Prolog Type</th>
+  </tr>
+  <tr>
+    <td>2</td>
+    <td>const(2)</td> 
+    <td>int</td>
+  </tr>
+  <tr>
+    <td>2 + 3</td>
+    <td>bin(const(2),plus,const(3))</td> 
+    <td>int</td>
+  </tr>
+  <tr>
+    <td>2 <= 3</td>
+    <td>bin(const(2),leq,const(3))</td> 
+    <td>bool</td>
+  </tr>
+  <tr>
+    <td>fun x -> x <= 4</td>
+    <td>fun(x,bin(var(x),leq,const(4)))</td> 
+    <td>arrow(int,bool)</td>
+  </tr>
+  <tr>
+    <td>fun x -> fun y -> if x then y else 0</td>
+    <td>fun(x,fun(y,ite(var(x),var(y),const(0))))</td> 
+    <td>arrow(bool, arrow(int,int))</td>
+  </tr>
+  <tr>
+    <td>let x = 10 in x </td>
+    <td>let(x,const(10),var(x))</td> 
+    <td>int</td>
+  </tr>
+  <tr>
+    <td>fun x -> let y = x in y + y</td>
+    <td>fun(x,let(y,var(x),bin(var(y),plus,var(y))))</td> 
+    <td>arrow(int,int)</td>
+  </tr>
+</table>
+</tt>
 </p>
 
 <p>
@@ -243,76 +328,99 @@ Finally, you will use Python to coordinate between OCaml and Prolog, and to hold
   <tt>types.pl</tt> contains an (unimplemented) type-inference algorithm for NanoML expressions.
   The <tt>nano/</tt> directory contains the NanoML assignment from PA4, modified to build expressions in <tt>nano.py</tt>. 
   Finally, the <tt>nanoTypes.py</tt> file interfaces between the various languages. The <b>only</b> files you will need to modify
-  are <tt>nano.py, types.pl, and nanoParser.py</tt>.
+  are <tt>nano.py</tt> and <tt>types.pl</tt>.
 </p>
 
 <p>
   Most of the provided Python code relies on the OCaml library in <tt>nano/</tt>. You will need to build this library before running many commands; to do this, <tt>cd</tt> into the <tt>nano/</tt> directory and run <tt>make</tt>.
 </p>
 
-<h3>(a)<b> OCaml to Python: 10 + 10 points </b></h3>
+<h3>(a)<b> OCaml to Prolog: 20 points </b></h3>
 
-<p>
-First, you will implement the code for converting NanoML expressions to their corresponding 
-representation in Python. We have provided a modified <tt>nano/</tt> project (and in particular, <tt>nano/nanoml.byte</tt>) 
-which emits Python constructors for NanoML expressions, as well as the <tt>nanoParser.py</tt> functions <tt>parseNano</tt> and <tt>fileToNano</tt>, which
-invoke the <tt>nano</tt> project to build Python <tt>Expressions</tt>. For the first part of the assignment, you will
-implement constructors (i.e. <tt>__init__</tt>) for the OCaml <tt>Expression</tt> and <tt>Bop</tt> classes in <tt>nano.py</tt>. 
-</p>
-
-<p>
-  Your constructors should always handle the output of <tt>nano/nanoml.byte</tt>. You can check this by running <tt>nano/nanoml.byte</tt> by command line, e.g.
-</p>
-<blockquote>
-  $ <font color="#FF0000">./nano/nanoml.byte "foo bar"</font><br>
-  App(Var("foo"),Var("bar"))$ <br>
-  $ <font color="#FF0000">./nano/nanoml.byte "1+2"</font><br>
-  Bin(Const(1),Plus(),Const(2))$<br>
-</blockquote>
-
-<p>You can also check your implementation by running <tt>nanoParser.fileToNano</tt> or <tt>nanoParser.parseNano</tt> from a python3 prompt, e.g.</p>
+<p>Fill in the implementation of <tt>toProlog</tt> in the file <tt>nano.py</tt>. Each class must have an implementation of <tt>toProlog</tt> that converts the given expression into a prolog term. 
+You can for example test your implementation as follows:</p>
 
 <blockquote>
-    &gt;&gt;&gt; <font color="#FF0000">import nanoParser</font><br>
-    &gt;&gt;&gt; <font color="#FF0000">nanoParser.parseNano("if true then 1 else 0")</font><br>
-    If(Bool(True),Const(1),Const(0))<br>
-    &gt;&gt;&gt; <font color="#FF0000">nanoParser.fileToNano("nano/tests/t1.ml")</font><br>
-    Bin(Bin(Const(2),Const(3),Plus()),Bin(Const(4),Const(5),Plus()),Mul())<br>
+<tt>
+    &gt;&gt;&gt; <font color="#FF0000">from nanoParser import fileToNano</font><br>
+    &gt;&gt;&gt; <font color="#FF0000">fileToNano("nano/tests/map.ml").toProlog()</font><br>
+    ...<br>
+    &gt;&gt;&gt; <font color="#FF0000">fileToNano("nano/tests/foldl.ml").toProlog()</font><br>
+</tt>
 </blockquote>
 
-<p>
-In addition, observe that <tt>Expression.__repr__</tt> is defined in terms of <tt>Expression.ctor</tt>, by using <tt>ctor</tt> to calculate
-a constructor call from the expression's class and string arguments. We have provided a skeleton implementation of <tt>ctor</tt> -- modify the skeleton
-<tt>ctor</tt> such that <tt>__repr__</tt> produces identical output to <tt>nano/nanoml.byte</tt>. 
 
-<h3>(b)<b> NanoML Types: 10 points </b></h3>
+<h3>(b)<b> Write envtype: 10 points </b></h3>
 
-<p>
-Next, you will implement a class for representing types of NanoML expressions. There are four types of values in NanoML: ints, bools, lists, and functions, which are modeled in <tt>nano.py</tt> by the <tt>Type</tt> class hierarchy.
-In addition, variables can be <tt>weakly-polymorphic</tt>, i.e. polymorphic until used, which is modeled by the <tt>VarTy</tt> class.
-</p>
-
-<p>
-  Implement the constructors (i.e. <tt>__init__</tt>) for <tt>Type</tt>; <tt>ListTy</tt> takes a type as argument, <tt>ArrowTy</tt> takes two types as argument, <tt>VarTy</tt> takes a string argument, and the 
-  remaining constructors do not take arguments.
-</p>
-<blockquote>
-  $ <font color="#FF0000">./nano/nanoml.byte "foo bar"</font><br>
-  App(Var("foo"),Var("bar"))$ <br>
-  $ <font color="#FF0000">./nano/nanoml.byte "1+2"</font><br>
-  Bin(Const(1),Plus(),Const(2))$<br>
-</blockquote>
-
-<p>You can also check your implementation by running <tt>nanoParser.fileToNano</tt> or <tt>nanoParser.parseNano</tt> from a python3 prompt, e.g.</p>
+<p>In the file <tt>types.pl</tt>, fill in the implementation of the the Prolog predicate <tt>envtype(Env,X,T)</tt>, where <tt>X</tt> is a variable, <tt>T</tt> is a type, and <tt>Env</tt> is a environment represented as a list of the form <tt>[[X1,T1],[X2,T2],...,[Xn,Tn]]</tt>, where each <tt>[Xi,Ti]</tt> represents a binding stating that variable <tt>Xi</tt> has type <tt>Ti</tt>.
+In particular,  <tt>envtype(Env, X, T)</tt> should be true if <tt>[X,T]</tt> belongs to <tt>Env</tt> <i>and</i> <tt>[X,T]</tt> is the first occurrence of a binding for variable <tt>X</tt>.
+For example:
 
 <blockquote>
-    &gt;&gt;&gt; <font color="#FF0000">import nanoParser</font><br>
-    &gt;&gt;&gt; <font color="#FF0000">nanoParser.parseNano("if true then 1 else 0")</font><br>
-    If(Bool(True),Const(1),Const(0))<br>
-    &gt;&gt;&gt; <font color="#FF0000">nanoParser.fileToNano("nano/tests/t1.ml")</font><br>
-    Bin(Bin(Const(2),Const(3),Plus()),Bin(Const(4),Const(5),Plus()),Mul())<br>
+<tt>
+?- <font color="#FF0000">envtype([[x,int],[y,bool]],x,T).</font><br>
+T = int ;<br>
+false.<br>
+<br>
+?- <font color="#FF0000">envtype([[x,int],[x,bool]],x,T).</font><br>
+T = int ;<br>
+false.<br>
+<br>
+?- <font color="#FF0000">envtype([[x,int],[x,bool]],x,bool).</font><br>
+false.
+</tt>
 </blockquote>
 
+
+<h3>(c)<b> Write type-checking rules: 20 points </b></h3>
+
+<p>In <tt>types.pl</tt> fill in the implementation of <tt>typeof(Env,E,T)</tt> which is true if the expression <tt>E</tt> has type <tt>T</tt> in the type environment represented by <tt>Env</tt>. Make sure to use <tt>envtype</tt> that you implemented in part (b). For example:
+
+<blockquote>
+<tt>
+?- <font color="#FF0000">typeof([[x,int],[y,bool]],var(x),T).</font><br>
+T = int ;<br>
+false.<br>
+<br>
+?- <font color="#FF0000">typeof([],bin(const(2),plus, const(3)),T).</font><br>
+T = int ;<br>
+false.<br>
+<br>
+?- <font color="#FF0000">typeof([],bin(const(2),leq,const(3)),T).</font><br>
+T = bool ;<br>
+false.<br>
+<br>
+?- <font color="#FF0000">typeof([],fun(x,bin(var(x),leq,const(4))),T).</font><br>
+T = arrow(int, bool) ;<br>
+false.<br>
+<br>
+?- <font color="#FF0000">typeof([],fun(x,fun(y,ite(var(x),var(y),const(0)))),T).</font><br>
+T = arrow(bool, arrow(int, int)) ;<br>
+false.<br>
+?- <font color="#FF0000">typeof([],let(x,const(10),var(x)),T).</font><br>
+T = int ;<br>
+false.<br>
+<br>
+?- <font color="#FF0000">typeof([],fun(x,let(y,var(x),bin(var(y),plus,var(y)))),T).</font><br>
+T = arrow(int, int) ;<br>
+false.<br>
+<br>
+?- <font color="#FF0000">typeof([],app(fun(x,bin(var(x),plus,const(1))),const(19)),T).</font><br>
+T = int ;<br>
+false.
+</blockquote>
+
+Once you have <tt>types.pl</tt> fully implemented, use the functions in <tt>nanoTypes.py</tt> to type check entire files. For example:
+
+<blockquote>
+<tt>
+    &gt;&gt;&gt; <font color="#FF0000">from nanoTypes import fileToType</font><br>
+    &gt;&gt;&gt; <font color="#FF0000">fileToType("nano/tests/t1.ml")</font><br>
+    John: FILL IN<br>
+    &gt;&gt;&gt; <font color="#FF0000">fileToType("nano/tests/t19.ml")</font><br>
+    John: FILL IN<br>
+</tt>
+</blockquote>
 
 <hr size=5 noshade>
 <h2>Problem #2: Decorators <tt>(decorators.py)</tt></h2>
