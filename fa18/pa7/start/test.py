@@ -4,14 +4,11 @@ from nanoTypes import *
 from subprocess import run
 
 try:
-  # decorator examples
-  # run_examples()
   # nano examples
   expected = {
     't1'  : IntTy(),
     't2'  : IntTy(),
     't3'  : IntTy(),
-    # 't4'  :
     't5'  : IntTy(),
     't6'  : IntTy(),
     't7'  : IntTy(),
@@ -40,7 +37,8 @@ try:
     if (ty != t):
       print("error: typed to %s instead of %s" % (str(ty), str(t)))
     
-    
+  # decorators
+  run_examples()
 except Exception as e:
   print("Exception in examples: %s" % str(e))
   raise e

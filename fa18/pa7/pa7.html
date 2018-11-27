@@ -7,12 +7,12 @@
 
 <h1 align="center">CSE 130 - Programming Assignment #7</h1>
 <h2 align="center">Python</h2>
-<h3 align="center">130 points </h3>
+<h3 align="center">110 points </h3>
 <h3 align="center">
 (see submission instructions <a href="#Submission Guidelines">below</a>)</h3>
 <p align="center"><i>(click your browser's refresh button to ensure that you 
 have the most recent version)</i></p>
-<h3 align="center">(<a href="pa6_faq.html">Programming Assignment #6 FAQ</a>)</h3>
+<h3 align="center">(<a href="pa7_faq.html">Programming Assignment #7 FAQ</a>)</h3>
 
 <b>Note:</b>
 To download and install the latest 3.6.x version of Python on your home machines
@@ -251,9 +251,10 @@ th, td {
 First, we shall encode NanoML expressions as Prolog terms via the following grammar:
 <pre>
     Expr ::= const(Ints)
+           | boolean(Bools)
+           | nil
            | var(Name)
            | bin(Expr, Bop, Expr)
-           | leq(Expr, Expr)
            | ite(Expr, Expr, Expr)
            | let(Name, Expr, Expr)
            | letrec(Name, Expr, Expr)
@@ -264,13 +265,15 @@ First, we shall encode NanoML expressions as Prolog terms via the following gram
 
     Ints ::= 0 | 1 | 2 | ... (all integer constants)
 
-    Bop  ::= plus | minus | mul | div | eq | neq | lt | leq | and | or
+    Bools ::= True | False
+
+    Bop  ::= plus | minus | mul | div | eq | neq | lt | leq | and | or | cons
 </pre>
 
 Similarly, we shall encode ML types as Prolog terms using the following grammar:
 
 <pre>
-      Type ::= int | bool | arrow(Type, Type) | list(Type)
+      Type ::= int | bool | arrow(Type, Type) | list(Type) | Name
 </pre>
 
 <p>The table below shows several examples of Ocaml expressions, the Prolog term encoding that expression,
@@ -300,6 +303,11 @@ and the Prolog term encoding the type of the expression.</p>
     <td>bool</td>
   </tr>
   <tr>
+    <td>fun x -> x</td>
+    <td>fun(x,var(x))</td> 
+    <td>arrow(X,X)</td>
+  </tr>
+  <tr>
     <td>fun x -> x <= 4</td>
     <td>fun(x,bin(var(x),leq,const(4)))</td> 
     <td>arrow(int,bool)</td>
@@ -318,6 +326,11 @@ and the Prolog term encoding the type of the expression.</p>
     <td>fun x -> let y = x in y + y</td>
     <td>fun(x,let(y,var(x),bin(var(y),plus,var(y))))</td> 
     <td>arrow(int,int)</td>
+  </tr>
+  <tr>
+    <td>fun x -> let y = x in y</td>
+    <td>fun(x,let(y,var(x),var(y)))</td> 
+    <td>arrow(X,X)</td>
   </tr>
 </table>
 </tt>
@@ -342,10 +355,17 @@ You can for example test your implementation as follows:</p>
 
 <blockquote>
 <tt>
-    &gt;&gt;&gt; <font color="#FF0000">from nanoParser import fileToNano</font><br>
+    &gt;&gt;&gt; <font color="#FF0000">from nanoParser import fileToNano, parseNano</font><br>
+    &gt;&gt;&gt; <font color="#FF0000">parseNano("x+1").toProlog()</font><br>
+    'bin(var(x), plus, const(1))'<br>
+    &gt;&gt;&gt; <font color="#FF0000">parseNano("if true then x else false").toProlog()</font><br>
+    'ite(boolean(True), var(x), boolean(False))'<br>
+    &gt;&gt;&gt; <font color="#FF0000">fileToNano("nano/tests/t1.ml").toProlog()</font><br>
+    'bin(bin(const(2), plus, const(3)), mul, bin(const(4), plus, const(5)))'<br>
     &gt;&gt;&gt; <font color="#FF0000">fileToNano("nano/tests/map.ml").toProlog()</font><br>
-    ...<br>
+    'letrec(map, fun(f, fun(xs, ite(app(var(null), var(xs)), nil, bin(app(var(f), app(var(hd), var(xs))), cons, app(app(var(map), var(f)), app(var(tl), var(xs))))))), var(map))'<br>
     &gt;&gt;&gt; <font color="#FF0000">fileToNano("nano/tests/foldl.ml").toProlog()</font><br>
+    'let(foldl, fun(f, fun(b, fun(l, letrec(worker, fun(acc, fun(xs, ite(app(var(null), var(xs)), var(acc), app(app(var(worker), app(app(var(f), var(acc)), app(var(hd), var(xs)))), app(var(tl), var(xs)))))), app(app(var(worker), var(b)), var(l)))))), var(foldl))'<br>
 </tt>
 </blockquote>
 
@@ -408,6 +428,7 @@ false.<br>
 ?- <font color="#FF0000">typeof([],app(fun(x,bin(var(x),plus,const(1))),const(19)),T).</font><br>
 T = int ;<br>
 false.
+</tt>
 </blockquote>
 
 Once you have <tt>types.pl</tt> fully implemented, use the functions in <tt>nanoTypes.py</tt> to type check entire files. For example:
@@ -415,10 +436,10 @@ Once you have <tt>types.pl</tt> fully implemented, use the functions in <tt>nano
 <blockquote>
 <tt>
     &gt;&gt;&gt; <font color="#FF0000">from nanoTypes import fileToType</font><br>
-    &gt;&gt;&gt; <font color="#FF0000">fileToType("nano/tests/t1.ml")</font><br>
-    John: FILL IN<br>
-    &gt;&gt;&gt; <font color="#FF0000">fileToType("nano/tests/t19.ml")</font><br>
-    John: FILL IN<br>
+    &gt;&gt;&gt; <font color="#FF0000">fileToType("nano/tests/t1.ml").toProlog()</font><br>
+    'int'<br>
+    &gt;&gt;&gt; <font color="#FF0000">fileToType("nano/tests/t19.ml").toProlog()</font><br>
+    'list(int)'<br>
 </tt>
 </blockquote>
 
