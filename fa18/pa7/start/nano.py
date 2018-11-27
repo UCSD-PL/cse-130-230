@@ -2,10 +2,10 @@
 
 from misc import Failure
 
-# prologable trait
+# prologable interface
 class Prologable():
     def toProlog(self) -> str:
-        raise Failure("TODO")
+        raise Failure("SHOULD NOT GET HERE -- subclasses should override")
 
     def __eq__(self, other):
         if isinstance(other, Prologable):
@@ -46,13 +46,10 @@ class Or(Bop):
 class Cons(Bop):
     pass
 
+# Expressions
 class Const(Expression):
     def __init__(self, i: int):
         self.v = i
-    def ctor(self):
-        return ("Const", [str(x) for x in [self.v]])
-    def toProlog(self):
-        return "const(%i)" % self.v
 class Bool(Expression):
     def __init__(self, b: bool):
         self.v = b
@@ -63,7 +60,6 @@ class Var(Expression):
     def __init__(self, v: str):
         self.v = v
     
-
 class Bin(Expression):
     def __init__(self, l: Expression, o: Bop, r:Expression):
         self.l = l
@@ -75,6 +71,7 @@ class If(Expression):
         self.c = c
         self.t = t
         self.f = f
+
 class Let(Expression):
     def __init__(self, v: str, e: Expression, body: Expression):
         self.v = v
@@ -98,19 +95,24 @@ class Fun(Expression):
         self.body = body
 
 
+# Types
+
 class Type(Prologable):
     pass
 
 class IntTy(Type):
     def __init__(self):
         return
+
 class BoolTy(Type):
     def __init__(self):
         return
+
 class ArrowTy(Type):
     def __init__(self, l: Type, r: Type):
         self.l = l
         self.r = r
+
 class ListTy(Type):
     def __init__(self, inner: Type):
         self.inner = inner
