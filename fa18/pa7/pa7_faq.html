@@ -1,11 +1,15 @@
 <html>
 <head> </head>
 <body>
-<h1 align="center"> CSE 130 - Programming Assignment #6 FAQ </h1>
+<h1 align="center"> CSE 130 - Programming Assignment #7 FAQ </h1>
 <ol>
 
-<li> <h3> <b> 1a) I don't understand this error message? "FileNotFoundError: [Errno 2] No such file or directory: './nano/nanoml.byte': './nano/nanoml.byte'" </b> </h3>  </li>
+<li> <h3> <b> 1) I don't understand this error message? "FileNotFoundError: [Errno 2] No such file or directory: './nano/nanoml.byte': './nano/nanoml.byte'" </b> </h3>  </li>
 <p> This means you need to build the "nano/" project. Run 'make' from "nano/".</p>
+
+<li> <h3> <b> 1) Do I have to infer polymorphic types? What is the type of e.g. <tt>fun x -> x</tt>?</b> </h3>  </li>
+<p> Your types should be polymorphic until used. For example, <tt>fun x -> x </tt> and has the type <tt>arrow(V,V)</tt>, where <tt>V</tt> is a type variable. You do not need to handle polymorphism in general. For example, you should handle
+  <tt>let id = fun x -> x in (id 1) + (id 2)</tt>, but you don't need to handle <tt>let id = fun x -> x in (id 1) < 2 && (id true)</tt>. These are known as <i>weakly-polymorphic types</i>.</p>
 
 
 <li> <h3> <b> 2a)/2)b Getting "TypeError: unsupported operand type(s) for +: 'NoneType' and 'NoneType'" for fib for any of the decorators. </b> </h3>  </li>
@@ -43,7 +47,7 @@ from decorators import *
 run_examples()
 </pre>
 
-Then from the command line run "python foo.py > output.txt" and Voila! </p>
+Then from the command line run "python3 foo.py > output.txt" and Voila! </p>
 
 </ol>
 </body>

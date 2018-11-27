@@ -108,15 +108,15 @@ The assignment is available as a zip file <a href="pa7.zip">pa7.zip</a> for you 
   <p>Your solutions to this assignment will be stored in separate 
   files under a directory called <tt>pa7_solution/</tt>, inside which you will 
   place the files: 
-  <tt> decorators.py, nano.py, nanoParser.py, types.pl </tt>. 
-  These four files listed are the versions of the 
+  <tt> decorators.py, nano.py, types.pl </tt>. 
+  These three files listed are the versions of the 
   corresponding supplied files that you will have modified.
   There should be <b>no other files in the directory</b>.</p>
   
   <p>After creating and populating the directory as described above,
   create a zip file called 
   <tt>&lt;LastName&gt;_&lt;FirstName&gt;_cse130_pa7.zip</tt> by going into 
-  the directory <tt>pa6_solution</tt> and executing
+  the directory <tt>pa7_solution</tt> and executing
   the UNIX shell command: <br> 
   <blockquote>
     <tt> zip &lt;LastName&gt;_&lt;FirstName&gt;_cse130_pa7.zip *</tt>
@@ -265,7 +265,7 @@ First, we shall encode NanoML expressions as Prolog terms via the following gram
 
     Ints ::= 0 | 1 | 2 | ... (all integer constants)
 
-    Bools ::= True | False
+    Bools ::= true | false
 
     Bop  ::= plus | minus | mul | div | eq | neq | lt | leq | and | or | cons
 </pre>
@@ -303,9 +303,9 @@ and the Prolog term encoding the type of the expression.</p>
     <td>bool</td>
   </tr>
   <tr>
-    <td>fun x -> x</td>
-    <td>fun(x,var(x))</td> 
-    <td>arrow(X,X)</td>
+    <td>fun a -> a</td>
+    <td>fun(a,var(a))</td> 
+    <td>arrow(A,A)</td>
   </tr>
   <tr>
     <td>fun x -> x <= 4</td>
@@ -328,9 +328,9 @@ and the Prolog term encoding the type of the expression.</p>
     <td>arrow(int,int)</td>
   </tr>
   <tr>
-    <td>fun x -> let y = x in y</td>
-    <td>fun(x,let(y,var(x),var(y)))</td> 
-    <td>arrow(X,X)</td>
+    <td>fun a -> let b = a in b</td>
+    <td>fun(a,let(b,var(a),var(b)))</td> 
+    <td>arrow(A,A)</td>
   </tr>
 </table>
 </tt>
@@ -359,7 +359,7 @@ You can for example test your implementation as follows:</p>
     &gt;&gt;&gt; <font color="#FF0000">parseNano("x+1").toProlog()</font><br>
     'bin(var(x), plus, const(1))'<br>
     &gt;&gt;&gt; <font color="#FF0000">parseNano("if true then x else false").toProlog()</font><br>
-    'ite(boolean(True), var(x), boolean(False))'<br>
+    'ite(boolean(true), var(x), boolean(false))'<br>
     &gt;&gt;&gt; <font color="#FF0000">fileToNano("nano/tests/t1.ml").toProlog()</font><br>
     'bin(bin(const(2), plus, const(3)), mul, bin(const(4), plus, const(5)))'<br>
     &gt;&gt;&gt; <font color="#FF0000">fileToNano("nano/tests/map.ml").toProlog()</font><br>
@@ -435,7 +435,13 @@ Once you have <tt>types.pl</tt> fully implemented, use the functions in <tt>nano
 
 <blockquote>
 <tt>
-    &gt;&gt;&gt; <font color="#FF0000">from nanoTypes import fileToType</font><br>
+    &gt;&gt;&gt; <font color="#FF0000">from nanoTypes import fileToType, strToType</font><br>
+    &gt;&gt;&gt; <font color="#FF0000">strToType("true || false").toProlog()</font><br>
+    'bool'<br>
+    &gt;&gt;&gt; <font color="#FF0000">strToType("fun x -> x").toProlog()</font><br>
+    'arrow(_5394,_5394)'<br>
+    &gt;&gt;&gt; <font color="#FF0000">strToType("fun x -> x + 1").toProlog()</font><br>
+    'arrow(int,int)'<br>
     &gt;&gt;&gt; <font color="#FF0000">fileToType("nano/tests/t1.ml").toProlog()</font><br>
     'int'<br>
     &gt;&gt;&gt; <font color="#FF0000">fileToType("nano/tests/t19.ml").toProlog()</font><br>
