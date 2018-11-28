@@ -253,7 +253,7 @@ First, we shall encode NanoML expressions as Prolog terms via the following gram
     Expr ::= const(Ints)
            | boolean(Bools)
            | nil
-           | var(Name)
+           | var(VName)
            | bin(Expr, Bop, Expr)
            | ite(Expr, Expr, Expr)
            | let(Name, Expr, Expr)
@@ -261,7 +261,7 @@ First, we shall encode NanoML expressions as Prolog terms via the following gram
            | fun(Name, Expr)
            | app(Expr, Expr)
 
-    Name ::= lower case variable name
+    VName ::= lower case variable names
 
     Ints ::= 0 | 1 | 2 | ... (all integer constants)
 
@@ -273,7 +273,9 @@ First, we shall encode NanoML expressions as Prolog terms via the following gram
 Similarly, we shall encode ML types as Prolog terms using the following grammar:
 
 <pre>
-      Type ::= int | bool | arrow(Type, Type) | list(Type) | Name
+   Type ::= int | bool | arrow(Type, Type) | list(Type) | TName
+
+   TName ::= type variable names that starts with an uppercase letter (really just Prolog variables)
 </pre>
 
 <p>The table below shows several examples of Ocaml expressions, the Prolog term encoding that expression,
@@ -305,7 +307,7 @@ and the Prolog term encoding the type of the expression.</p>
   <tr>
     <td>fun a -> a</td>
     <td>fun(a,var(a))</td> 
-    <td>arrow(A,A)</td>
+    <td>arrow(X,X)</td>
   </tr>
   <tr>
     <td>fun x -> x <= 4</td>
@@ -330,7 +332,7 @@ and the Prolog term encoding the type of the expression.</p>
   <tr>
     <td>fun a -> let b = a in b</td>
     <td>fun(a,let(b,var(a),var(b)))</td> 
-    <td>arrow(A,A)</td>
+    <td>arrow(X,X)</td>
   </tr>
 </table>
 </tt>
