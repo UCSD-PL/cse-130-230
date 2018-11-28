@@ -368,6 +368,12 @@ You can for example test your implementation as follows:</p>
     'letrec(map, fun(f, fun(xs, ite(app(var(null), var(xs)), nil, bin(app(var(f), app(var(hd), var(xs))), cons, app(app(var(map), var(f)), app(var(tl), var(xs))))))), var(map))'<br>
     &gt;&gt;&gt; <font color="#FF0000">fileToNano("nano/tests/foldl.ml").toProlog()</font><br>
     'let(foldl, fun(f, fun(b, fun(l, letrec(worker, fun(acc, fun(xs, ite(app(var(null), var(xs)), var(acc), app(app(var(worker), app(app(var(f), var(acc)), app(var(hd), var(xs)))), app(var(tl), var(xs)))))), app(app(var(worker), var(b)), var(l)))))), var(foldl))'<br>
+    &gt;&gt;&gt; <font color="#FF0000">BoolTy().toProlog()</font><br>
+    'bool'<br>
+    &gt;&gt;&gt; <font color="#FF0000">ListTy(IntTy()).toProlog()</font><br>
+    'list(int)'<br>
+    &gt;&gt;&gt; <font color="#FF0000">ArrowTy(IntTy(),BoolTy()).toProlog()</font><br>
+    'arrow(int,bool)'<br>
 </tt>
 </blockquote>
 
