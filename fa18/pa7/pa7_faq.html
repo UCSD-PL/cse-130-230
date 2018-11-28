@@ -1,0 +1,54 @@
+<html>
+<head> </head>
+<body>
+<h1 align="center"> CSE 130 - Programming Assignment #7 FAQ </h1>
+<ol>
+
+<li> <h3> <b> 1) I don't understand this error message? "FileNotFoundError: [Errno 2] No such file or directory: './nano/nanoml.byte': './nano/nanoml.byte'" </b> </h3>  </li>
+<p> This means you need to build the "nano/" project. Run 'make' from "nano/".</p>
+
+<li> <h3> <b> 1) Do I have to infer polymorphic types? What is the type of e.g. <tt>fun x -> x</tt>?</b> </h3>  </li>
+<p> Your types should be polymorphic until used. For example, <tt>fun x -> x </tt> and has the type <tt>arrow(V,V)</tt>, where <tt>V</tt> is a type variable. You do not need to handle polymorphism in general. For example, you should handle
+  <tt>let id = fun x -> x in (id 1) + (id 2)</tt>, but you don't need to handle <tt>let id = fun x -> x in (id 1) < 2 && (id true)</tt>. These are known as <i>weakly-polymorphic types</i>.</p>
+
+
+<li> <h3> <b> 2a)/2)b Getting "TypeError: unsupported operand type(s) for +: 'NoneType' and 'NoneType'" for fib for any of the decorators. </b> </h3>  </li>
+<p> Did you forget to return a value from the decorated function?  </p>
+
+<li> <h3> <b> 2b) Getting 'TypeError: unhashable type: ...' in memoizing decorator ( </b> </h3>  </li>
+<p> You cannot use lists,dictionaries or any other mutable data type as a key for a python dictionary. You are going to have to
+figure out a different way to rememer arguments containing dictionaries/lists and the keyword arguments.  </p>
+
+<li> <h3> <b> 2a) What do I do about exceptions in traced? </b> </h3>  </li>
+<p> You should think carefully what happens to control flow when an exception is thrown? Based on that, think how you need to adjust indentation. </p>
+
+<li> <h3> <b> 2b) How do I handle exceptions in memoized? </b> </h3>  </li>
+<p> Exceptions are a value like any other, than can be stored, and then thrown again (read the docs on try/catch/raise). </p>
+
+
+<li> <h3> <b> 2b) Do we have to include keyword args? And also I don't fully understand the question, we just return a value if we call the function twice with the same parameters?  </b> </h3>  </li>
+<p> Yes. </p>
+
+
+<li> <h3> <b> Are these two calls the same? <br><pre>
+@memoized 
+def foo(a,b,c): ... 
+
+foo(5,3,2)
+foo(5,c=2,b=3) </pre>   </b> </h3>  </li>
+<p> In the first case the decorated function would see 5,3,2 as positional arguments, and in the second it would see 5 as a positional argument, and c=2 and b=3 as keyword arguments. So unfortunately, these would be different calls. (i.e. you can't memoize the second, using the result of the first).
+
+</p>
+
+<li> <h3> <b> Can I save the output of "run_examples" to a file? (so that I can diff them)  </b> </h3>  </li>
+<p> Yes. Create a new python script (lets call it foo.py) with the following contents:
+<pre>
+from decorators import *
+run_examples()
+</pre>
+
+Then from the command line run "python3 foo.py > output.txt" and Voila! </p>
+
+</ol>
+</body>
+</html>

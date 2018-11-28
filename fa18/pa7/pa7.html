@@ -1,0 +1,582 @@
+<html>
+<head>
+  <title>CSE 130 : Programming Assignment #7</title>
+  <link rel="stylesheet" type="text/css" href="../styles.css">
+</head>
+<body>
+
+<h1 align="center">CSE 130 - Programming Assignment #7</h1>
+<h2 align="center">Python</h2>
+<h3 align="center">110 points </h3>
+<h3 align="center">
+(see submission instructions <a href="#Submission Guidelines">below</a>)</h3>
+<p align="center"><i>(click your browser's refresh button to ensure that you 
+have the most recent version)</i></p>
+<h3 align="center">(<a href="pa7_faq.html">Programming Assignment #7 FAQ</a>)</h3>
+
+<b>Note:</b>
+To download and install the latest 3.6.x version of Python on your home machines
+see <a href="http://www.python.org/downloads">this page</a>.  Remember
+that this is only to enable you to play with the assignment at home:
+The final version turned in must work on the ACS Linux machines.
+
+While you can use MacOS or Windows to begin working with Python, the
+code you turn in must be that required for the Linux environment.
+
+<hr size=5 noshade>
+<h3 align="center"><b>Code Documentation and General Requirements</b></h3>
+<p>Code for all programming assignments should be <b>well
+documented</b>. A working program with no comments will <b>receive
+only partial credit</b>. Documentation entails providing documentation
+strings for all methods, classes, packages, etc., and comments
+throughout the code to explain the program logic. Comments in Python
+are preceded by <tt>#</tt> and extend to the end of the line.
+Documentation strings are strings in the first line of a function,
+method, etc., and are accessible using <tt>help(foo)</tt>, where foo
+is the name of the method, class, etc.  It is understood that some of
+the exercises in this programming assignment require extremely little
+code and will not require extensive comments.
+
+<p>While few programming assignments pretend to mimic the &quot;real&quot;
+world, they may, nevertheless, contain some of the ambiguity that exists
+outside the classroom. If, for example, an assignment is amenable to
+differing interpretations, such that more than one algorithm may implement
+a correct solution to the assignment, it is incumbent upon the
+programmer to document not only the functionality of the algorithm (and
+more broadly his/her interpretation of the program requirements), but to
+articulate <b>clearly</b> the reasoning behind a particular choice of
+solution.</p>
+
+
+<hr size=5 noshade>
+<h3 align="center">Assignment Overview</h3>
+
+<p>The objective of this assignment is to introduce you to some more
+advanced features of Python.  This assignment will cover topics from
+classes and OOP, the decorator pattern, and parsing and typechecking.
+</p>
+
+The assignment is available as a zip file <a href="pa7.zip">pa7.zip</a> for you to download.
+
+
+<hr size=5 noshade>
+<h3 align="center">Assignment Testing and Evaluation</h3>
+<p>Your functions/programs <b>must</b> compile and/or run on a <b>Linux</b> ACS machine (e.g. <tt>ieng6.ucsd.edu</tt>), 
+  as this is where the verification of your solutions will occur. While 
+  you may develop your code on any system, ensure that your code runs as 
+  expected on an ACS machine prior to submission.
+    You should test your code in the directories from 
+  which the zip files (see below) will be created, as this will approximate the 
+  environment used for grading the assignment.</p>
+
+  <p>Most of the points, except those for comments and style, will be <b>awarded 
+  automatically, by evaluating your functions against a given test suite</b>. 
+  The file, <tt> test.py </tt> contains a very small suite of tests which 
+  gives you a flavor of these tests. At any stage, by typing at the UNIX
+  shell : <br>
+  <blockquote>
+    <code> python3 test.py </code>
+  </blockquote>
+    you will get a report on how your code stacks up against the simple
+    tests. 
+    </p>
+  <p> The last (or near the bottom) line of the file <tt>log</tt> <b> must contain the word
+    "Compiled" otherwise you get a zero for the whole assignment</b>.
+  If for some problem, you cannot get the code to compile, leave it as is with the 
+  <tt>raise ...</tt>, with your partial solution enclosed below as a comment.
+  <b> There will be no exceptions to this rule</b>.
+  You are encouraged to try to understand the code in <tt>test.py</tt>, and
+  subsequently devise your own tests and add them to <tt>test.py</tt>, but
+  you will not be graded on this.
+</p>
+  <p>Alternately, inside the Python shell, type (user input is in <font color="#FF000">red</font>):
+    <blockquote>
+      <code> &gt;&gt;&gt; <font color="#FF0000"> import test </font><br>
+	.<br>
+	.<br>
+  .<br>
+</code>
+</blockquote>
+<br>
+<hr size=5 noshade>
+
+<a name="Submission Guidelines"></a>
+<h3 align="center">Submission Instructions</h3>
+  
+<h3>1. Create the zip file for submission</h3>
+<blockquote>
+  <p>Your solutions to this assignment will be stored in separate 
+  files under a directory called <tt>pa7_solution/</tt>, inside which you will 
+  place the files: 
+  <tt> decorators.py, nano.py, types.pl </tt>. 
+  These three files listed are the versions of the 
+  corresponding supplied files that you will have modified.
+  There should be <b>no other files in the directory</b>.</p>
+  
+  <p>After creating and populating the directory as described above,
+  create a zip file called 
+  <tt>&lt;LastName&gt;_&lt;FirstName&gt;_cse130_pa7.zip</tt> by going into 
+  the directory <tt>pa7_solution</tt> and executing
+  the UNIX shell command: <br> 
+  <blockquote>
+    <tt> zip &lt;LastName&gt;_&lt;FirstName&gt;_cse130_pa7.zip *</tt>
+  </blockquote>
+</blockquote>
+
+<h3>2. Test the zip file to check for its validity</h3>
+<blockquote>
+  <p>Once you've created the zip file with your solutions, you will
+  use the <tt> validate_pa7</tt> program to see whether your zip
+  file's structure is well-formed to be inspected by our grading
+  system by executing the UNIX shell command: <br>
+  <blockquote><tt>
+    validate_pa7 &lt;LastName&gt;_&lt;FirstName&gt;_cse130_pa7.zip
+  </tt></blockquote>
+  The <tt>validate_pa7</tt> program will output <tt>OK</tt> if your
+  zip file is well-formed and your solution is compiled. 
+  Otherwise, it will output some error
+  messages. Before going to step 3, make sure that your zip file
+  passes <tt>validate_pa7</tt> program. <b>Otherwise 
+  you get a zero for the whole assignment.</b>
+  If you have any trouble with
+  this, refer to the instructions in step 1.
+</blockquote>
+  
+<h3>3. Submit the zip file via the <tt>turnin_pa7</tt> program</h3>
+<blockquote>
+  <p>Once you've created the zip file with your solutions,
+  you will use the <tt>turnin</tt> program to submit
+  this file for grading by going into the directory <tt>pa7_solution/</tt> 
+  and executing the UNIX shell command: <br>
+  <blockquote><tt> turnin_pa7
+      &lt;LastName&gt;_&lt;FirstName&gt;_cse130_pa7.zip </tt>
+  </blockquote>
+    </p>
+  <p>
+  The <tt>turnin_pa7</tt> program will provide you with a confirmation of the
+  submission process; make sure that the size of the file indicated by
+  <tt>turnin_pa7</tt> matches the size of your zip file. Note that you may submit multiple times, but your latest submission overwrites previous submissions, and will be the ONLY one we grade. If you submit before the assignment deadline, and again afterwards, we will count it as if you only submitted after the deadline. </p>
+</blockquote>
+
+
+<hr size=5 noshade>
+
+<a name="Hints"></a>
+<h3 align="center">Hints</h3>
+
+May of the questions in this assignment use more advanced features of
+Python.  You may find the following links useful.
+
+<p><b>Useful Links</b></p>
+
+<ul>
+<li><a href="http://docs.python.org/3/library">Python Library Reference</a></li>
+<li><a href="http://docs.python.org/3/reference">Python Language Reference</a></li>
+</ul>
+
+<p><b>Defining Classes</b></p>
+
+All classes used in this assignment should be <a
+href="https://docs.python.org/2/reference/datamodel.html#new-style-and-classic-classes">new-style</a> Python
+classes which have either <code>object</code> as a base class or only
+other new-style classes as base classes.
+
+<blockquote>
+<code>
+<pre>
+class foo: # implicit object base class
+    pass
+
+class bar(foo):
+    pass
+</pre>
+</code>
+</blockquote>
+
+<p><b>Quirks / Features of Python</b></p>
+
+<ul>
+<li><tt>None</tt> doesn't print a line when it is the return value</li>
+<li><tt>None, 0</tt>, and <tt>[]</tt> all evaluate to false when used as a predicate.</li>
+<li>Many objects can be iterated over with <tt>for</tt> loops, not just lists (you'll be defining many such objects).</li>
+</ul>
+
+<hr size=10 noshade>
+
+<h2>Problem #0: Documentation</h2> 
+
+None of the functions in this assignment are documented (except the
+Failure exception).  You are expected to document all modules (.py
+files), all classes, and all public functions with doc strings.  Doc
+strings should describe the behavior of the function/class/module.
+For example:
+<blockquote>
+ "The function prod takes two integers and returns their product".
+</blockquote>
+If the implementation is not straightforward and obvious,
+there should be comments.  For example:
+<blockquote>
+<code># prod is implemented using a FFT to get O(n log n) time</code>
+</blockquote>
+
+Once documented you should get the following behavior at the Python prompt:
+</p>
+<blockquote>
+  <p><tt>
+    &gt;&gt;&gt; <font color="#FF0000">import decorators</font></br>
+    &gt;&gt;&gt; <font color="#FF0000">help(decorators)</font><br>
+    <i>Screen full of documentation with all your doc strings</i><br>
+ </tt></p>
+</blockquote>
+<hr size=5 noshade>
+<h2>Problem #1: Typechecking NanoML <tt>(nano.py, nanoParser.py, types.pl)</tt></h2>
+
+<p>
+In this problem, you will write a <i>type-inference</i> algorithm for the NanoML language of PA4. 
+Type-inference is very naturally expressed in Prolog and so you will implement the logic of your algorithm in a Prolog file, <tt>types.pl</tt>.
+You will also reuse the project from PA4, provided in the <tt>nano/</tt> directory, to parse NanoML programs.
+Finally, you will use Python to coordinate between OCaml and Prolog.
+</p>
+
+<style>
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+th, td {
+    padding: 5px;
+}
+</style>
+
+First, we shall encode NanoML expressions as Prolog terms via the following grammar:
+<pre>
+    Expr ::= const(Ints)
+           | boolean(Bools)
+           | nil
+           | var(VName)
+           | bin(Expr, Bop, Expr)
+           | ite(Expr, Expr, Expr)
+           | let(Name, Expr, Expr)
+           | letrec(Name, Expr, Expr)
+           | fun(Name, Expr)
+           | app(Expr, Expr)
+
+    VName ::= lower case variable names
+
+    Ints ::= 0 | 1 | 2 | ... (all integer constants)
+
+    Bools ::= true | false
+
+    Bop  ::= plus | minus | mul | div | eq | neq | lt | leq | and | or | cons
+</pre>
+
+Similarly, we shall encode ML types as Prolog terms using the following grammar:
+
+<pre>
+   Type ::= int | bool | arrow(Type, Type) | list(Type) | TName
+
+   TName ::= type variable names that starts with an uppercase letter (really just Prolog variables)
+</pre>
+
+<p>The table below shows several examples of Ocaml expressions, the Prolog term encoding that expression,
+and the Prolog term encoding the type of the expression.</p>
+
+<p>
+<tt>
+<table style="width:80%">
+  <tr>
+    <th>NanoML Expression</th>
+    <th>Prolog Expression</th> 
+    <th>Prolog Type</th>
+  </tr>
+  <tr>
+    <td>2</td>
+    <td>const(2)</td> 
+    <td>int</td>
+  </tr>
+  <tr>
+    <td>2 + 3</td>
+    <td>bin(const(2),plus,const(3))</td> 
+    <td>int</td>
+  </tr>
+  <tr>
+    <td>2 <= 3</td>
+    <td>bin(const(2),leq,const(3))</td> 
+    <td>bool</td>
+  </tr>
+  <tr>
+    <td>fun a -> a</td>
+    <td>fun(a,var(a))</td> 
+    <td>arrow(X,X)</td>
+  </tr>
+  <tr>
+    <td>fun x -> x <= 4</td>
+    <td>fun(x,bin(var(x),leq,const(4)))</td> 
+    <td>arrow(int,bool)</td>
+  </tr>
+  <tr>
+    <td>fun x -> fun y -> if x then y else 0</td>
+    <td>fun(x,fun(y,ite(var(x),var(y),const(0))))</td> 
+    <td>arrow(bool, arrow(int,int))</td>
+  </tr>
+  <tr>
+    <td>let x = 10 in x </td>
+    <td>let(x,const(10),var(x))</td> 
+    <td>int</td>
+  </tr>
+  <tr>
+    <td>fun x -> let y = x in y + y</td>
+    <td>fun(x,let(y,var(x),bin(var(y),plus,var(y))))</td> 
+    <td>arrow(int,int)</td>
+  </tr>
+  <tr>
+    <td>fun a -> let b = a in b</td>
+    <td>fun(a,let(b,var(a),var(b)))</td> 
+    <td>arrow(X,X)</td>
+  </tr>
+</table>
+</tt>
+</p>
+
+<p>
+  This assignment is structured as follows. <tt>nano.py</tt> defines a class hierarchy for NanoML expressions and types. <tt> nanoParser.py</tt> contains parsers functions for this hierarchy.
+  <tt>types.pl</tt> contains an (unimplemented) type-inference algorithm for NanoML expressions.
+  The <tt>nano/</tt> directory contains the NanoML assignment from PA4, modified to build expressions in <tt>nano.py</tt>. 
+  Finally, the <tt>nanoTypes.py</tt> file interfaces between the various languages. The <b>only</b> files you will need to modify
+  are <tt>nano.py</tt> and <tt>types.pl</tt>.
+</p>
+
+<p>
+  Most of the provided Python code relies on the OCaml library in <tt>nano/</tt>. You will need to build this library before running many commands; to do this, <tt>cd</tt> into the <tt>nano/</tt> directory and run <tt>make</tt>.
+</p>
+
+<h3>(a)<b> OCaml to Prolog: 20 points </b></h3>
+
+<p>Fill in the implementation of <tt>toProlog</tt> in the file <tt>nano.py</tt>. Each class must have an implementation of <tt>toProlog</tt> that converts the given expression into a prolog term. 
+You can for example test your implementation as follows:</p>
+
+<blockquote>
+<tt>
+    &gt;&gt;&gt; <font color="#FF0000">from nanoParser import fileToNano, parseNano</font><br>
+    &gt;&gt;&gt; <font color="#FF0000">parseNano("x+1").toProlog()</font><br>
+    'bin(var(x), plus, const(1))'<br>
+    &gt;&gt;&gt; <font color="#FF0000">parseNano("if true then x else false").toProlog()</font><br>
+    'ite(boolean(true), var(x), boolean(false))'<br>
+    &gt;&gt;&gt; <font color="#FF0000">fileToNano("nano/tests/t1.ml").toProlog()</font><br>
+    'bin(bin(const(2), plus, const(3)), mul, bin(const(4), plus, const(5)))'<br>
+    &gt;&gt;&gt; <font color="#FF0000">fileToNano("nano/tests/map.ml").toProlog()</font><br>
+    'letrec(map, fun(f, fun(xs, ite(app(var(null), var(xs)), nil, bin(app(var(f), app(var(hd), var(xs))), cons, app(app(var(map), var(f)), app(var(tl), var(xs))))))), var(map))'<br>
+    &gt;&gt;&gt; <font color="#FF0000">fileToNano("nano/tests/foldl.ml").toProlog()</font><br>
+    'let(foldl, fun(f, fun(b, fun(l, letrec(worker, fun(acc, fun(xs, ite(app(var(null), var(xs)), var(acc), app(app(var(worker), app(app(var(f), var(acc)), app(var(hd), var(xs)))), app(var(tl), var(xs)))))), app(app(var(worker), var(b)), var(l)))))), var(foldl))'<br>
+    &gt;&gt;&gt; <font color="#FF0000">BoolTy().toProlog()</font><br>
+    'bool'<br>
+    &gt;&gt;&gt; <font color="#FF0000">ListTy(IntTy()).toProlog()</font><br>
+    'list(int)'<br>
+    &gt;&gt;&gt; <font color="#FF0000">ArrowTy(IntTy(),BoolTy()).toProlog()</font><br>
+    'arrow(int,bool)'<br>
+</tt>
+</blockquote>
+
+
+<h3>(b)<b> Write envtype: 10 points </b></h3>
+
+<p>In the file <tt>types.pl</tt>, fill in the implementation of the the Prolog predicate <tt>envtype(Env,X,T)</tt>, where <tt>X</tt> is a variable, <tt>T</tt> is a type, and <tt>Env</tt> is a environment represented as a list of the form <tt>[[X1,T1],[X2,T2],...,[Xn,Tn]]</tt>, where each <tt>[Xi,Ti]</tt> represents a binding stating that variable <tt>Xi</tt> has type <tt>Ti</tt>.
+In particular,  <tt>envtype(Env, X, T)</tt> should be true if <tt>[X,T]</tt> belongs to <tt>Env</tt> <i>and</i> <tt>[X,T]</tt> is the first occurrence of a binding for variable <tt>X</tt>.
+For example:
+
+<blockquote>
+<tt>
+?- <font color="#FF0000">envtype([[x,int],[y,bool]],x,T).</font><br>
+T = int ;<br>
+false.<br>
+<br>
+?- <font color="#FF0000">envtype([[x,int],[x,bool]],x,T).</font><br>
+T = int ;<br>
+false.<br>
+<br>
+?- <font color="#FF0000">envtype([[x,int],[x,bool]],x,bool).</font><br>
+false.
+</tt>
+</blockquote>
+
+
+<h3>(c)<b> Write type-checking rules: 20 points </b></h3>
+
+<p>In <tt>types.pl</tt> fill in the implementation of <tt>typeof(Env,E,T)</tt> which is true if the expression <tt>E</tt> has type <tt>T</tt> in the type environment represented by <tt>Env</tt>. Make sure to use <tt>envtype</tt> that you implemented in part (b). For example:
+
+<blockquote>
+<tt>
+?- <font color="#FF0000">typeof([[x,int],[y,bool]],var(x),T).</font><br>
+T = int ;<br>
+false.<br>
+<br>
+?- <font color="#FF0000">typeof([],bin(const(2),plus, const(3)),T).</font><br>
+T = int ;<br>
+false.<br>
+<br>
+?- <font color="#FF0000">typeof([],bin(const(2),leq,const(3)),T).</font><br>
+T = bool ;<br>
+false.<br>
+<br>
+?- <font color="#FF0000">typeof([],fun(x,bin(var(x),leq,const(4))),T).</font><br>
+T = arrow(int, bool) ;<br>
+false.<br>
+<br>
+?- <font color="#FF0000">typeof([],fun(x,fun(y,ite(var(x),var(y),const(0)))),T).</font><br>
+T = arrow(bool, arrow(int, int)) ;<br>
+false.<br>
+?- <font color="#FF0000">typeof([],let(x,const(10),var(x)),T).</font><br>
+T = int ;<br>
+false.<br>
+<br>
+?- <font color="#FF0000">typeof([],fun(x,let(y,var(x),bin(var(y),plus,var(y)))),T).</font><br>
+T = arrow(int, int) ;<br>
+false.<br>
+<br>
+?- <font color="#FF0000">typeof([],app(fun(x,bin(var(x),plus,const(1))),const(19)),T).</font><br>
+T = int ;<br>
+false.
+</tt>
+</blockquote>
+
+Once you have <tt>types.pl</tt> fully implemented, use the functions in <tt>nanoTypes.py</tt> to type check entire files. For example:
+
+<blockquote>
+<tt>
+    &gt;&gt;&gt; <font color="#FF0000">from nanoTypes import fileToType, strToType</font><br>
+    &gt;&gt;&gt; <font color="#FF0000">strToType("true || false").toProlog()</font><br>
+    'bool'<br>
+    &gt;&gt;&gt; <font color="#FF0000">strToType("fun x -> x").toProlog()</font><br>
+    'arrow(_5394,_5394)'<br>
+    &gt;&gt;&gt; <font color="#FF0000">strToType("fun x -> x + 1").toProlog()</font><br>
+    'arrow(int,int)'<br>
+    &gt;&gt;&gt; <font color="#FF0000">fileToType("nano/tests/t1.ml").toProlog()</font><br>
+    'int'<br>
+    &gt;&gt;&gt; <font color="#FF0000">fileToType("nano/tests/t19.ml").toProlog()</font><br>
+    'list(int)'<br>
+</tt>
+</blockquote>
+
+<hr size=5 noshade>
+<h2>Problem #2: Decorators <tt>(decorators.py)</tt></h2>
+
+Here are some links on <tt>*args</tt> and <tt>**args</tt>
+<a href="http://www.saltycrane.com/blog/2008/01/how-to-use-args-and-kwargs-in-python/">tutorial</a>,
+<a href="https://docs.python.org/2/tutorial/controlflow.html#arbitrary-argument-lists">python 
+manual</a>.
+
+In the file <code>decorators.py</code> there is an example decorator,
+<code>profiled</code> and stub code for decorators that you will be
+writing.  At the bottom of the file are many examples of decorated
+functions.  The expected output for these functions is available here:
+<a href="decorators.out">decorators.out</a>.
+
+<h3>(a)<b> 30 points </b></h3>
+
+Complete the definition for the decorator <code>traced</code>.  When
+the decorated function is called, the decorator should print out an
+ASCII art tree of the recursive calls and their return values.  The
+format of the tree should be as follows:
+
+<ol>
+
+<li>Print a pipe symbol followed by a space ("<code>| </code>") for every level of
+nested function calls.
+
+<li>Print a comma then a minus sign then a space ("<code>,- </code>") next.
+
+<li>Print the name of the function being traced followed by an open
+parenthesis followed by the <code>repr()</code> of all of the
+arguments.  Arguments should be seperated by a comma followed by a
+space ("<code>, </code>").  After the normal arguments, print all the
+keyword arguments in the form keyword then equals sign then
+<code>repr()</code> of the value of the keyword argument.  The keyword
+arguments should also be seperated by a comma followed by a space.
+Keyword arguments should be printed in the order returnd by
+<code>dict.items()</code>.
+
+<li>Next increase the nesting level and call the function itself.
+
+<li>At the original nesting level, print a pipe symbol followed by a
+space ("<code>| </code>") for every level of nested function calls.
+
+<li>Print a backquote then a minus sign then a space("<code>`- </code>").
+
+<li>Finally, print the <code>repr()</code> of the return value.
+
+</ol>
+
+The return value of the function should be return to the caller after
+all printing is complete.  If an exception occurs in the funciton, the
+nesting level must be adjusted to the appropriate level where the
+exception is caught.  See <code>change</code> for an example.
+</p>
+
+Once you have implemented the function, you should get the following
+behavior at the Python prompt:
+</p>
+<blockquote>
+  <p><tt>
+    &gt;&gt;&gt; <font color="#FF0000">from decorators import *</font><br>
+    &gt;&gt;&gt; <font color="#FF0000">@traced</font><br>
+    &gt;&gt;&gt; <font color="#FF0000">def foo(a,b):</font><br>
+    ...&nbsp;&nbsp;&nbsp;&nbsp;<font color="#FF0000">if a==0: return b</font><br>
+    ...&nbsp;&nbsp;&nbsp;&nbsp;<font color="#FF0000">return foo(b=a-1,a=b-1)</font><br>
+    ...<br>
+    &gt;&gt;&gt; <font color="#FF0000">foo(4,5)</font>
+<pre>
+,- foo(4, 5)
+| ,- foo(a=4, b=3)
+| | ,- foo(a=2, b=3)
+| | | ,- foo(a=2, b=1)
+| | | | ,- foo(a=0, b=1)
+| | | | `- 1
+| | | `- 1
+| | `- 1
+| `- 1
+`- 1
+1
+</pre>
+ </tt></p>
+</blockquote>
+
+<h3>(b)<b> 30 points </b></h3>
+
+<p>
+Complete the definition of the <code>memoized</code> decorator.  When
+the decorated function is called, the decorator should check to see if
+the function has already been called with the given arguments.  If so,
+the decorator should return the value the the function returned when
+it was last called with the given arguments.  If the function last
+threw an exception when called with the given arguments, the same
+exception should be thrown again.  If the function has not been called
+with the given arguments, then call it and record the return value or
+exception.  Then return the return value or raise the thrown
+exception.
+</p>
+
+Once you have implemented the function, you should get the following
+behavior at the Python prompt:
+</p>
+<blockquote>
+  <p><tt>
+    &gt;&gt;&gt; <font color="#FF0000">from decorators import *</font><br>
+    &gt;&gt;&gt; <font color="#FF0000">from time import sleep</font><br>
+    &gt;&gt;&gt; <font color="#FF0000">@memoized</font><br>
+    &gt;&gt;&gt; <font color="#FF0000">def foo(a):</font><br>
+    ...&nbsp;&nbsp;&nbsp;&nbsp;<font color="#FF0000">sleep(a)</font><br>
+    ...&nbsp;&nbsp;&nbsp;&nbsp;<font color="#FF0000">return a</font><br>
+    ...<br>
+    &gt;&gt;&gt; <font color="#FF0000">foo(5)</font><br>
+    <i># 5 second pause</i><br>
+    5<br>
+    &gt;&gt;&gt; <font color="#FF0000">foo(5)</font><br>
+    <i># practically instantaneous</i><br>
+    5<br>
+ </tt></p>
+</blockquote>
+
+<hr size=5 noshade>
+
+</body>
+</html>
