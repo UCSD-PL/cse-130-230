@@ -317,7 +317,7 @@ and the Prolog term encoding the type of the expression.</p>
   <tr>
     <td>fun x -> fun y -> if x then y else 0</td>
     <td>fun(x,fun(y,ite(var(x),var(y),const(0))))</td> 
-    <td>arrow(bool, arrow(int,int))</td>
+    <td>arrow(bool,arrow(int,int))</td>
   </tr>
   <tr>
     <td>let x = 10 in x </td>
@@ -373,7 +373,7 @@ You can for example test your implementation as follows:</p>
     &gt;&gt;&gt; <font color="#FF0000">ListTy(IntTy()).toProlog()</font><br>
     'list(int)'<br>
     &gt;&gt;&gt; <font color="#FF0000">ArrowTy(IntTy(),BoolTy()).toProlog()</font><br>
-    'arrow(int,bool)'<br>
+    'arrow(int, bool)'<br>
 </tt>
 </blockquote>
 
