@@ -526,10 +526,10 @@ behavior at the Python prompt:
     &gt;&gt;&gt; <font color="#FF0000">foo(4,5)</font>
 <pre>
 ,- foo(4, 5)
-| ,- foo(a=4, b=3)
-| | ,- foo(a=2, b=3)
-| | | ,- foo(a=2, b=1)
-| | | | ,- foo(a=0, b=1)
+| ,- foo(b=3, a=4)
+| | ,- foo(b=3, a=2)
+| | | ,- foo(b=1, a=2)
+| | | | ,- foo(b=1, a=0)
 | | | | `- 1
 | | | `- 1
 | | `- 1
