@@ -1,0 +1,243 @@
+IN CLASS
+
+
+path_2(A,B) :- link(A,C), link(C,B).
+path_3(A,B) :- link(A,C), path_2(C,B).
+
+path_N(A,B,N) :- N=1,link(A,B).
+path_N(A,B,N) :- N>1,link(A,C),M is N-1, path_N(C,B,M).
+
+path(A, B) :- path_helper(A, B, [A]).
+
+% In path_helper below, Seen is the cities we have see so far, so we
+% can avoid cycles.
+path_helper(A, B, Seen) :- link(A,B), not(member(B, Seen)).
+path_helper(A, B, Seen) :-
+   link(A,C),
+   not(member(C, Seen)),
+   path_helper(C,B,[C|Seen]).
+
+
+
+
+
+
+let key_of_max_val d =
+let fold_fn (maxk,maxv) (k,v) =
+   if v > maxv then
+      (k,v)
+   else
+      (maxk,maxv)
+in
+match d with
+| [] -> raise Not_found
+| base::t -> let (maxk, _) = List.fold_left fold_fn base t in maxk;;
+
+
+
+def square_img(img):
+  return [ [ x*x for x in l ] for l in img ]
+
+
+
+
+def crop_img(img,x1,y1,x2,y2):
+   return [ l[x1:x2] for l in img[y1:y2] ]
+
+def zip(l1,l2):
+   return [(l1[i], l2[i]) for i in range(min(len(l1), len(l2)))]
+
+def add_imgs(img1, img2):
+   return [ [ x+y for (x,y) in zip(l1,l2) ] for (l1,l2) in zip(img1,img2)]
+
+
+
+
+
+
+
+
+
+SUNDAY DEC 9
+
+
+
+type ’a tree =
+| Empty
+| Node of ’a * ’a tree list;;
+
+let rec tree_zip t1 t2 =
+   match (t1,t2) with
+    | (Empty, Empty) -> Empty
+    | (Node (d1,l1), Node (d2,l2)) ->
+         Node ((d1,d2), List.map (fun (a,b)-> tree_zip a b) (zip l1 l2))
+    | _ -> raise Mismatch;; 
+
+
+zip([],[],[]).
+zip([H1|T1],[H2|T2],[[H1,H2]|ZT1T2]) :- zip(T1,T2,ZT1T2).
+
+part([],_,[],[]).
+part([H|T],P,L,R) :- H <= P, part(T,P,Y,Z), L=[H|Y], R=Z.
+part([H|T],P,L,R) :- H > P, part(T,P,Y,Z), L=Y, R = [H|Z].
+
+qsort([],[]).
+qsort([H|T], R) :- part(T,H,Y,Z), qsort(Y,SY), qsort(Z,SZ),
+                   append(SY,[H|SZ],SYHSZ), R = SYHSZ.
+
+
+
+
+def count_live_neighbours(g, x, y):
+   live = 0
+   for x_delta in [ -1 , 0 , 1 ]:
+      for y_delta in [ -1 , 0 , 1 ]:
+         if (x_delta != 0 || y_delta != 0) && 
+             access(g,x+x_delta,y+y_delta) == 1:
+            live = live + 1             
+   return live
+
+def new_val(g, x, y):
+   lc = count_live_neighbours(g, x, y)
+   cl = access(g,x,y)
+   if cl == 1 && lc < 2: return 0
+   if cl == 1 && lc >= 2 && lc <= 3: return 1 
+   if cl == 1 && lc > 3: return 0 
+   if cl == 0 && lc == 3: return 1
+   return 0
+
+def step(g):
+  height = len(g)
+  width = len(g[0])
+  return [ new_val(g,x,y) for x in range(width) for y in range(height) ]
+
+def lift_1(f):
+   def decorated(x):
+      return [ f(e) for e in x ]
+   return decorated
+
+
+def lift_2(f):
+   def decorated(x,y):
+      return [ f(x[i],y[i]) for i in range(len(x))]
+   return decorated
+
+
+
+def lift(f):
+   def decorated(*args):
+      return [ f(*l) for l in transpose(args) ]
+   return decorated
+
+
+
+
+
+
+MONDAY DEC 10
+
+let rec lookup n s =
+match n with
+| EmptyNameSpace -> raise NotFound
+| Info ([],ns) -> lookup ns s
+| Info ((k,v)::t,ns) -> 
+   if k = s then v else
+   lookup (Info(t,ns)) s
+
+
+
+
+
+sat(var(X)) :- X = 1.
+sat(not(var(X))) :- X = 0.
+sat(and([])).
+
+
+sat(and([X | Tail])) :- sat(X), sat(and(Tail)).
+
+
+sat(or([])) :- fail.
+%% Fill in the other case(s) for ‘‘or’’ here:
+sat(or([X | Tail])) :- sat(X).
+sat(or([_ | Tail])) :- sat(or(Tail))
+
+
+bool(X) :- X = 0.
+bool(X) :- X = 1.
+bools([]).
+bools([X | Tail]) :- bool(X), bools(Tail).
+
+allsat(V,E) :- bools(V), sat(var(X)).
+
+
+def fill_region(img, oldcolor, newcolor, x, y):
+   img[y][x] = newcolor
+   for (x1, y1) in [(1,0),(0,1),(-1,0),(0,-1)]:
+      try:
+         if img[y+y1][x+x1] == oldcolor:
+            fill_region(img, oldcolor, newcolor, x+x1, y+y1) 
+      except:
+         pass
+
+sorted([]).
+sorted([_]).
+sorted([A,B|T]) :- A =< B, sorted([B|T]).
+sort(L1,L2) :- permutation(L1,L2), sorted(L2),!.
+
+
+split([], [], []).
+split([X], [X], []).
+split([X | T], [X|B], A) :- split(T,A,B).
+
+let rec merge l1 l2 =
+match (l1, l2) with
+| ([], l) -> l
+| (l, []) -> l
+| (x::t1, y::t2) -> if x <= y then x::(merge t1 l2) else y::(merge l1 t2)
+
+merge([],L,L).
+merge(L,[],L).
+merge([X|T1], [Y|T2], R) :- X =< Y,
+                            merge(T1,[Y|T2],RR),
+                            R = [X|RR].
+
+merge([X|T1], [Y|T2], R) :- X > Y,
+                            merge([X|T1], T2, RR),
+                            R = [Y|RR].
+
+merge_sort([], []).
+merge_sort([X], [X]).
+merge_sort(L,S) :- 
+      split(L,L1,L2), merge_sort(L1,SL1), merge_sort(L2,SL2)
+      merge(SL1,SL2,S).
+
+remove_all(_,[],[]).
+remove_all(X,[X|T],R) :- remove_all(X,T,R)
+remove_all(X,[H|T],[H|R]) :- not(X=H),remove_all(X,T,R).
+
+
+remove_first(_,[],[]).
+remove_first(X,[X|T],T).
+remove_first(X,[H|T],[H|R]) :- not(X=H),remove_first(X,T,R).
+
+prefix([],_).
+prefix([H|T1],[H|T2]) :- prefix(T1,T2).
+
+segment(A,B) :- prefix(A,B).
+segment(A,[H|T]) :- segment(A,T).
+
+def print_some(l):
+   class deco:
+      def __init__(self,f):
+          self.f = f
+      def __call__(self,*args):
+          for i in l:
+             if i >= 0 and i < len(args):
+                print("Arg " + str(i) + ": " + str(args[i]))
+          rv = self.f(*args)
+          if (-1 in l):
+             print("Return: " + str(rv))
+          return rv
+   return deco
+
+
